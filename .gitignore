@@ -1,0 +1,4 @@
+# 忽略.history中的文件
+.history/
+.vscode/
+node_modules/
