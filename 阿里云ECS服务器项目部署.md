@@ -66,3 +66,49 @@ PATH="$PATH"
 ```
 
 最后执行```node -v```，发现Node和npm已经是最新版本了。
+
+
+## 4、安装Nginx
+Nginx是一个高性能的HTTP服务器，占有内存少，并发能力强，常用来做静态页面的服务器、反向代理、负载均衡等。
+
+## 安装Nginx
+这里我用的是apt安装。
+
+```shell
+sudo apt-get install nginx
+```
+
+Ubuntn安装之后文件结构大致为：
+* 所有配置文件都在/etc/nginx下，并且每个虚拟主机已经安排在了/etc/nginx/sites-available下
+* 程序文件在/usr/sbin/nginx中（**这里是usr，Unix System Resource的缩写而不是user**）
+* 日志在/var/log/nginx中
+* 启动脚本在/etc/init.d中
+* 默认的虚拟主机的目录设置在了/var/www/nginx-default (有的版本 默认的虚拟主机的目录设置在了/var/www, 请参考/etc/nginx/sites-available里的配置)
+
+然后启动Nginx。
+```sudo /etc/init.d/nginx start```
+我发现直接执行```nginx```也可以。
+
+Nginx常用命令：
+
+* nginx：启动Nginx
+
+* nginx -s reload：修改配置后重新加载生效
+
+* nginx -s stop：快速停止nginx
+
+* nginx -s quit：完整有序的停止nginx
+
+到这里会发现在浏览器中输入阿里云公网IP时没有出现我们想要的Welcome to nginx，这是因为阿里云关闭的端口映射，需要手动开启。
+
+1. 找到云服务器ECS -> 网络与安全 -> 安全组，点击进入
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608122040120-e214ce24-a8ae-42e5-a470-2a77dd167584.png)
+
+2. 点击配置规则
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608122356560-fc5e2fbe-dbf1-45c5-a673-0aba0eb1eec0.png)
+
+3. 点击快速添加，然后在弹窗中勾选HTTP(80)（nginx默认监听80端口），点击确定
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608122623067-4b081be7-965e-4a58-8bba-57ecbeb0dc2f.png)
+
+完成之后再次访问你的公网IP就成功了！
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608122813329-9c53a6de-17ca-4a76-8071-d7a9fca10da9.png)
