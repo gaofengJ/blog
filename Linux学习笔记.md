@@ -155,7 +155,7 @@ drwxr-xr-x  2 root root  4096 Aug 17 14:59 bin
 
 * mv(move file)：移动文件与目录
 
-* whereis或者which：搜索文件
+* whereis、which、locate：搜索文件
 
 ### Linux文件内容查看：
 

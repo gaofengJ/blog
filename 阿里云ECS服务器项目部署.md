@@ -3,13 +3,13 @@
 参考：[http://www.kovli.com/2017/09/19/ecs-deploy/](http://www.kovli.com/2017/09/19/ecs-deploy/)  
 作者：[Kovli](http://www.kovli.com/)
 
-## 1、购买云服务器
+## 一、购买云服务器
 目前国内占有率比较高的就是[腾讯云](https://cloud.tencent.com/)和[阿里云](https://www.aliyun.com/)，这里本人选择的是阿里云中的ECS云服务器。（吐槽一下，普通价格真的比学生价贵太多了）
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/49008b1a3766413f8ea5ba9593054b46~tplv-k3u1fbpfcp-zoom-1.image)
 如果在购买时没有设置ssh密码，可以进入ECS控制台-示例列表-重置密码中设置密码。把IP地址中的公网IP记录下来，后续会用到。
 ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/31d543ddda584b5c883796f171b2a923~tplv-k3u1fbpfcp-zoom-1.image)
 
-## 2、登录服务器
+## 二、登录服务器
 选择一款SSH工具登录远程服务器。常见的SSH工具有putty、xshell、xftp、SecureCRT等。这里我选择了putty，因为它简单易用，且不需要安装。
 下载好putty之后打开putty.exe，登录界面如下：
 ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bad52fc8765d4db68d77e9d040a8bc43~tplv-k3u1fbpfcp-watermark.webp)
@@ -24,13 +24,13 @@
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8311b48345c04c9384ef7488d40689eb~tplv-k3u1fbpfcp-watermark.webp)
 接下来的操作就和在服务器本身上操作一样了。
 
-## 3.安装Nodejs
+## 三、安装Nodejs
 
 Ubuntu中的包管理工具就是apt。
 
 当使用Ubuntu软件中心或者从终端命令输入apt（或者apt-get）安装软件包时，软件包被从一个或者多个软件源下载下来。一个APT软件源是一个网络服务器或者一个本地目录，它包含deb软件包和可以被APT工具读取的源文件。
 
-**首先更新Ubuntu软件源**
+### 1、首先更新Ubuntu软件源
 ```shell
 sudo apt-get update
 sudo apt-get install -y python-software-properties software-properties-common
@@ -38,29 +38,29 @@ sudo add-apt-repository ppa:chris-lea/node.js
 sudo apt-get update
 ```
 
-**安装Nodejs**
+### 2、安装Nodejs
 ```shell
 sudo apt-get install nodejs
 sudo apt install nodejs-legacy
 sudo apt install npm
 ```
 
-**更新npm的包镜像源**
+### 3、更新npm的包镜像源
 ```shell
 sudo npm config set registry https://registry.npm.taobao.org
 ```
 
-**全局安装n管理器（用于管理nodejs版本）**
+### 4、全局安装n管理器（用于管理nodejs版本）
 ```shell
 sudo npm install n -g
 ```
 
-**安装最新版n管理器**
+### 5、安装最新版n管理器
 ```shell
 sudo n latest
 ```
 
-**提示设置PATH**
+### 6、提示设置PATH
 ```shell
 PATH="$PATH"
 ```
@@ -68,10 +68,10 @@ PATH="$PATH"
 最后执行```node -v```，发现Node和npm已经是最新版本了。
 
 
-## 4、安装Nginx
+## 四、安装Nginx
 Nginx是一个高性能的HTTP服务器，占有内存少，并发能力强，常用来做静态页面的服务器、反向代理、负载均衡等。
 
-## 安装Nginx
+### 1、安装Nginx
 这里我用的是apt安装。
 
 ```shell
@@ -112,3 +112,330 @@ Nginx常用命令：
 
 完成之后再次访问你的公网IP就成功了！
 ![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608122813329-9c53a6de-17ca-4a76-8071-d7a9fca10da9.png)
+
+### 2、Nginx配置
+
+摘录自[菜鸟教程](https://www.runoob.com/w3cnote/nginx-setup-intro.html)
+```
+########### 每个指令必须有分号结束。#################
+#user administrator administrators;  #配置用户或者组，默认为nobody nobody。
+#worker_processes 2;  #允许生成的进程数，默认为1
+#pid /nginx/pid/nginx.pid;   #指定nginx进程运行文件存放地址
+error_log log/error.log debug;  #制定日志路径，级别。这个设置可以放入全局块，http块，server块，级别以此为：debug|info|notice|warn|error|crit|alert|emerg
+events {
+    accept_mutex on;   #设置网路连接序列化，防止惊群现象发生，默认为on
+    multi_accept on;  #设置一个进程是否同时接受多个网络连接，默认为off
+    #use epoll;      #事件驱动模型，select|poll|kqueue|epoll|resig|/dev/poll|eventport
+    worker_connections  1024;    #最大连接数，默认为512
+}
+http {
+    include       mime.types;   #文件扩展名与文件类型映射表
+    default_type  application/octet-stream; #默认文件类型，默认为text/plain
+    #access_log off; #取消服务日志    
+    log_format myFormat '$remote_addr–$remote_user [$time_local] $request $status $body_bytes_sent $http_referer $http_user_agent $http_x_forwarded_for'; #自定义格式
+    access_log log/access.log myFormat;  #combined为日志格式的默认值
+    sendfile on;   #允许sendfile方式传输文件，默认为off，可以在http块，server块，location块。
+    sendfile_max_chunk 100k;  #每个进程每次调用传输数量不能大于设定的值，默认为0，即不设上限。
+    keepalive_timeout 65;  #连接超时时间，默认为75s，可以在http，server，location块。
+
+    upstream mysvr {   
+      server 127.0.0.1:7878;
+      server 192.168.10.121:3333 backup;  #热备
+    }
+    error_page 404 https://www.baidu.com; #错误页
+    server {
+        keepalive_requests 120; #单连接请求上限次数。
+        listen       4545;   #监听端口
+        server_name  127.0.0.1;   #监听地址       
+        location  ~*^.+$ {       #请求的url过滤，正则匹配，~为区分大小写，~*为不区分大小写。
+           #root path;  #根目录
+           #index vv.txt;  #设置默认页
+           proxy_pass  http://mysvr;  #请求转向mysvr 定义的服务器列表
+           deny 127.0.0.1;  #拒绝的ip
+           allow 172.18.5.54; #允许的ip           
+        } 
+    }
+}
+```
+
+Nginx的默认配置在```/etc/nginx/nginx.conf```中。初始配置如下：
+
+```
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {
+        worker_connections 768;
+        # multi_accept on;
+}
+
+http {
+
+        ##
+        # Basic Settings
+        ##
+
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+        # server_tokens off;
+
+        # server_names_hash_bucket_size 64;
+        # server_name_in_redirect off;
+
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        ##
+        # SSL Settings
+        ##
+
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+        ssl_prefer_server_ciphers on;
+
+        ##
+        # Logging Settings
+        ##
+
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+
+        ##
+        # Gzip Settings
+        ##
+
+        gzip on;
+        gzip_disable "msie6";
+
+        # gzip_vary on;
+        # gzip_proxied any;
+        # gzip_comp_level 6;
+        # gzip_buffers 16 8k;
+        # gzip_http_version 1.1;
+        # gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+        ##
+        # Virtual Host Configs
+        ##
+
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+}
+
+
+#mail {
+#       # See sample authentication script at:
+#       # http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+#
+#       # auth_http localhost/auth.php;
+#       # pop3_capabilities "TOP" "USER";
+#       # imap_capabilities "IMAP4rev1" "UIDPLUS";
+#
+#       server {
+#               listen     localhost:110;
+#               protocol   pop3;
+#               proxy      on;
+#       }
+#
+#       server {
+#               listen     localhost:143;
+#               protocol   imap;
+#               proxy      on;
+#       }
+#}
+
+```
+
+配置文件中引入了下面两个文件夹的内容，都是Nginx的默认配置。
+```
+include /etc/nginx/conf.d/*.conf;
+include /etc/nginx/sites-enabled/*;
+```
+
+因为我的项目比较简单，所以选择注释掉这两行，把所有配置写在一个文件里。
+
+关于编辑文件的操作可以参考[vim](https://www.runoob.com/linux/linux-vim.html)（没有安装vim的需要自己安装，或者使用vi）的操作。
+
+在覆盖默认配置的同学，我将root做了修改，指向了之后放置前端项目的目录/home/mufeng-fromt，并在前端项目的目录下新建了一个index.html用来测试。修改后配置如下：
+
+```
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {
+        worker_connections 768;
+        # multi_accept on;
+}
+
+http {
+
+        ##
+        # Basic Settings
+        ##
+
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+        # server_tokens off;
+
+        # server_names_hash_bucket_size 64;
+        # server_name_in_redirect off;
+
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        ##
+        # SSL Settings
+        ##
+
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+        ssl_prefer_server_ciphers on;
+
+        ##
+        # Logging Settings
+        ##
+
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+
+        ##
+        # Gzip Settings
+        ##
+
+        gzip on;
+        gzip_disable "msie6";
+
+        # gzip_vary on;
+        # gzip_proxied any;
+        # gzip_comp_level 6;
+        # gzip_buffers 16 8k;
+        # gzip_http_version 1.1;
+        # gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+        ##
+        # Virtual Host Configs
+        ##
+
+        #include /etc/nginx/conf.d/*.conf;
+        #include /etc/nginx/sites-enabled/*;
+        server {
+                listen 80 default_server;
+                listen [::]:80 default_server;
+
+                # SSL configuration
+                #
+                # listen 443 ssl default_server;
+                # listen [::]:443 ssl default_server;
+                #
+                # Note: You should disable gzip for SSL traffic.
+                # See: https://bugs.debian.org/773332
+                #
+                # Read up on ssl_ciphers to ensure a secure configuration.
+                # See: https://bugs.debian.org/765782
+                #
+                # Self signed certs generated by the ssl-cert package
+                # Don't use them in a production server!
+                #
+                # include snippets/snakeoil.conf;
+
+                root /home/mufeng-front;
+
+                # Add index.php to the list if you are using PHP
+                index index.html index.htm index.nginx-debian.html;
+
+                server_name _;
+
+                location / {
+                        # First attempt to serve request as file, then
+                        # as directory, then fall back to displaying a 404.
+                        try_files $uri $uri/ =404;
+                }
+
+                # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+                #
+                #location ~ \.php$ {
+                #       include snippets/fastcgi-php.conf;
+                #
+                #       # With php7.0-cgi alone:
+                #       fastcgi_pass 127.0.0.1:9000;
+                #       # With php7.0-fpm:
+                #       fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+                #}
+
+                # deny access to .htaccess files, if Apache's document root
+                # concurs with nginx's one
+                #
+                #location ~ /\.ht {
+                #       deny all;
+                #}
+        }
+}
+
+
+#mail {
+#       # See sample authentication script at:
+#       # http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+#
+#       # auth_http localhost/auth.php;
+#       # pop3_capabilities "TOP" "USER";
+#       # imap_capabilities "IMAP4rev1" "UIDPLUS";
+#
+#       server {
+#               listen     localhost:110;
+#               protocol   pop3;
+#               proxy      on;
+#       }
+#
+#       server {
+#               listen     localhost:143;
+#               protocol   imap;
+#               proxy      on;
+#       }
+#}
+
+```
+
+重启Nginx，刷新浏览器，设置成功！
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608190732081-13fbdcd5-3f4a-400d-8741-05058cd92652.png)
+
+## 五、配置域名
+如果以后想要公开这个项目的话，一直用IP地址访问肯定是不方便的，可以配置一个域名方便访问。
+
+### 1、购买域名
+可以到腾讯云或者阿里云上购买自己喜欢的域名
+
+### 2、配置（以阿里云为例）
+登录阿里云，打开云解析DNS -> 域名解析，这个模块不太好找，可以直接搜索。
+
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608201135791-cd7c38fd-f012-4b36-b166-ab9bcfc27251.png)
+
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608201293118-2e5ca0bc-ad98-4992-b6bb-cbb0aac0a4b4.png)
+
+点击自己的域名或者解析设置，进入解析设置页。
+
+这里有两种配置方式：
+
+* 点击添加记录，自己进行配置
+
+* 点击新手引导，只需要输入IP地址即可完成配置，其他配置项默认。
+
+我才用的是新手引导的方式：
+
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608206195068-9fbea6fa-f470-4a78-ad36-9cea9a737c13.png)
+
+配置完之后可能需要5-10分钟才能生效。
+
+**.com/.net/.cn/.xin/.top/.xyz/.vip/.club/.shop/.wang/.ren等域名注册成功后必须进行域名实名认证，否则会造成解析不生效，实名认证审核通过后的1-2个工作日解析可恢复使用。**
+
+What's the fuck！！！配个域名是真的难，非要把你扒的一干二净！！！心里一万个***！！！
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608207463134-0f5f9ca2-75c4-4f6e-b059-6f32d170327f.png)
+
+备案完之后，输入你的域名就可以看到刚刚的index.html了。
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608190732081-13fbdcd5-3f4a-400d-8741-05058cd92652.png)
+
