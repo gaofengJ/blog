@@ -4,7 +4,7 @@
 作者：[Kovli](http://www.kovli.com/)
 
 ## 一、购买云服务器
-目前国内占有率比较高的就是[腾讯云](https://cloud.tencent.com/)和[阿里云](https://www.aliyun.com/)，这里本人选择的是阿里云中的ECS云服务器。（吐槽一下，普通价格真的比学生价贵太多了）
+目前国内占有率比较高的就是[腾讯云](https://cloud.tencent.com/)和[阿里云](https://www.aliyun.com/)，这里本人选择的是阿里云的ECS云服务器。（吐槽一下，普通价格真的比学生价贵太多了）
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/49008b1a3766413f8ea5ba9593054b46~tplv-k3u1fbpfcp-zoom-1.image)
 如果在购买时没有设置ssh密码，可以进入ECS控制台-示例列表-重置密码中设置密码。把IP地址中的公网IP记录下来，后续会用到。
 ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/31d543ddda584b5c883796f171b2a923~tplv-k3u1fbpfcp-zoom-1.image)
@@ -87,7 +87,7 @@ Ubuntn安装之后文件结构大致为：
 
 然后启动Nginx。
 ```sudo /etc/init.d/nginx start```
-我发现直接执行```nginx```也可以。
+直接执行```nginx```也可以。
 
 Nginx常用命令：
 
@@ -404,7 +404,260 @@ http {
 重启Nginx，刷新浏览器，设置成功！
 ![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608190732081-13fbdcd5-3f4a-400d-8741-05058cd92652.png)
 
-## 五、配置域名
+## 五、部署前端项目
+在服务器上部署前端项目，无非是首先获取项目代码，然后进行构建，然后将最后生成的dist目录放到服务器的指定目录中去。看了不少文章，综合需求与实现成本，最后决定采用Github的Actions来实现前端项目的自动化部署。
+
+此部分内容参考阮一峰老师的[GitHub Actions 入门教程](http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html)以及谭光志同学的[前端项目自动化部署](https://www.mdeditor.tw/pl/pXrV)，对Github Actions不熟悉的也可以学习一下阮一峰老师的这篇文章。
+
+### 1、创建一个静态服务器
+
+连接到远程服务器之后，选择合适的文件夹，我选择的是/home目录
+
+```
+mkdir Mufeng-Deploy // 创建文件夹
+cd Mufeng-Deploy // 进入文件夹
+npm init -y // 初始化项目
+npm i express // 安装express
+touch front-deploy-server.js // 创建js文件
+vim front-deploy-server.js // 编辑文件
+```
+front-deploy-server.js内容为
+```
+const express = require('express')
+const app = express()
+const port = 300X // 填入自己的阿里云映射端口，在网络安全组配置。
+
+app.use(express.static('dist')) // 使dist目录下的静态文件对外开放访问
+
+// 0.0.0.0表示所有的IP地址。比如一个tomcat配置文件中，如果监听的IP地址设置了0.0.0.0就表示你的这个tomcat服务器监听在本机的所有IP地址上，通过任何一个IP地址都可以访问到。
+app.listen(port, '0.0.0.0', () => {
+    console.log(`front deploy`)
+})
+```
+
+**阿里云映射端口配置可以参照之前安装Nginx时添加80端口的步骤进行配置。**
+
+### 2、创建阿里云秘钥对
+请参考[创建SSH密钥对](https://www.alibabacloud.com/help/zh/doc-detail/51793.htm)和[绑定SSH密钥对](https://www.alibabacloud.com/help/zh/doc-detail/51796.htm?spm=a2c63.p38356.879954.9.cf992580IYf2O7#concept-zzt-nl1-ydb) ，将你的 ECS 服务器实例和密钥绑定，然后将私钥保存到你的电脑（例如保存在 ecs.pem 文件）。
+
+**注意：一定要按照阿里云的文档进行操作，妥善保管私钥文件！！！**
+
+绑定完秘钥之后，可以重新设置一下登录密码，重启实例后生效。
+
+### 3、阿里云秘钥绑定要部署的项目
+打开要部署的Github项目，点击setting->secrets。
+
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608307141548-69e4526a-6a50-43fa-a4c8-1b9fec6d8fc2.png)
+
+点击New repository secret按钮，在Name中填入```SERVER_SSH_KEY```，用别的也可以，但是要与后面的```SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}```字段名保持统一。在Value中填入本地的阿里云私钥。
+
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608307532067-cd0c4011-533e-43e7-bfcf-2fbd72d6e70f.png)
+
+点击Add secret完成。
+
+### 4、在项目下创建```.github/workflows/ci.yml```文件
+
+内容如下：
+```yml
+name: Build mufeng-front and deploy to aliyun
+on:
+  #监听push操作
+  push:
+    branches:
+      # master分支，你也可以改成其他分支
+      - master
+jobs:
+  build:
+
+    runs-on: ubuntu-16.04
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Install npm dependencies
+      run: npm install
+    - name: Run build task
+      run: npm run build
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@master
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: '-rltgoDzvO --delete' # easingthemes/ssh-deploy使用的参数
+          SOURCE: dist # 这是要复制到阿里云静态服务器的文件夹名称，此例中指的是npm run build之后生成的dist目录
+          REMOTE_HOST: '47.99.111.167' # 你的阿里云公网地址
+          REMOTE_USER: root # 阿里云登录后默认为 root 用户
+          TARGET: /home/mufeng-front # 打包后的 dist 文件夹将放在 /home/mufeng-front
+```
+
+有些地方需要根据自己的实际情况进行修改，可以参考[官方文档](https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions)
+
+完成之后推送到github上。
+
+上面这个workflow文件的要点如下：
+
+1. 整个流程在master分支发生push事件时触发。
+2. 只有一个job，运行在虚拟机环境ubuntu-16.04。
+3. 第一步是获取源码，使用的action是actions/checkout。
+4. 第二步是构建和部署，使用的action是easingthemes/ssh-deploy。
+5. 这一步需要几个环境变量，根据你使用的action的不同也会发生改变，可以到具体的文档中查看。
+
+回到远程服务器中执行```node front-deploy-server.js```，开始监听，之后只要项目执行git push（将项目推送到master分支），就会自动执行ci.yml，将打包文件放到你的阿里云静态服务器上。
+
+提交后，可以在项目的Actions中查看CI的历史记录。
+
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608309765045-c67ce681-92bb-4bb8-b6d7-fcfd5118d06c.png)
+
+之前Nginx中的这一行需要改一下：
+```
+root /home/mufeng-front;
+改为：
+root /home/mufeng-front/dist;
+```
+
+改完之后重启Nginx，大功告成！
+
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608311323559-f74eb4ab-04d9-4959-a30d-733b1e546182.png)
+
+## 六、安装MySQL
+要做一个完整的后端项目，数据库肯定是必不可少的，我选择的是MySQL。
+
+### 1、安装MySQL
+```
+sudo apt-get install mysql-server
+sudo apt-get install mysql-client
+sudo apt-get install libmysqlclient-dev // 找了好久也没搞清楚这个包是做什么的，干脆就直接装上了。
+```
+安装过程中可能会提示设置root密码，按提示来就好了。
+
+安装好之后，使用以下命令测试是否安装成功：
+```sudo netstat -tap | grep mysql```
+
+如果出现下图所示就是安装成功了。
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608369933131-ce7f2a1c-0231-4273-af52-b3f6c46e9ca9.png)
+
+### 2、登录
+```
+mysql -uroot -proot对应的密码
+或者mysql -uroot -p 回车后再输入密码
+```
+
+### 3、设置MySQL允许远程访问。
+
+* 编辑mysql.conf文件
+打开mysqld.cnf文件，我的路径为```/etc/mysql/mysql.conf.d/mysqld.cnf```
+找到```bind-address = 127.0.0.1```这一行并把它注释掉。保存退出。
+
+* 进入mysql服务，执行授权命令
+```
+grant all on *.* to root@'%' identified by '你的密码' with grant option;
+flush privileges;
+```
+
+* 然后执行quit退出mysql服务，重启mysql
+```
+sudo service mysql restart
+```
+
+现在在windows下可以使用Navicat远程连接ubuntu下的mysql服务。
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608373733830-fbf03c12-87a0-458c-8f3c-fbbe5476b2cf.png)
+**连接之前记得到阿里云打开端口映射！**
+
+### 4、复制本地数据库到远程服务器
+之前我本地已经新建了一个数据库，所以我借助Navicat的功能直接拷贝到远程服务器。
+
+* 先连接本地数据库、远程数据库
+
+* 在服务器创建一个和你要复制的本地数据库名称一样的数据库
+
+* 使用Navicat的数据转移工具
+
+点击Tools -> Data Transfer，然后在弹窗中填入源数据库和目标数据库信息，点击Next。
+![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608374446126-3763e53e-f849-499b-81cb-f98c418dd0b3.png)
+
+结束之后，刷新远程数据库，就可以看到本地的数据库已经被拷贝到了远程服务器！
+
+## 七、部署后端项目
+本着能用js解决就用js解决的原则，我后端项目选择了Nodejs+Express，和之前部署前端Vue项目的步骤就很相似了。
+
+### 1、远程服务器添加监听server
+
+在之前部署前端项目时新建的项目中添加back-deploy-server.js文件。
+
+```
+cd Mufeng-Deploy // 进入文件夹
+touch back-deploy-server.js // 创建js文件
+vim back-deploy-server.js // 编辑文件
+```
+back-deploy-server.js内容为
+```
+const express = require('express')
+const app = express()
+const port = 300X // 填入自己的阿里云映射端口，在网络安全组配置。这里我使用了和前端项目不同的端口
+
+// 0.0.0.0表示所有的IP地址。比如一个tomcat配置文件中，如果监听的IP地址设置了0.0.0.0就表示你的这个tomcat服务器监听在本机的所有IP地址上，通过任何一个IP地址都可以访问到。
+app.listen(port, '0.0.0.0', () => {
+    console.log(`back deploy`)
+})
+```
+
+**没有配置阿里云映射端口配置的记得先配置。**
+
+### 2、创建阿里云秘钥对
+使用之前的就可以。
+
+### 3、阿里云秘钥绑定要部署的项目
+与前端项目相同。
+
+### 4、创建在项目下创建```.github/workflows/ci.yml```文件
+
+内容如下：
+```yml
+name: Build mufeng-back and deploy to aliyun
+on:
+  #监听push操作
+  push:
+    branches:
+      # master分支，你也可以改成其他分支
+      - master
+jobs:
+  build:
+
+    runs-on: ubuntu-16.04
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Install npm dependencies
+      run: npm install
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@master
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: '-rltgoDzvO --delete' # easingthemes/ssh-deploy使用的参数
+          # SOURCE: dist # 这是要复制到阿里云静态服务器的文件夹名称，后端不需要构建，直接把整个文件拷过去
+          REMOTE_HOST: '47.99.111.167' # 你的阿里云公网地址
+          REMOTE_USER: root # 阿里云登录后默认为 root 用户，并且所在文件夹为 root
+          TARGET: /home/mufeng-back # 打包后的 dist 文件夹将放在 /home/mufeng-back
+```
+
+有些地方需要根据自己的实际情况进行修改，可以参考[官方文档](https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions)
+
+完成之后推送到github上。
+
+上面这个workflow文件的要点如下：
+
+1. 整个流程在master分支发生push事件时触发。
+2. 只有一个job，运行在虚拟机环境ubuntu-16.04。
+3. 第一步是获取源码，使用的action是actions/checkout。
+4. 这一步需要几个环境变量，根据你使用的action的不同也会发生改变，可以到具体的文档中查看。
+
+回到远程服务器中执行```node back-deploy-server.js```，开始监听，之后只要项目执行git push（将项目推送到master分支），就会自动执行ci.yml，将打包文件放到你的阿里云静态服务器上。
+
+提交后，可以在项目的Actions中查看CI的历史记录。
+
+目前后端项目我还是到远程服务器启动的，后面看使用Webhooks能否实现后端项目的自启动。
+
+部署完后端项目之后先用Postman做了测试，之后根据项目需要修改了package的一些配置，这里就没有列举了。
+
+## 八、配置域名
 如果以后想要公开这个项目的话，一直用IP地址访问肯定是不方便的，可以配置一个域名方便访问。
 
 ### 1、购买域名
@@ -433,9 +686,9 @@ http {
 
 **.com/.net/.cn/.xin/.top/.xyz/.vip/.club/.shop/.wang/.ren等域名注册成功后必须进行域名实名认证，否则会造成解析不生效，实名认证审核通过后的1-2个工作日解析可恢复使用。**
 
-What's the fuck！！！配个域名是真的难，非要把你扒的一干二净！！！心里一万个***！！！
+What's the fuck！！！再次访问突然显示这个！！！
 ![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608207463134-0f5f9ca2-75c4-4f6e-b059-6f32d170327f.png)
 
-备案完之后，输入你的域名就可以看到刚刚的index.html了。
-![](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608190732081-13fbdcd5-3f4a-400d-8741-05058cd92652.png)
+根据阿里云的提示做了备案，吐槽一下，审核的整个流程很麻烦，而且需要的信息真的是把你扒的干干净净，心里一万个***，目前我的域名还在审核中...
 
+谨以自己的一点小经验，希望能给需要的同学一点借鉴。文章中有问题也希望大家能够指出。
