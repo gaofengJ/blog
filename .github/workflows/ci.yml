@@ -1,4 +1,4 @@
-name: Build stock-front and deploy to aliyun
+name: Build blog and deploy to aliyun
 on:
   #监听push操作
   push:
