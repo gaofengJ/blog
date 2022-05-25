@@ -1,3 +1,8 @@
+---
+title: Linux学习笔记
+description: Linux学习笔记
+---
+
 ## Linux简介
 Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。
 

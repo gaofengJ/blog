@@ -1,3 +1,8 @@
+---
+title: 阿里云ECS服务器项目部署
+description: 阿里云ECS服务器项目部署
+---
+
 **最近自己写了一个小项目，想把它部署在服务器上以便实时查看，在此记录一下自己的部署过程以及在部署过程中遇到的问题，方便日后查看。**
 
 参考：[http://www.kovli.com/2017/09/19/ecs-deploy/](http://www.kovli.com/2017/09/19/ecs-deploy/)  

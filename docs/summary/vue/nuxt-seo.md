@@ -1,3 +1,8 @@
+---
+title: nuxt对Vue项目首页进行SEO优化
+description: nuxt对Vue项目首页进行SEO优化
+---
+
 参考：[关于SPA的SEO解决方案](https://medium.com/@keshidong.dev/%E5%85%B3%E4%BA%8Espa%E7%9A%84seo%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88-2639a63361ad)
 作者：[shidong ke](https://medium.com/@keshidong.dev/about)
 
