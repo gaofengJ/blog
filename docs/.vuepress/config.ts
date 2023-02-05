@@ -1,5 +1,10 @@
 import { defineUserConfig, defaultTheme } from 'vuepress';
 import { docsearchPlugin } from '@vuepress/plugin-docsearch';
+import configSummaryPrimary from '../summary-primary/config';
+import configSummaryMiddle from '../summary-middle/config';
+import configSummarySenior from '../summary-senior/config';
+import configNote from '../note/config';
+import configQuestions from '../questions/config';
 
 export default defineUserConfig({
   base: '/blog/',
@@ -18,28 +23,32 @@ export default defineUserConfig({
         link: '/',
       },
       {
-        text: '笔记',
-        link: '/summary/',
+        text: '前端初阶',
+        link: '/summary-primary/',
       },
+      {
+        text: '前端中阶',
+        link: '/summary-middle/',
+      },
+      {
+        text: '前端高阶',
+        link: '/summary-senior/',
+      },
+      {
+        text: '学习笔记',
+        link: '/note/',
+      },
+      {
+        text: '八股文',
+        link: '/questions/',
+      }
     ],
     sidebar: {
-      '/summary/': [
-        {
-          text: '服务器相关',
-          collapsible: true,
-          children: [
-            '/summary/server/aliyun-deploy.md', 
-            '/summary/server/linux-basic.md',
-          ],
-        },
-        {
-          text: 'Vue',
-          collapsible: true,
-          children: [
-            '/summary/vue/nuxt-seo.md',
-          ],
-        }
-      ],
+      '/summary-primary/': configSummaryPrimary,
+      '/summary-middle/': configSummaryMiddle,
+      '/summary-senior/': configSummarySenior,
+      '/note/': configNote,
+      '/questions/': configQuestions,
     },
     sidebarDepth: 1,
     contributors: true,
