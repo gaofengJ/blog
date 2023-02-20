@@ -50,7 +50,7 @@ export default defineUserConfig({
       '/note/': configNote,
       '/questions/': configQuestions,
     },
-    sidebarDepth: 1,
+    sidebarDepth: 2,
     contributors: true,
     editLink: false,
   }),
