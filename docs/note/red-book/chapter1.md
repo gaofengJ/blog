@@ -1,6 +1,6 @@
 ---
-title: 可视化第一章
-description: 可视化第一章
+title: 什么是JavaScript
+description: 什么是JavaScript
 ---
 
-可视化第一章
+什么是JavaScript

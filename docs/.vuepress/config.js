@@ -40,11 +40,11 @@ export default defineUserConfig({
         children: [
           {
             text: 'JavaScript红皮书',
-            ilnk: '/note/red-book/index.md',
+            link: '/note/red-book/index.md',
           },
           {
             text: '可视化',
-            ilnk: '/note/visualization/index.md',
+            link: '/note/visualization/index.md',
           },
         ],
       },
