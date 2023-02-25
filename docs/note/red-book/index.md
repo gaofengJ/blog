@@ -1,6 +1,6 @@
 ---
-title: JavaScript红皮书
-description: JavaScript红皮书
+title: JavaScript红宝书
+description: JavaScript红宝书
 ---
 
-JavaScript红皮书
+JavaScript红宝书

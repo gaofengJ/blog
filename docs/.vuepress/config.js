@@ -39,7 +39,7 @@ export default defineUserConfig({
         text: '学习笔记',
         children: [
           {
-            text: 'JavaScript红皮书',
+            text: 'JavaScript红宝书',
             link: '/note/red-book/index.md',
           },
           {
