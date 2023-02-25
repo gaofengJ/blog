@@ -1,11 +1,11 @@
 export default [
   {
-    text: 'Javascript Redbook',
+    text: 'Javascript红皮书',
     collapsible: true,
     children: [
       {
-        text: '111',
-        link: '../note/javascript-redbook/chapter1.md',
+        text: '第1章-什么是JavaScript',
+        link: '/note/red-book/chapter1',
       },
     ],
   },
@@ -13,7 +13,7 @@ export default [
     text: '可视化',
     collapsible: true,
     children: [
-      '/visualization/chapter1.md',
+      '/note/visualization/chapter1.md',
     ],
   },
 ]

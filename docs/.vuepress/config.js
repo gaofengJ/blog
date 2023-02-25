@@ -3,7 +3,8 @@ import { docsearchPlugin } from '@vuepress/plugin-docsearch';
 import configSummaryPrimary from '../summary-primary/config';
 import configSummaryMiddle from '../summary-middle/config';
 import configSummarySenior from '../summary-senior/config';
-import configNote from '../note/config';
+import configNoteRedbook from '../note/red-book/config';
+import configNoteVisualization from '../note/visualization/config';
 import configQuestions from '../questions/config';
 
 export default defineUserConfig({
@@ -36,7 +37,16 @@ export default defineUserConfig({
       },
       {
         text: '学习笔记',
-        link: '/note/',
+        children: [
+          {
+            text: 'JavaScript红皮书',
+            ilnk: '/note/red-book/index.md',
+          },
+          {
+            text: '可视化',
+            ilnk: '/note/visualization/index.md',
+          },
+        ],
       },
       {
         text: '八股文',
@@ -47,7 +57,8 @@ export default defineUserConfig({
       '/summary-primary/': configSummaryPrimary,
       '/summary-middle/': configSummaryMiddle,
       '/summary-senior/': configSummarySenior,
-      '/note/': configNote,
+      '/note/red-book/': configNoteRedbook,
+      '/note/visualization/': configNoteVisualization,
       '/questions/': configQuestions,
     },
     sidebarDepth: 2,
