@@ -1,5 +1,5 @@
 import { defineUserConfig, defaultTheme } from 'vuepress';
-import { docsearchPlugin } from '@vuepress/plugin-docsearch';
+// import { docsearchPlugin } from '@vuepress/plugin-docsearch';
 import configSummaryPrimary from '../summary-primary/config';
 import configSummaryMiddle from '../summary-middle/config';
 import configSummarySenior from '../summary-senior/config';
