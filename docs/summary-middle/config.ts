@@ -1,16 +1,44 @@
 export default [
   {
-    text: '服务器',
+    text: '工程化',
     collapsible: true,
     children: [
-      '/summary-middle/server/aliyun-deploy.md',
+      '/summary-middle/engineering/engineering.md',
     ],
   },
   {
-    text: 'Vue',
+    text: '库',
     collapsible: true,
     children: [
-      '/summary-middle/vue/nuxt-seo.md',
+      '/summary-middle/library/library.md',
     ],
-  }
+  },
+  {
+    text: '框架',
+    collapsible: true,
+    children: [
+      '/summary-middle/frame/nuxt-seo.md',
+    ],
+  },
+  {
+    text: '性能优化',
+    collapsible: true,
+    children: [
+      '/summary-middle/performance/performance.md',
+    ],
+  },
+  {
+    text: '工作原理',
+    collapsible: true,
+    children: [
+      '/summary-middle/principle/principle.md',
+    ],
+  },
+  {
+    text: '综合能力',
+    collapsible: true,
+    children: [
+      '/summary-middle/entire/entire.md',
+    ],
+  },
 ]
