@@ -284,18 +284,18 @@ Markdown 的这些变体通常被称为 flavors（方言）。掌握你的应用
 对应的HTML代码：`<img src="图片链接" alt="图片alt" title="图片title">`
 
 ```md
-![这是图片](图片链接 "Magic Gardens")
+![这是图片](https://p.qqan.com/up/2022-4/20224221153467529.jpg "Magic Gardens")
 ```
 
 渲染效果如下：
-![这是图片](图片链接 "Magic Gardens")
+![这是图片](https://p.qqan.com/up/2022-4/20224221153467529.jpg "Magic Gardens")
 
 #### 链接图片
 
 给图片增加链接，请将图像的Markdown 括在方括号中，然后将链接添加在圆括号中。
 
 ```md
-[![沙漠中的岩石图片](图片链接 "Shiprock")](https://markdown.com.cn)
+[![沙漠中的岩石图片](https://p.qqan.com/up/2022-4/20224221153467529.jpg "Shiprock")](https://markdown.com.cn)
 ```
 
 ### 转义语法
