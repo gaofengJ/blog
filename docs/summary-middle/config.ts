@@ -38,7 +38,7 @@ export default [
     text: '综合能力',
     collapsible: true,
     children: [
-      '/summary-middle/entire/entire.md',
+      '/summary-middle/entire/markdown.md',
     ],
   },
 ]
