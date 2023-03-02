@@ -287,7 +287,7 @@ Markdown 的这些变体通常被称为 flavors（方言）。掌握你的应用
 ![这是图片](https://p.qqan.com/up/2022-4/20224221153467529.jpg "Magic Gardens")
 ```
 
-渲染效果如下：
+渲染效果如下：  
 ![这是图片](https://p.qqan.com/up/2022-4/20224221153467529.jpg "Magic Gardens")
 
 #### 链接图片
