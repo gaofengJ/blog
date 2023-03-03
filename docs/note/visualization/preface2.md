@@ -12,8 +12,8 @@ description: 可视化
 
 * **技术栈不同**
 
-**Web开发**主要以HTML来描述结构，以CSS来描述表现，以JavaScript来描述行为。  
-**可视化**更多使用Canvas、SVG、WebGL等图形API为主。
+**Web开发**主要以 HTML 来描述结构，以 CSS 来描述表现，以 JavaScript 来描述行为。  
+**可视化**更多使用 Canvas、SVG、WebGL 等图形 API 为主。
 
 * **侧重点不同**
 
@@ -24,10 +24,10 @@ description: 可视化
 
 ### 图表库
 
-* 基础图表：Echatrs、Chartist、Chart.js等
+* 基础图表：Echatrs、Chartist、Chart.js 等
 
-* 复杂地图：Mapbox、Leaflet、Deck.gl、CesiumJS等
+* 复杂地图：Mapbox、Leaflet、Deck.gl、CesiumJS 等
 
-* 更为灵活的图形：ThreeJS、SpriteJS等
+* 更为灵活的图形：ThreeJS、SpriteJS 等
 
 * 数据驱动框架：D3.js
