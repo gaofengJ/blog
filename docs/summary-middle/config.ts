@@ -3,7 +3,7 @@ export default [
     text: '工程化',
     collapsible: true,
     children: [
-      '/summary-middle/engineering/engineering.md',
+      '/summary-middle/engineering/wx-jsapi-local-debugging.md',
     ],
   },
   {
