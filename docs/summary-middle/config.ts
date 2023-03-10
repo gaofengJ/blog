@@ -10,7 +10,7 @@ export default [
     text: '库',
     collapsible: true,
     children: [
-      '/summary-middle/library/library.md',
+      '/summary-middle/library/wx-create-group.md',
     ],
   },
   {

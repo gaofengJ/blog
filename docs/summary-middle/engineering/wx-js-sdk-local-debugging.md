@@ -1,129 +1,112 @@
 ---
-title: 企微JS-SDK本地调试
+title: 企微JS-SDK调试、验证
 description: 工程化
 ---
 
 ## 背景
 
-最近在项目中遇到一个“拉群”需求，在企微应用中创建群聊。对于这个需求，有两种解决方案：  
+在进行企微第三方应用开发的过程中，经常会碰到一些需要与企微进行交互的功能，比如唤起聊天，分享页面等。由于企微官方的限制，这些功能在非生产环境难以调试、验证。
 
-* **请求后端接口**
+举个例子：
 
-前端直接调用后端接口，后端接口直接调用[企业微信-服务端API](https://developer.work.weixin.qq.com/document/path/91201)，创建群聊。此方案无需依赖企微环境，便于调试。缺点是生成群聊后无法直接拉起。
+要实现一个点击头像唤起聊天窗口的功能，针对不同的宿主环境，有两种不同的方案：
 
-* **调用JS-SDK**
+### 浏览器内
 
-前端直接调用[JS-SDK](https://developer.work.weixin.qq.com/document/path/90546)中的方法，创建群聊。此方案可以创建并拉起群聊，缺点是由于调用JS-SDK，依赖企微环境，所以在本地调试起来比较麻烦。
+企微官方提供了一种[基于Schema协议的跳转方案](https://developer.work.weixin.qq.com/document/path/94346)，在外部浏览器的Web页面中，可以通过该 Schema 协议打开个人聊天窗口。
 
-由于产品想要的效果是创建并拉起群聊，所以使用“调用JS-SDK”的方案，由此对本地调试企微JS-SDK进行了尝试。
+这种方案的实现主要是后端凭借企微应用的ACCESS_TOKEN向企微后台发送请求，生成一个 launch_code，再拼接成 URL 返回给前端，前端跳转这个 URL 即可。
 
-下文中域名以service.mufeng.co做示例。
+由于跳转链接是由后端生成的，后端可以在非生产环境直接使用生产环境的企微应用信息来获取 launch_code，所以这种方案可以直接在非生产环境进行调试。
 
-## 难点
+### 企微内
 
-* 由于需要拉起群聊，所以必须在企微环境中进行调试
+在企微内唤起聊天窗口则需要调用JS-SDK中的[openEnterpriseChat](https://developer.work.weixin.qq.com/document/path/93231)方法。
 
-* 由于JS-SDK对于[可信域名的限制](https://developer.work.weixin.qq.com/document/path/90514)，所有API的调用必须在可信域名下才可调用。目前生产域名（如service.mufeng.co）已经过备案，其他不清楚，所以最好在生产域名下进行调试
+调用 openEnterpriseChat 前需调用[wx.agentConfig](https://developer.work.weixin.qq.com/document/path/94313)方法注入应用权限，wx.agentConfig 中需要的 signature 依赖后端向企微后台来获取，后端仍然可以通过在非生产环境使用生产环境企微应用信息来获取。
+
+**重点**来了，由于[JS-SDK对可信域名的限制](https://developer.work.weixin.qq.com/document/path/90514)，JS-SDK 中 API 的调用必须在可信域名下才可以调用，这对我们的非生产环境调试造成了很大不便，所以需要思考如何在非生产环境进行调试，验证。
+
+## 目标
+
+提供一整套调试方案，同时支持本地环境和测试环境，为企业微信sdk功能验证提供有效的前置支持，为上线保驾护航。
 
 ## 方案
 
-* 将生产域名（service.mufeng.co）代理到本地（127.0.0.1），通过在企微中打开应用的方式来调试本地项目。
+将生产域名域名映射到非生产环境进行访问，在生产域名下测试非生产环境代码。
 
-## 实践
+### 前置条件
 
-### 一、创建一个用于调试的企微应用
+后端生产代码已经包含wx.config（注入企业权限），wx.agentConfig（注入应用权限）的两个接口
 
-生产应用神圣不可侵犯，务必新建一个企微应用用于调试！！！
+<p style="font-weight: bold; color: #FF0000;">由于代理，此时还是走的线上接口，涉及数据的操作要谨慎！！！</p>
 
-#### 注意事项
+<p style="font-weight: bold; color: #FF0000;">由于代理，此时还是走的线上接口，涉及数据的操作要谨慎！！！</p>
 
-请修改测试应用的可见范围，避免引发生产问题
+<p style="font-weight: bold; color: #FF0000;">由于代理，此时还是走的线上接口，涉及数据的操作要谨慎！！！</p>
 
-### 二、企微应用配置
+本文的代理操作是借助 Charles 来完成的，没有用过 Charles 的同学可以先学习一下它的简单使用。
 
-为第一步创建的企微应用配置主页及可信域名
+### 本地调试
 
-![设置可信域名](http://mufengtongxue.com/assets/images/blog_middle_engineering_set_domain.png)
+#### 一、在Charles中添加域名映射
 
-#### 注意事项
+![添加映射入口](http://mufengtongxue.com/assets/images/blog_middle_engineering_sdk_debugger_1.png)
 
-* 应用主页配置为生产域名（`http://service.mufeng.co`）
+![映射详情](http://mufengtongxue.com/assets/images/blog_middle_engineering_sdk_debugger_2.png)
 
-* 可信域名配置为`service.mufeng.co`
+#### tips
 
-### 三、本地代理
+<p style="font-weight: bold; color: #FF0000;">使用Charles前必须关闭其他代理工具</p>
 
-通过修改hosts把生产域名代理到本地。这里推荐使用[SwitchHosts](https://github.com/oldj/SwitchHosts/releases)进行代理配置。
-
-```yaml
-127.0.0.1     service.mufeng.co
-```
-
-现在我们访问service.mufeng.co的时候就会代理到本地项目了。
-
-### 四、修改devServer中代理配置
-
-因为调试是在企微应用中进行的，正式环境和uat环境的身份认证会冲突，所以可以vue.config.ts中的proxy指向pre或prod。
+#### 二、修改本地api代理
 
 ```javascript
 devServer: {
-    historyApiFallback: true,
-    allowedHosts: 'all',
-    proxy: {
-      '/api': { target: 'http://uat-service.mufeng.co/' },
-    },
+  historyApiFallback: true,
+  allowedHosts: 'all',
+  proxy: {
+    '/api': { target: 'http://demo.mufeng.com/' },
   },
+},
 ```
 
-改为:
+##### tips
 
-```javascript
-devServer: {
-    historyApiFallback: true,
-    allowedHosts: 'all',
-    proxy: {
-      '/api': { target: 'https://pre-service.mufeng.co/' },
-    },
-  },
-```
+<p style="font-weight: bold; color: #FF0000;">需要把本地api代理修改至prod或pre（如果代理到pre的话请确保后端企业微信配置pre与prod相同），因为需要访问生产域名接口，并使用后端配置的企业应用信息来获取注入权限的签名。</p>
 
-#### 注意事项
+#### 三、在企微中打开应用，并打开控制台，修改窗口地址指向，然后刷新页面
 
-将target指向pre或prod时要注意网络协议必须为https。
+例如，在企微控制台中输入`location.href = "http://demo.mufeng.com"`。
 
-### 端口代理
+完成上述步骤，现在就可以在生产域名下调试前端本地代码了！
 
-做完上面的操作，我们发现service.mufeng.co还是无法正常访问，这是因为host只是用来进行域名解析的，不支持端口映射，所以我们还需要进行端口映射。这里采用的是通过Nginx代理的方式。
+### uat验证（方便测试同学介入）
 
-```conf
-server {
-  listen       80;
-  server_name  service.mufeng.co;
+#### 一、在Charles中添加域名映射
 
-  location / {
-      
-    proxy_pass http://127.0.0.1:8081;
-    proxy_set_header Host $proxy_host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  }
-}
-```
+同上，将`demo.mufeng.com`映射到`uat-demo.mufeng.com`。
 
-域名代理和端口代理也可以通过 Charles 来实现，时间原因就没有尝试了。
+#### 二、在企微中打开应用，并打开控制台，修改窗口地址指向，然后刷新页面
+
+完成上述步骤，现在就可以在生产域名下调试前端本地代码了！
 
 ## Q&A
 
-* 企微应用配置应用主页时加端口号为什么不行？（例如：`http://service.mufeng.co:8081`）
+**Q**: 为什么代理到uat代码，却访问线上接口?  
+**A**: 原因有两个
 
-  可信域名的备案包含端口号，如果应用主页指定了端口号的话在调用 wx.config 或者 wx.agentConfig 时会报错
+* 域名cookie是线上的，uat接口无法通过鉴权
+* 后端接口uat与线上配置不同，uat无法获取正确的签名
 
-* 已经按上述配置进行了，为什么JS-SDK中API还是有问题？
+**Q**: 已经按上述配置进行了，为什么JS-SDK中API还是有问题？  
+**A**: 本文只是针对本地调试的一个解决方案，API调用有问题可能是其他原因导致的，例如：
 
-  本文只是针对本地调试的一个解决方案，API调用有问题可能是其他原因导致的，例如：
-  
-  * 企业权限签名（wx.config使用）或者应用权限签名（wx.agentConfig使用）有问题
+* 企业权限签名（wx.config使用）或者应用权限签名（wx.agentConfig使用）有问题。这两个签名一般是通过后端获取的，所以需要看一下后端配置的企业信息和应用信息是否正确  
+* API的调用有无前置条件，比如createDoc（创建文档）需要应用具有文档使用权限等
 
-    这两个签名一般是通过后端获取的，所以需要看一下后端配置的企业信息和应用信息是否正确
+**Q**: 为什么要手动在企业微信中更改页面路径？  
+**A**: 在进行本地调试时，无法在通过https加载的页面中启动不安全的WebSocket连接，所以需要通过http协议打开
 
-  * API的调用有无前置条件，比如 openEnterpriseChat（打开会话）需要应用对全员开放；createDoc（创建文档）需要应用具有文档使用权限等
+**Q**: 如果后端生产环境代码没有wx.config（注入企业权限），wx.agentConfig（注入应用权限）的接口怎么办？  
+**A**: 如果由于种种原因，后端无法将上述两个接口发布生产环境，可以在uat或者pre环境中进行相关功能的调试，前提条件是后端uat环境或者pre环境的企业应用配置（agentId、secret等）与prod相同
