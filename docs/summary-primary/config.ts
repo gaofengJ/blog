@@ -10,6 +10,7 @@ export default [
     text: '研发工具',
     collapsible: true,
     children: [
+      '/summary-primary/tools/github-speed-up.md',
       '/summary-primary/tools/mac-keyboard.md',
       '/summary-primary/tools/vscode-download.md',
     ],
