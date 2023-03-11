@@ -3,14 +3,14 @@ export default [
     text: '工程化',
     collapsible: true,
     children: [
-      '/summary-middle/engineering/engineering.md',
+      '/summary-middle/engineering/wx-js-sdk-local-debugging.md',
     ],
   },
   {
     text: '库',
     collapsible: true,
     children: [
-      '/summary-middle/library/library.md',
+      '/summary-middle/library/wx-create-group.md',
     ],
   },
   {
