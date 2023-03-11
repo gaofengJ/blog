@@ -37,4 +37,6 @@ switchhosts 是一个管理、快速切换 hosts 的小工具，开源软件，�
 
 ![switchhosts配置远程映射](http://mufengtongxue.com/assets/images/blog_primary_tools_github_speed_up_2.png)
 
+其中，远程URL地址：`https://gitlab.com/ineo6/hosts/-/raw/master/next-hosts`
+
 完事！！！
