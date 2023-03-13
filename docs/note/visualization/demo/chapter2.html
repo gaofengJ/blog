@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chapter2</title>
+  <style>
+    canvas {
+      width: 256px;
+      height: 256px;
+      background-color: #F1F2F3;
+    }
+  </style>
+</head>
+<body>
+  <canvas width="512" height="512"></canvas>
+</body>
+<script>
+  const canvas = document.querySelector('canvas');
+  const context = canvas.getContext('2d');
+
+  const rectSize = [100, 100];
+  context.fillStyle = 'red';
+  context.beginPath();
+  context.translate(-0.5 * rectSize[0], -0.5 * rectSize[1]);
+  context.rect(0.5 * canvas.width, 0.5 * canvas.height, ...rectSize);
+  context.fill();
+</script>
+</html>
