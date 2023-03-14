@@ -16,7 +16,7 @@
 <body>
   <canvas width="512" height="512"></canvas>
 </body>
-<script>
+<!-- <script>
   const canvas = document.querySelector('canvas');
   const gl = canvas.getContext('webgl');
 
@@ -69,6 +69,71 @@
   gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0); // 给变量设置长度和类型
   gl.enableVertexAttribArray(vPosition); // 激活这个变量
 
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.drawArrays(gl.TRIANGLES, 0, points.length / 2);
+
+</script> -->
+
+<script>
+  // 创建 WebGL 上下文
+  const canvas = document.querySelector('canvas');
+  const gl = canvas.getContext('webgl');
+
+  // 着色器（Shader）程序，用 GLSL 编写
+  // 在 GLSL 中，attribute 表示声明变量，vec2 是变量的类型，它表示一个二维向量，position 是变量名。
+  const vertex = `
+    attribute vec2 position;
+
+    void main() {
+      gl_PointSize = 1.0;
+      gl_Position = vec4(position, 1.0, 1.0);
+    }
+  `; // 顶点着色器，负责处理图形的顶点信息
+
+  const fragment = `
+    precision mediump float;
+
+    void main()
+    {
+      gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    }    
+  `; // 图元着色器，负责处理图形的像素信息
+
+  // 创建着色器对象
+  const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+  gl.shaderSource(vertexShader, vertex); // Vertex Shader 对象
+  gl.compileShader(vertexShader);
+
+  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+  gl.shaderSource(fragmentShader, fragment); // Fragment Shader 对象
+  gl.compileShader(fragmentShader);
+
+  // 创建 WebGL 程序（WebGLProgram对象）
+  const program = gl.createProgram(); // 创建 WebGLProgram对象
+  gl.attachShader(program, vertexShader); // 关联 shader 对象
+  gl.attachShader(program, fragmentShader); // 关联 shader 对象
+  gl.linkProgram(program); // 将 WebGLProgram 对象链接到 WebGL 上下文对象上
+
+  gl.useProgram(program); // use 启用
+
+  // 定义三角形顶点，使用Float32Array这种类型化数组来处理二进制缓冲区
+  const points = new Float32Array([
+    -1, -1,
+    0, 1,
+    1, -1,
+  ]);
+
+  // 将定义好的数据写入 WebGL 缓冲区
+  const bufferId = gl.createBuffer(); // 创建一个缓存对象
+  gl.bindBuffer(gl.ARRAY_BUFFER, bufferId); // 绑定为当前操作对象
+  gl.bufferData(gl.ARRAY_BUFFER, points, gl.STATIC_DRAW); // 将数据写入缓存对象
+
+  // 将缓冲区数据读取到 GPU
+  const vPosition = gl.getAttribLocation(program, 'position'); // 获取顶点着色器中的position变量的地址
+  gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0); // 给变量设置长度和类型
+  gl.enableVertexAttribArray(vPosition); // 激活这个变量
+
+  // 执行着色器程序完成绘制
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES, 0, points.length / 2);
 
