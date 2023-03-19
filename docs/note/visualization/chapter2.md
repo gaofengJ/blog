@@ -30,6 +30,16 @@ const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 ```
 
+#### getContext()类型
+
+* "2d", 建立一个 CanvasRenderingContext2D 二维渲染上下文。
+
+* "webgl" (或"experimental-webgl") 这将创建一个 WebGLRenderingContext 三维渲染上下文对象。只在实现WebGL 版本 1(OpenGL ES 2.0) 的浏览器上可用。
+
+* "webgl2" (或 "experimental-webgl2") 这将创建一个 WebGL2RenderingContext 三维渲染上下文对象。只在实现 WebGL 版本 2 (OpenGL ES 3.0) 的浏览器上可用。
+
+* "bitmaprenderer" 这将创建一个只提供将 canvas 内容替换为指定ImageBitmap功能的ImageBitmapRenderingContext 。
+
 ### 2. 用 Canvas 上下文绘制图形
 
 Canvas 的 API 大体可以分为两类：
@@ -83,3 +93,7 @@ const dataSource = 'https://s5.ssl.qhres.com/static/b0695e2dd30daa64.json';
 缺点：
 
 * Canvas 绘制出的图形对于浏览器来说，只是 Canvas 中的一个个像素点，我们很难直接抽取其中的图形对象进行操作。
+
+## Canvas API
+
+[Canvas API](https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D)

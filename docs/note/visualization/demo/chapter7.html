@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chapter7</title>
+  <style>
+    canvas {
+      width: 512px;
+      height: 512px;
+    }
+  </style>
+</head>
+<body>
+  <!-- <canvas id="canvas1" width="512" height="512"></canvas>
+  <canvas id="canvas2" width="512" height="512"></canvas> -->
+  <canvas id="canvas3" width="512" height="512"></canvas>
+  <canvas id="canvas4" width="512" height="512"></canvas>
+</body>
+<script src="./js/vector2d.js"></script>
+<script src="./js/parametric.js"></script>
+<!-- <script>
+  (() => {
+    const canvas = document.querySelector('#canvas1');
+    const ctx = canvas.getContext('2d');
+
+    const { width, height } = canvas;
+    ctx.translate(0.5 * width, 0.5* height);
+    ctx.scale(1, -1);
+
+    const regularShape = (edges = 3, x, y, step) => {
+      /**
+       * edges：边数
+       * x，y：起点
+       * step：一条边的长度 
+      */
+      const ret = [];
+      const delta = Math.PI * (1 - (edges - 2) / edges);
+      let p = new Vector2D(x, y);
+      const dir = new Vector2D(step, 0);
+      ret.push(p);
+      for (let i = 0; i < edges; i++) {
+        p = p.copy().add(dir.rotate(delta));
+        ret.push(p);
+      }
+      return ret;
+    }
+
+    const draw = (points, strokeStyle = 'black', fillStyle = null) => {
+      ctx.strokeStyle = strokeStyle;
+      ctx.beginPath();
+      ctx.moveTo(...points[0]);
+      for(let i = 1; i < points.length; i++) {
+        ctx.lineTo(...points[i]);
+      }
+      ctx.closePath();
+      if(fillStyle) {
+        ctx.fillStyle = fillStyle;
+        ctx.fill();
+      }
+      ctx.stroke();
+    }
+
+    draw(regularShape(3, 128, 128, 100));  // 绘制三角形
+    draw(regularShape(6, -64, 128, 50));  // 绘制六边形
+    draw(regularShape(11, -64, -64, 30));  // 绘制十一边形
+    draw(regularShape(60, 128, -64, 6));  // 绘制六十边形
+
+  })();
+  
+</script>
+<script>
+  const canvas = document.querySelector('#canvas2');
+  const ctx = canvas.getContext('2d');
+
+  const { width, height } = canvas;
+  ctx.translate(0.5 * width, 0.5* height);
+  ctx.scale(1, -1);
+
+  const TAU_SEGMENTS = 60; // 几边形，越大画出来的图形越接近圆
+  const TAU = Math.PI * 2;
+  const arc = (x0, y0, radius, startAng = 0, endAng = Math.PI * 2, segments) => {
+    /**
+     * x0，y0：圆心
+     * radius：半径
+     * startAng：起始角度
+     * endAng：结束角度 
+    */
+    const ang = Math.min(TAU, endAng - startAng);
+    const ret = ang === TAU ? [] : [[x0, y0]];
+    segments = segments || Math.round(TAU_SEGMENTS * ang / TAU);
+    for(let i = 0; i <= segments; i++) {
+      const x = x0 + radius * Math.cos(startAng + ang * i / segments);
+      const y = y0 + radius * Math.sin(startAng + ang * i / segments);
+      ret.push([x, y]);
+    }
+    return ret;
+  }
+  const draw = (points, strokeStyle = 'black', fillStyle = null) => {
+    ctx.strokeStyle = strokeStyle;
+    ctx.beginPath();
+    ctx.moveTo(...points[0]);
+    for(let i = 1; i < points.length; i++) {
+      ctx.lineTo(...points[i]);
+    }
+    ctx.closePath();
+    if(fillStyle) {
+      ctx.fillStyle = fillStyle;
+      ctx.fill();
+    }
+    ctx.stroke();
+  }
+  // draw(arc(0, 0, 100, 0, Math.PI * 2, 1000));
+  draw(arc(0, 0, 100));
+</script> -->
+<script>
+  (() => {
+    const canvas = document.querySelector('#canvas3');
+    const ctx = canvas.getContext('2d');
+
+    const { width, height } = canvas;
+    ctx.translate(0.5 * width, 0.5* height);
+    ctx.scale(1, -1);
+
+    const quadricBezier = parametric(
+      (t, [{x: x0}, {x: x1}, {x: x2}]) => (1 - t) ** 2 * x0 + 2 * t * (1 - t) * x1 + t ** 2 * x2,
+      (t, [{y: y0}, {y: y1}, {y: y2}]) => (1 - t) ** 2 * y0 + 2 * t * (1 - t) * y1 + t ** 2 * y2,
+    );
+
+    const p0 = new Vector2D(0, 0);
+    const p1 = new Vector2D(100, 0);
+    p1.rotate(0.75);
+    const p2 = new Vector2D(200, 0);
+    const count = 30;
+    for(let i = 0; i < count; i++) {
+      // 绘制30条从圆心出发，旋转不同角度的二阶贝塞尔曲线
+      p1.rotate(2 / count * Math.PI);
+      p2.rotate(2 / count * Math.PI);
+      quadricBezier(0, 1, 100, [
+        p0,
+        p1,
+        p2,
+      ]).draw(ctx);
+    }
+  })();
+</script>
+<script>
+  (() => {
+    const canvas = document.querySelector('#canvas4');
+    const ctx = canvas.getContext('2d');
+
+    const { width, height } = canvas;
+    ctx.translate(0.5 * width, 0.5* height);
+    ctx.scale(1, -1);
+
+    const cubicBezier = parametric(
+      (t, [{x: x0}, {x: x1}, {x: x2}, {x: x3}]) => (1 - t) ** 3 * x0 + 3 * t * (1 - t) ** 2 * x1 + 3 * (1 - t) * t ** 2 * x2 + t ** 3 * x3,
+      (t, [{y: y0}, {y: y1}, {y: y2}, {y: y3}]) => (1 - t) ** 3 * y0 + 3 * t * (1 - t) ** 2 * y1 + 3 * (1 - t) * t ** 2 * y2 + t ** 3 * y3,
+    );
+
+    const p0 = new Vector2D(0, 0);
+    const p1 = new Vector2D(100, 0);
+    p1.rotate(0.75);
+    const p2 = new Vector2D(150, 0);
+    p2.rotate(-0.75);
+    const p3 = new Vector2D(200, 0);
+    const count = 30;
+    for(let i = 0; i < count; i++) {
+      p1.rotate(2 / count * Math.PI);
+      p2.rotate(2 / count * Math.PI);
+      p3.rotate(2 / count * Math.PI);
+      cubicBezier(0, 1, 100, [
+        p0,
+        p1,
+        p2,
+        p3,
+      ]).draw(ctx);
+    } 
+  })();
+</script>
+</html>

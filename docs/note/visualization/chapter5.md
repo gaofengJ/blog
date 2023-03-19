@@ -15,8 +15,24 @@ SVG 采用的是视区盒子（viewBox）坐标系。这个坐标系在默认情
 
 ### Canvas
 
-Canvas 采用的坐标系我们比较熟悉了，它默认以画布左上角为坐标原点，右下角坐标值为 Canvas 的画布宽高值。
+Canvas 默认以画布左上角为坐标原点，右下角坐标值为 Canvas 的画布宽高值。
 
 ### WebGL
 
 WebGL 的坐标系比较特殊，是一个三维坐标系。它默认以画布正中间为坐标原点，x 轴朝右，y 轴朝上，z 轴朝外，x 轴、y 轴在画布中范围是 -1 到 1。
+
+## 坐标系转换
+
+### Canvas
+
+Canvas 的 2D 上下文设置 transform变换中，常用的两个变换：translate，scale。
+
+在一个 512 * 512 的画布中，通过 translate 变换将 Canvas 画布的坐标原点，从左上角 (0, 0) 点移动至 (256, 256) 位置，即画布的底边上的中点位置。接着，以移动了原点后新的坐标为参照，通过 scale(1, -1) 将 y 轴向下的部分，即 y>0 的部分沿 x 轴翻转 180 度，这样坐标系就变成以画布底边中点为原点，x 轴向右，y 轴向上的坐标系了。
+
+```javascript
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+
+ctx.translate(256, 256);
+ctx.scale(1, -1);
+```
