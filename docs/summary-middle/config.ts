@@ -3,6 +3,9 @@ export default [
     text: '工程化',
     collapsible: true,
     children: [
+      '/summary-middle/engineering/docker.md',
+      '/summary-middle/engineering/nvm.md',
+      '/summary-middle/engineering/project-specification.md',
       '/summary-middle/engineering/wx-js-sdk-local-debugging.md',
     ],
   },
@@ -39,6 +42,7 @@ export default [
     collapsible: true,
     children: [
       '/summary-middle/entire/markdown.md',
+      '/summary-middle/entire/shell.md',
     ],
   },
 ]
