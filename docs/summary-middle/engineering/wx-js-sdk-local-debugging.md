@@ -51,9 +51,9 @@ description: 工程化
 
 #### 一、在Charles中添加域名映射
 
-![添加映射入口](http://mufengtongxue.com/assets/images/blog_middle_engineering_sdk_debugger_1.png)
+![添加映射入口](/images/summary_middle_engineering_sdk_debugger_1.png)
 
-![映射详情](http://mufengtongxue.com/assets/images/blog_middle_engineering_sdk_debugger_2.png)
+![映射详情](/images/summary_middle_engineering_sdk_debugger_2.png)
 
 #### tips
 
