@@ -19,7 +19,7 @@ description: 可视化
 
 首先，数据经过 CPU 处理，成为具有特定结构的几何信息。然后，这些信息会被送到 GPU 中进行处理。在 GPU 中要经过两个步骤生成光栅信息。这些光栅信息会输出到帧缓存中，最后渲染到屏幕上。这个过程可以称之为渲染管线。
 
-![图形系统绘图过程](https://static001.geekbang.org/resource/image/9f/46/9f7d76cc9126036ef966dc236df01c46.jpeg?wh=1920*1080)
+![图形系统绘图过程](/images/note_visualization_chapter4_graphic_draw_process.png)
 
 GPU 是由大量的小型处理单元构成的，它可能远远没有 CPU 那么强大，但胜在数量众多，可以保证每个单元处理一个简单的任务。
 
@@ -119,7 +119,7 @@ WebGL 的坐标系是一个三维空间坐标系，坐标原点是（0,0,0）。
   gl.drawArrays(gl.TRIANGLES, 0, points.length / 2);
 ```
 
-![WebGL绘图过程](https://static001.geekbang.org/resource/image/d3/30/d31e6c50b55872f81aa70625538fb930.jpg?wh=1196*960)
+![WebGL绘图过程](/images/note_visualization_chapter4_webgl_draw_process.png)
 
 ## 顶点着色器的作用
 

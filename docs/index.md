@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /images/img_home_banner.png
+heroImage: /images/home_banner.png
 heroText: 木风同学
 tagline: 木风同学的技术博客
 actions:
