@@ -11,24 +11,32 @@ description: 阿里云ECS服务器项目部署
 ## 一、购买云服务器
 
 目前国内占有率比较高的就是[腾讯云](https://cloud.tencent.com/)和[阿里云](https://www.aliyun.com/)，这里本人选择的是阿里云的ECS云服务器。(吐槽一下，普通价格真的比学生价贵太多了)
-![购买配置](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/49008b1a3766413f8ea5ba9593054b46~tplv-k3u1fbpfcp-zoom-1.image)
+![购买配置](/images/summary_primary_basic_aliyun_deploy_1.png)
 如果在购买时没有设置ssh密码，可以进入ECS控制台-示例列表-重置密码中设置密码。把IP地址中的公网IP记录下来，后续会用到。
-![密码设置](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/31d543ddda584b5c883796f171b2a923~tplv-k3u1fbpfcp-zoom-1.image)
+![密码设置](/images/summary_primary_basic_aliyun_deploy_2.png)
 
 ## 二、登录服务器
 
 选择一款SSH工具登录远程服务器。常见的SSH工具有putty、xshell、xftp、SecureCRT等。这里我选择了putty，因为它简单易用，且不需要安装。
 下载好putty之后打开putty.exe，登录界面如下：
-![Putty界面](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bad52fc8765d4db68d77e9d040a8bc43~tplv-k3u1fbpfcp-watermark.webp)
+
+![Putty界面](/images/summary_primary_basic_aliyun_deploy_3.png)
+
 在图中所示Host Name的位置输入之前记录的公网IP，在Saved Sessions方框内输入会话名，并点击Save即可保存当前设置，以方便下次登录。
 点击Open，进入命令行界面。在这之前，可能会有以下提示：
-![Putty提示](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/51d2a5ccb0874d1b9a5caf8939ca54e3~tplv-k3u1fbpfcp-watermark.webp)
+
+![Putty提示](/images/summary_primary_basic_aliyun_deploy_4.png)
+
 点击“是”生成一个Key即可。  
 然后Putty即可连接到你的远程服务器（一般Linux）。  
-![Putty命令行界面](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/952e763cde2a4851bdb641e5957e3b7c~tplv-k3u1fbpfcp-watermark.webp)
+
+![Putty命令行界面](/images/summary_primary_basic_aliyun_deploy_5.png)
+
 输入用户名和密码，即可远程登录。忘记密码的可以到管理平台中重置密码。  
 验证成功之后，即可进入以下界面：
-![Putty登录成功](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8311b48345c04c9384ef7488d40689eb~tplv-k3u1fbpfcp-watermark.webp)
+
+![Putty登录成功](/images/summary_primary_basic_aliyun_deploy_6.png)
+
 接下来的操作就和在服务器本身上操作一样了。
 
 ## 三、安装Nodejs
@@ -119,16 +127,16 @@ Nginx常用命令：
 到这里会发现在浏览器中输入阿里云公网IP时没有出现我们想要的Welcome to nginx，这是因为阿里云关闭的端口映射，需要手动开启。
 
 1. 找到云服务器ECS -> 网络与安全 -> 安全组，点击进入
-![阿里云配置-安全组配置](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608122040120-e214ce24-a8ae-42e5-a470-2a77dd167584.png)
+![阿里云配置-安全组配置](/images/summary_primary_basic_aliyun_deploy_7.png)
 
 2. 点击配置规则
-![阿里云配置-安全组配置](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608122356560-fc5e2fbe-dbf1-45c5-a673-0aba0eb1eec0.png)
+![阿里云配置-安全组配置](/images/summary_primary_basic_aliyun_deploy_8.png)
 
 3. 点击快速添加，然后在弹窗中勾选HTTP(80)（nginx默认监听80端口），点击确定
-![阿里云配置-安全组配置](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608122623067-4b081be7-965e-4a58-8bba-57ecbeb0dc2f.png)
+![阿里云配置-安全组配置](/images/summary_primary_basic_aliyun_deploy_9.png)
 
 完成之后再次访问你的公网IP就成功了！
-![阿里云配置-安全组配置](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608122813329-9c53a6de-17ca-4a76-8071-d7a9fca10da9.png)
+![阿里云配置-安全组配置](/images/summary_primary_basic_aliyun_deploy_10.png)
 
 ### 2、Nginx配置
 
@@ -421,7 +429,7 @@ http {
 ```
 
 重启Nginx，刷新浏览器，设置成功！
-![nginx启动成功](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608190732081-13fbdcd5-3f4a-400d-8741-05058cd92652.png)
+![nginx启动成功](/images/summary_primary_basic_aliyun_deploy_11.png)
 
 ## 五、部署前端项目
 
@@ -471,11 +479,11 @@ app.listen(port, '0.0.0.0', () => {
 
 打开要部署的Github项目，点击setting->secrets。
 
-![secrets](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608307141548-69e4526a-6a50-43fa-a4c8-1b9fec6d8fc2.png)
+![secrets](/images/summary_primary_basic_aliyun_deploy_12.png)
 
 点击New repository secret按钮，在Name中填入`SERVER_SSH_KEY`，用别的也可以，但是要与后面的`SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}`字段名保持统一。在Value中填入本地的阿里云私钥。
 
-![secrets](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608307532067-cd0c4011-533e-43e7-bfcf-2fbd72d6e70f.png)
+![secrets](/images/summary_primary_basic_aliyun_deploy_13.png)
 
 点击Add secret完成。
 
@@ -533,7 +541,7 @@ jobs:
 
 提交后，可以在项目的Actions中查看CI的历史记录。
 
-![CI记录](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608309765045-c67ce681-92bb-4bb8-b6d7-fcfd5118d06c.png)
+![CI记录](/images/summary_primary_basic_aliyun_deploy_14.png)
 
 之前Nginx中的这一行需要改一下：
 
@@ -545,7 +553,7 @@ root /home/mufeng-front/dist;
 
 改完之后重启Nginx，大功告成！
 
-![部署成功](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608311323559-f74eb4ab-04d9-4959-a30d-733b1e546182.png)
+![部署成功](/images/summary_primary_basic_aliyun_deploy_15.png)
 
 ## 六、安装MySQL
 
@@ -564,7 +572,7 @@ sudo apt-get install libmysqlclient-dev // 找了好久也没搞清楚这个包�
 安装好之后，使用以下命令测试是否安装成功：`sudo netstat -tap | grep mysql`
 
 如果出现下图所示就是安装成功了。
-![mysql成功提示](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608369933131-ce7f2a1c-0231-4273-af52-b3f6c46e9ca9.png)
+![mysql成功提示](/images/summary_primary_basic_aliyun_deploy_16.png)
 
 ### 2、登录
 
@@ -593,7 +601,7 @@ sudo service mysql restart
 ```
 
 现在在windows下可以使用Navicat远程连接ubuntu下的mysql服务。
-![Navicat连接](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608373733830-fbf03c12-87a0-458c-8f3c-fbbe5476b2cf.png)
+![Navicat连接](/images/summary_primary_basic_aliyun_deploy_17.png)
 **连接之前记得到阿里云打开端口映射！**
 
 ### 4、复制本地数据库到远程服务器
@@ -607,7 +615,7 @@ sudo service mysql restart
 * 使用Navicat的数据转移工具
 
 点击Tools -> Data Transfer，然后在弹窗中填入源数据库和目标数据库信息，点击Next。
-![mysql-transfer](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608374446126-3763e53e-f849-499b-81cb-f98c418dd0b3.png)
+![mysql-transfer](/images/summary_primary_basic_aliyun_deploy_18.png)
 
 结束之后，刷新远程数据库，就可以看到本地的数据库已经被拷贝到了远程服务器！
 
@@ -711,9 +719,9 @@ jobs:
 
 登录阿里云，打开云解析DNS -> 域名解析，这个模块不太好找，可以直接搜索。
 
-![域名解析](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608201135791-cd7c38fd-f012-4b36-b166-ab9bcfc27251.png)
+![域名解析](/images/summary_primary_basic_aliyun_deploy_19.png)
 
-![域名解析](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608201293118-2e5ca0bc-ad98-4992-b6bb-cbb0aac0a4b4.png)
+![域名解析](/images/summary_primary_basic_aliyun_deploy_20.png)
 
 点击自己的域名或者解析设置，进入解析设置页。
 
@@ -725,14 +733,14 @@ jobs:
 
 我才用的是新手引导的方式：
 
-![域名配置-新手引导](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608206195068-9fbea6fa-f470-4a78-ad36-9cea9a737c13.png)
+![域名配置-新手引导](/images/summary_primary_basic_aliyun_deploy_21.png)
 
 配置完之后可能需要5-10分钟才能生效。
 
 **.com/.net/.cn/.xin/.top/.xyz/.vip/.club/.shop/.wang/.ren等域名注册成功后必须进行域名实名认证，否则会造成解析不生效，实名认证审核通过后的1-2个工作日解析可恢复使用。**
 
 What's the fuck！！！再次访问突然显示这个！！！
-![审核备案](https://cdn.nlark.com/yuque/0/2020/png/2505764/1608207463134-0f5f9ca2-75c4-4f6e-b059-6f32d170327f.png)
+![审核备案](/images/summary_primary_basic_aliyun_deploy_22.png)
 
 根据阿里云的提示做了备案，吐槽一下，审核的整个流程很麻烦，而且需要的信息真的是把你扒的干干净净，心里一万个***，目前我的域名还在审核中...
 
