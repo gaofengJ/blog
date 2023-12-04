@@ -21,6 +21,8 @@ export default [
     collapsible: true,
     children: [
       '/summary-middle/frame/nuxt-seo.md',
+      '/summary-middle/frame/tailwind.md',
+      '/summary-middle/frame/vue3-vite4-template.md',
     ],
   },
   {
