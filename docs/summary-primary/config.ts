@@ -13,7 +13,8 @@ export default [
       '/summary-primary/tools/github-speed-up.md',
       '/summary-primary/tools/mac-keyboard.md',
       '/summary-primary/tools/vscode-download.md',
-      '/summary-primary/tools/sh-diff.md'
+      '/summary-primary/tools/sh-diff.md',
+      '/summary-primary/tools/github-ssh.md',
     ],
   },
   {
