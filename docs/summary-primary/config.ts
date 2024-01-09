@@ -15,6 +15,7 @@ export default [
       '/summary-primary/tools/vscode-download.md',
       '/summary-primary/tools/sh-diff.md',
       '/summary-primary/tools/github-ssh.md',
+      '/summary-primary/tools/windows-vscode-lf.md'
     ],
   },
   {
