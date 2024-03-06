@@ -7,15 +7,15 @@ description: 研发工具
 
 解决方法：
 
-## 一、打开 VS Code 官网，找到下载入口，点击下载
+一、打开 VS Code 官网，找到下载入口，点击下载
 
-## 二、点击浏览器“下载内容”，查看下载链接地址
+二、点击浏览器“下载内容”，查看下载链接地址
 
 ![vscode-download点击下载内容](/images/summary_primary_tools_vscode_download_1.png)
 
 ![vscode-download查看下载链接](/images/summary_primary_tools_vscode_download_2.png)
 
-## 三、替换下载链接中的域名
+三、替换下载链接中的域名
 
 将`az764295.vo.msecnd.net`替换为`vscode.cdn.azure.cn`，替换后的新地址：`https://vscode.cdn.azure.cn/stable/8490d3dde47c57ba65ec40dd192d014fd2113496/VSCode-darwin-arm64.zip`。
 

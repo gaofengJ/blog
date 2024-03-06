@@ -1,30 +1,29 @@
 ---
-title: ~/.bash_profile, ~/.zshrc, ~/.profile, ~/.bashrc的区别
+title: 用户环境文件对比
 description: 研发工具
 ---
 
-## .bashrc
+* ~/.bash_profile：
 
-* 系统启动后自动运行
-* 进行设置后，可运行`source bashrc`命令更新 `.bashrc`
+  * 这个文件是bash shell的配置文件，用于登录时加载用户环境设置。
+  * 当用户登录时，bash会首先查找并执行该文件。
+  * 通常用于设置环境变量、执行用户特定的命令等。
+  * 只在bash登录时执行一次。
 
-## .profile
+* ~/.bashrc：
 
-* 进行设置后，可运行`source profile`命令更新 .profile
-* **通常我们修改 `.bashrc`，有些 Linux 的发行版本不一定有 profile 这个文件**
+  * 这也是bash shell的配置文件，但它在每次新打开一个交互式bash shell时都会被加载。
+  * 如果你希望配置适用于所有bash shell的用户级别设置，通常会将其写入这个文件。
+  * 通常用于定义别名、设置提示符、加载其他shell脚本等。
 
-## /etc、/profile
+* ~/.profile：
 
-`/etc`、`/profile` 中设定的变量(全局)的可以作用于任何用户，而 `~/.bashrc`、`~/.profile` 等中设定的变量(局部)只能继承 `/etc`、`/profile` 中的变量，他们是"父子"关系。
+  * 这是Unix/Linux系统中通用的shell配置文件，用于登录时加载用户环境设置。
+  * 与~/.bash_profile类似，但更通用，因为它适用于所有shell，而不仅仅是bash。
+  * 如果你需要在不同的shell中使用相同的配置，可以将配置写入这个文件。
 
-## .bash_profile
+* ~/.zshrc：
 
-* 每个用户都可使用该文件输入专用于自己使用的 shell 信息，当用户登录时，该文件仅仅执行一次！默认情况下,它设置一些环境变量，执行用户的 `.bashrc` 文件
-* 当每次退出系统(退出bash shell)时，执行 `~/.bash_logout`
-* `~/.bash_profile`是交互式、login 方式进入bash运行的
-* `~/.bashrc`是交互式 non-login 方式进入bash运行的，通常二者设置大致相同，所以通常前者会调用后者
-
-## .zshrc
-
-* zsh终端命令工具的全局变量设置，和 bashrc 区别是 默认很多 linux 系统是 base，就配置在 bashrc 里
-* 如里是使用 zsh 就配置在 zshrc 里
+  * 这是zsh shell的配置文件，用于每次新打开一个交互式zsh shell时加载。
+  * 如果你使用zsh作为默认的shell，你会将用户级别的zsh配置写入这个文件。
+  * 通常用于定义别名、设置主题、加载插件等。

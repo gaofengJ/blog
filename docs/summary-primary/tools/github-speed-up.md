@@ -7,7 +7,7 @@ description: 研发工具
 
 解决问题的关键就是**修改 hosts 映射，以此来绕过DNS解析**。主要有以下几种方法：
 
-## 一、直接修改本地 hosts 文件
+## 直接修改本地 hosts 文件
 
 Windows中hosts文件地址：`c:/Windows/System32/drivers/etc`。
 
@@ -23,7 +23,7 @@ Mac中hosts文件地址：`/etc/hosts`。
 140.82.114.9 codeload.Github.com
 ```
 
-## 使用 switchhosts 修改 hosts 映射
+## switchhosts 修改 hosts 映射
 
 switchhosts 是一个管理、快速切换 hosts 的小工具，开源软件，一键切换 hosts 配置，非常实用，高效。推荐使用 switchhosts 来管理 hosts 映射。
 
@@ -31,7 +31,7 @@ switchhosts 是一个管理、快速切换 hosts 的小工具，开源软件，�
 
 ![switchhosts配置映射](/images/summary_primary_tools_github_speed_up_1.png)
 
-## 使用 switchhosts 自动更新最新的 hosts 映射
+## switchhosts 自动更新远程映射
 
 手动更新本地 hosts 文件的方式比较繁琐，可以利用 switchhosts 绑定远程 hosts 文件的方式来自动更新 hosts 映射
 
