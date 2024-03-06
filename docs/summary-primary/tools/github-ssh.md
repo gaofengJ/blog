@@ -7,7 +7,7 @@ description: 研发工具
 
 在从github/gitee等远程仓库拉取代码时，通常有两种方式：HTTPS和SSH。
 
-### HTTPS下载
+### HTTPS连接
 
 * 访问权限：HTTPS 使用用户名和密码进行认证。当你从一个需要身份验证的仓库中克隆或下载代码时，你通常需要提供你的用户名和密码。
 
@@ -15,7 +15,7 @@ description: 研发工具
 
 * 配置简单：HTTPS 配置相对来说更为简单，无需设置 SSH 密钥。
 
-### SSH下载
+### SSH连接
 
 * 访问权限：SSH 使用密钥对进行认证，不需要输入密码。你需要将你的公钥添加到你的版本控制系统帐户中，而私钥则保存在本地。
 
@@ -31,16 +31,16 @@ description: 研发工具
 
 1. 生成ssh私钥和公钥
 
-执行`cd ~/.ssh`，检查客户端有没有已生成好的密钥对。
+* 执行`cd ~/.ssh`，检查客户端有没有已生成好的密钥对。
 
-如果没有的话，执行`$ ssh-keygen -t rsa -b 4096 -C "999999999@qq.com"`，然后一路回车，再次执行`cd ~/.ssh`，可以发现`.ssh`文件夹下面有`id_rsa`（私钥）和`id_rsa.pub`（公钥）两个文件。、
+* 如果没有的话，执行`$ ssh-keygen -t rsa -b 4096 -C "999999999@qq.com"`，然后一路回车，再次执行`cd ~/.ssh`，可以发现`.ssh`文件夹下面有`id_rsa`（私钥）和`id_rsa.pub`（公钥）两个文件。、
 
 2. 在github中配置公钥
 
-复制`id_rsa.pub`中的内容，配置到github中。
+* 复制`id_rsa.pub`中的内容，配置到github中。
 
-可以用`cat ./id_rsa.pub | clip`命令进行复制。
+* 可以用`cat ./id_rsa.pub | clip`命令进行复制。
 
-![在github中配置公钥](/images/summary_primary_basic_github-ssh1.jpg)
+* ![在github中配置公钥](/images/summary_primary_basic_github-ssh1.jpg)
 
 完成以上步骤，就可以使用ssh方式clone远程代码了。
