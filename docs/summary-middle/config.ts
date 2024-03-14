@@ -7,6 +7,7 @@ export default [
       '/summary-middle/engineering/nvm.md',
       '/summary-middle/engineering/project-specification.md',
       '/summary-middle/engineering/wx-js-sdk-local-debugging.md',
+      '/summary-middle/engineering/development-workflow.md',
     ],
   },
   {
