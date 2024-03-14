@@ -5,7 +5,7 @@ import configSummaryMiddle from '../summary-middle/config';
 import configSummarySenior from '../summary-senior/config';
 import configNoteRedbook from '../note/red-book/config';
 import configNoteVisualization from '../note/visualization/config';
-import configQuestions from '../questions/config';
+import configEssay from '../essay/config';
 
 export default defineUserConfig({
   base: '/blog/',
@@ -50,7 +50,7 @@ export default defineUserConfig({
       },
       {
         text: '八股文',
-        link: '/questions/',
+        link: '/essay/',
       }
     ],
     sidebar: {
@@ -59,7 +59,7 @@ export default defineUserConfig({
       '/summary-senior/': configSummarySenior,
       '/note/red-book/': configNoteRedbook,
       '/note/visualization/': configNoteVisualization,
-      '/questions/': configQuestions,
+      '/essay/': configEssay,
     },
     sidebarDepth: 2,
     contributors: true,

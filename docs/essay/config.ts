@@ -1,9 +1,9 @@
 export default [
   {
-    text: '八股文',
+    text: '汇总',
     collapsible: true,
     children: [
-      '/questions/questions/questions.md',
+      '/essay/summary/summary.md',
     ],
   },
 ]
