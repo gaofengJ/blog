@@ -1,5 +1,5 @@
 ---
-title: npm&yarn&pnpm
+title: 包管理器对比
 description: 工程化
 ---
 

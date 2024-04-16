@@ -3,7 +3,7 @@ export default [
     text: '工程化',
     collapsible: true,
     children: [
-      '/summary-middle/engineering/npm&yarn&pnpm.md',
+      '/summary-middle/engineering/package-mng.md',
       '/summary-middle/engineering/docker.md',
       '/summary-middle/engineering/nvm.md',
       '/summary-middle/engineering/project-specification.md',
