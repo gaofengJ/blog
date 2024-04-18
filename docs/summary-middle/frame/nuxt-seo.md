@@ -124,11 +124,11 @@ winpty npx.cmd create-nuxt-app nuxt-demo
 
 下图是我选择的配置项：
 
-![nuxt配置](/images/summary_middle_frame_nuxt_config_1.png)
+![nuxt配置](/imgs/summary-middle/frame/nuxt_config_1.png)
 
 项目创建完毕之后，可以按照提示来运行一下试试。
 
-![nuxt配置](/images/summary_middle_frame_nuxt_config_2.png)
+![nuxt配置](/imgs/summary-middle/frame/nuxt_config_2.png)
 
 新创建的项目目录大致如下：
 

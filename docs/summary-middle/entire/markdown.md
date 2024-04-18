@@ -284,11 +284,11 @@ Markdown 的这些变体通常被称为 flavors（方言）。掌握你的应用
 对应的HTML代码：`<img src="图片链接" alt="图片alt" title="图片title">`
 
 ```md
-![这是图片](/images/summary_middle_entire_markdown_img_demo.png "Magic Gardens")
+![这是图片](/imgs/summary-middle/entire/markdown_img_demo.png "Magic Gardens")
 ```
 
 渲染效果如下：  
-![这是图片](/images/summary_middle_entire_markdown_img_demo.png "Magic Gardens")
+![这是图片](/imgs/summary-middle/entire/markdown_img_demo.png "Magic Gardens")
 
 #### 链接图片
 
