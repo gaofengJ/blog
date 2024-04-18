@@ -295,7 +295,7 @@ Markdown 的这些变体通常被称为 flavors（方言）。掌握你的应用
 给图片增加链接，请将图像的Markdown 括在方括号中，然后将链接添加在圆括号中。
 
 ```md
-[![沙漠中的岩石图片](/images/summary_middle_entire_markdown_img_demo.png "Shiprock")](https://markdown.com.cn)
+[![沙漠中的岩石图片](/imgs/summary_middle_entire_markdown_img_demo.png "Shiprock")](https://markdown.com.cn)
 ```
 
 ### 转义语法
