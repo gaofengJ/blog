@@ -11,31 +11,31 @@ description: 阿里云ECS服务器项目部署
 ## 一、购买云服务器
 
 目前国内占有率比较高的就是[腾讯云](https://cloud.tencent.com/)和[阿里云](https://www.aliyun.com/)，这里本人选择的是阿里云的ECS云服务器。(吐槽一下，普通价格真的比学生价贵太多了)
-![购买配置](/images/summary_primary_basic_aliyun_deploy_1.png)
+![购买配置](/imgs/summary-primary/basic/aliyun_deploy_1.png)
 如果在购买时没有设置ssh密码，可以进入ECS控制台-示例列表-重置密码中设置密码。把IP地址中的公网IP记录下来，后续会用到。
-![密码设置](/images/summary_primary_basic_aliyun_deploy_2.png)
+![密码设置](/imgs/summary-primary/basic/aliyun_deploy_2.png)
 
 ## 二、登录服务器
 
 选择一款SSH工具登录远程服务器。常见的SSH工具有putty、xshell、xftp、SecureCRT等。这里我选择了putty，因为它简单易用，且不需要安装。
 下载好putty之后打开putty.exe，登录界面如下：
 
-![Putty界面](/images/summary_primary_basic_aliyun_deploy_3.png)
+![Putty界面](/imgs/summary-primary/basic/aliyun_deploy_3.png)
 
 在图中所示Host Name的位置输入之前记录的公网IP，在Saved Sessions方框内输入会话名，并点击Save即可保存当前设置，以方便下次登录。
 点击Open，进入命令行界面。在这之前，可能会有以下提示：
 
-![Putty提示](/images/summary_primary_basic_aliyun_deploy_4.png)
+![Putty提示](/imgs/summary-primary/basic/aliyun_deploy_4.png)
 
 点击“是”生成一个Key即可。  
 然后Putty即可连接到你的远程服务器（一般Linux）。  
 
-![Putty命令行界面](/images/summary_primary_basic_aliyun_deploy_5.png)
+![Putty命令行界面](/imgs/summary-primary/basic/aliyun_deploy_5.png)
 
 输入用户名和密码，即可远程登录。忘记密码的可以到管理平台中重置密码。  
 验证成功之后，即可进入以下界面：
 
-![Putty登录成功](/images/summary_primary_basic_aliyun_deploy_6.png)
+![Putty登录成功](/imgs/summary-primary/basic/aliyun_deploy_6.png)
 
 接下来的操作就和在服务器本身上操作一样了。
 
@@ -127,16 +127,16 @@ Nginx常用命令：
 到这里会发现在浏览器中输入阿里云公网IP时没有出现我们想要的Welcome to nginx，这是因为阿里云关闭的端口映射，需要手动开启。
 
 1. 找到云服务器ECS -> 网络与安全 -> 安全组，点击进入
-![阿里云配置-安全组配置](/images/summary_primary_basic_aliyun_deploy_7.png)
+![阿里云配置-安全组配置](/imgs/summary-primary/basic/aliyun_deploy_7.png)
 
 2. 点击配置规则
-![阿里云配置-安全组配置](/images/summary_primary_basic_aliyun_deploy_8.png)
+![阿里云配置-安全组配置](/imgs/summary-primary/basic/aliyun_deploy_8.png)
 
 3. 点击快速添加，然后在弹窗中勾选HTTP(80)（nginx默认监听80端口），点击确定
-![阿里云配置-安全组配置](/images/summary_primary_basic_aliyun_deploy_9.png)
+![阿里云配置-安全组配置](/imgs/summary-primary/basic/aliyun_deploy_9.png)
 
 完成之后再次访问你的公网IP就成功了！
-![阿里云配置-安全组配置](/images/summary_primary_basic_aliyun_deploy_10.png)
+![阿里云配置-安全组配置](/imgs/summary-primary/basic/aliyun_deploy_10.png)
 
 ### 2、Nginx配置
 
@@ -429,7 +429,7 @@ http {
 ```
 
 重启Nginx，刷新浏览器，设置成功！
-![nginx启动成功](/images/summary_primary_basic_aliyun_deploy_11.png)
+![nginx启动成功](/imgs/summary-primary/basic/aliyun_deploy_11.png)
 
 ## 五、部署前端项目
 
@@ -479,11 +479,11 @@ app.listen(port, '0.0.0.0', () => {
 
 打开要部署的Github项目，点击setting->secrets。
 
-![secrets](/images/summary_primary_basic_aliyun_deploy_12.png)
+![secrets](/imgs/summary-primary/basic/aliyun_deploy_12.png)
 
 点击New repository secret按钮，在Name中填入`SERVER_SSH_KEY`，用别的也可以，但是要与后面的`SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}`字段名保持统一。在Value中填入本地的阿里云私钥。
 
-![secrets](/images/summary_primary_basic_aliyun_deploy_13.png)
+![secrets](/imgs/summary-primary/basic/aliyun_deploy_13.png)
 
 点击Add secret完成。
 
@@ -541,7 +541,7 @@ jobs:
 
 提交后，可以在项目的Actions中查看CI的历史记录。
 
-![CI记录](/images/summary_primary_basic_aliyun_deploy_14.png)
+![CI记录](/imgs/summary-primary/basic/aliyun_deploy_14.png)
 
 之前Nginx中的这一行需要改一下：
 
@@ -553,7 +553,7 @@ root /home/mufeng-front/dist;
 
 改完之后重启Nginx，大功告成！
 
-![部署成功](/images/summary_primary_basic_aliyun_deploy_15.png)
+![部署成功](/imgs/summary-primary/basic/aliyun_deploy_15.png)
 
 ## 六、安装MySQL
 
@@ -572,7 +572,7 @@ sudo apt-get install libmysqlclient-dev // 找了好久也没搞清楚这个包�
 安装好之后，使用以下命令测试是否安装成功：`sudo netstat -tap | grep mysql`
 
 如果出现下图所示就是安装成功了。
-![mysql成功提示](/images/summary_primary_basic_aliyun_deploy_16.png)
+![mysql成功提示](/imgs/summary-primary/basic/aliyun_deploy_16.png)
 
 ### 2、登录
 
@@ -601,7 +601,7 @@ sudo service mysql restart
 ```
 
 现在在windows下可以使用Navicat远程连接ubuntu下的mysql服务。
-![Navicat连接](/images/summary_primary_basic_aliyun_deploy_17.png)
+![Navicat连接](/imgs/summary-primary/basic/aliyun_deploy_17.png)
 **连接之前记得到阿里云打开端口映射！**
 
 ### 4、复制本地数据库到远程服务器
@@ -615,7 +615,7 @@ sudo service mysql restart
 * 使用Navicat的数据转移工具
 
 点击Tools -> Data Transfer，然后在弹窗中填入源数据库和目标数据库信息，点击Next。
-![mysql-transfer](/images/summary_primary_basic_aliyun_deploy_18.png)
+![mysql-transfer](/imgs/summary-primary/basic/aliyun_deploy_18.png)
 
 结束之后，刷新远程数据库，就可以看到本地的数据库已经被拷贝到了远程服务器！
 
@@ -719,9 +719,9 @@ jobs:
 
 登录阿里云，打开云解析DNS -> 域名解析，这个模块不太好找，可以直接搜索。
 
-![域名解析](/images/summary_primary_basic_aliyun_deploy_19.png)
+![域名解析](/imgs/summary-primary/basic/aliyun_deploy_19.png)
 
-![域名解析](/images/summary_primary_basic_aliyun_deploy_20.png)
+![域名解析](/imgs/summary-primary/basic/aliyun_deploy_20.png)
 
 点击自己的域名或者解析设置，进入解析设置页。
 
@@ -733,14 +733,14 @@ jobs:
 
 我才用的是新手引导的方式：
 
-![域名配置-新手引导](/images/summary_primary_basic_aliyun_deploy_21.png)
+![域名配置-新手引导](/imgs/summary-primary/basic/aliyun_deploy_21.png)
 
 配置完之后可能需要5-10分钟才能生效。
 
 **.com/.net/.cn/.xin/.top/.xyz/.vip/.club/.shop/.wang/.ren等域名注册成功后必须进行域名实名认证，否则会造成解析不生效，实名认证审核通过后的1-2个工作日解析可恢复使用。**
 
 What's the fuck！！！再次访问突然显示这个！！！
-![审核备案](/images/summary_primary_basic_aliyun_deploy_22.png)
+![审核备案](/imgs/summary-primary/basic/aliyun_deploy_22.png)
 
 根据阿里云的提示做了备案，吐槽一下，审核的整个流程很麻烦，而且需要的信息真的是把你扒的干干净净，心里一万个***，目前我的域名还在审核中...
 

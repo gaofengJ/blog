@@ -41,6 +41,6 @@ description: 研发工具
 
 * 可以用`cat ./id_rsa.pub | clip`命令进行复制。
 
-* ![在github中配置公钥](/images/summary_primary_basic_github-ssh1.jpg)
+* ![在github中配置公钥](/imgs/summary-primary/basic/github-ssh1.jpg)
 
 完成以上步骤，就可以使用ssh方式clone远程代码了。
