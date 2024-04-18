@@ -7,7 +7,7 @@ description: 可视化
 
 形式如 #RRGGBB 的颜色代码，就是 RGB 颜色的十六进制表示法，其中 RR、GG、BB 分别是两位十六进制数字，表示红、绿、蓝三色通道的**色阶**。因此，RGB 颜色是将人眼可见的颜色表示为**红**、**绿**、**蓝**三原色不同色阶的混合。
 
-![RGB三维立方体](/images/note_visualization_chapter10_1.png)
+![RGB三维立方体](/imgs/note/visualization/chapter10_1.png)
 
 在浏览器中，CSS 一般有两种表示 RGB 颜色值的方式：一种是我们前面说的 #RRGGBB 表示方式，另一种是直接用 rgb(red, green, blue) 表示颜色，这里的“red、green、blue”是十进制数值。
 
@@ -23,7 +23,7 @@ RGBA 其实就是在 RGB 的基础上增加了一个 Alpha 通道，也就是透
 
 可以把 HSL 和 HSV 颜色理解为，是将 RGB 颜色的立方体从直角坐标系投影到极坐标的圆柱上，所以它的色值和 RGB 色值是一一对应的。
 
-![HSL和HSV颜色转换](/images/note_visualization_chapter10_2.png)
+![HSL和HSV颜色转换](/imgs/note/visualization/chapter10_2.png)
 
 RGB 和 HSV 的转换代码：
 

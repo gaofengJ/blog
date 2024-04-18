@@ -24,21 +24,21 @@ arch -x86_64 zsh
 
 执行上述命令后，就可以顺利安装低版本 Node 了。
 
-![node低版本](/images/summary_middle_engineering_package_mng_node_version.png)
+![node低版本](/imgs/summary-middle/engineering/package_mng_node_version.png)
 
 新建一个目录，执行 `npm init -y`，快速创建 package.json。
 
 然后执行 `npm install express`，那么 express 包和它相关的依赖都会被下载下来：
 
-![node_modules嵌套一](/images/summary_middle_engineering_package_mng_nest1.png)
+![node_modules嵌套一](/imgs/summary-middle/engineering/package_mng_nest1.png)
 
 展开 express，也有自己的 node_modules：
 
-![node_modules嵌套二](/images/summary_middle_engineering_package_mng_nest2.png)
+![node_modules嵌套二](/imgs/summary-middle/engineering/package_mng_nest2.png)
 
 再往下展开，每个依赖都有自己的 node_modules：
 
-![node_modules嵌套三](/images/summary_middle_engineering_package_mng_nest3.png)
+![node_modules嵌套三](/imgs/summary-middle/engineering/package_mng_nest3.png)
 
 也就是说 npm2 的 node_modules 是嵌套的。
 

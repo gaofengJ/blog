@@ -25,7 +25,7 @@ draw(regularShape(60, 128, -64, 6));  // 绘制六十边形
 
 如下所示的参数方程，定义了一个圆心在（x0,y0），半径为 r 的圆。
 
-![圆的参数方程](/images/note_visualization_chapter7_circle.png)
+![圆的参数方程](/imgs/note/visualization/chapter7_circle.png)
 
 ```javascript
 

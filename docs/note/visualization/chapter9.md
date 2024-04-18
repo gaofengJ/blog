@@ -19,7 +19,7 @@ description: 可视化
 
 如果想让向量 P(x0, y0) 沿着向量 Q(x1, y1) 平移，只要将 P 和 Q 相加就可以了。
 
-![向量的平移](/images/note_visualization_chapter9_1.png)
+![向量的平移](/imgs/note/visualization/chapter9_1.png)
 
 * 旋转
 
@@ -40,19 +40,19 @@ class Vector2D {
 
 推导过程：
 
-![向量的旋转](/images/note_visualization_chapter9_2.png)
+![向量的旋转](/imgs/note/visualization/chapter9_2.png)
 
 假设向量 P 的长度为 r，角度是⍺，现在我们要将它逆时针旋转⍬角，此时新的向量 P’的参数方程为：
 
-![向量的旋转](/images/note_visualization_chapter9_3.png)
+![向量的旋转](/imgs/note/visualization/chapter9_3.png)
 
 然后，因为 rcos⍺、rsin⍺是向量 P 原始的坐标 x0、y0，所以，我们可以把坐标代入到上面的公式中，就会得到如下的公式：
 
-![向量的旋转](/images/note_visualization_chapter9_4.png)
+![向量的旋转](/imgs/note/visualization/chapter9_4.png)
 
 * 缩放
 
-![向量的缩放](/images/note_visualization_chapter9_5.png)
+![向量的缩放](/imgs/note/visualization/chapter9_5.png)
 
 ## 仿射变换的应用：实现粒子动画
 
