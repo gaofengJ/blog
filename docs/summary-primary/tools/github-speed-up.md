@@ -29,13 +29,13 @@ switchhosts 是一个管理、快速切换 hosts 的小工具，开源软件，�
 
 下载完成后，配置映射即可。
 
-![switchhosts配置映射](/images/summary_primary_tools_github_speed_up_1.png)
+![switchhosts配置映射](/imgs/summary-primary/tools/github_speed_up_1.png)
 
 ## switchhosts 自动更新远程映射
 
 手动更新本地 hosts 文件的方式比较繁琐，可以利用 switchhosts 绑定远程 hosts 文件的方式来自动更新 hosts 映射
 
-![switchhosts配置远程映射](/images/summary_primary_tools_github_speed_up_2.png)
+![switchhosts配置远程映射](/imgs/summary-primary/tools/github_speed_up_2.png)
 
 其中，远程URL地址：`https://gitlab.com/ineo6/hosts/-/raw/master/next-hosts`
 

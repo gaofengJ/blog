@@ -11,9 +11,9 @@ description: 研发工具
 
 二、点击浏览器“下载内容”，查看下载链接地址
 
-![vscode-download点击下载内容](/images/summary_primary_tools_vscode_download_1.png)
+![vscode-download点击下载内容](/imgs/summary-primary/tools/vscode_download_1.png)
 
-![vscode-download查看下载链接](/images/summary_primary_tools_vscode_download_2.png)
+![vscode-download查看下载链接](/imgs/summary-primary/tools/vscode_download_2.png)
 
 三、替换下载链接中的域名
 

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // 定义要修改的文件夹路径
-const folderPath = path.join(__dirname, '../docs/.vuepress/public/imgs/summary-middle/basic');
+const folderPath = path.join(__dirname, '../docs/.vuepress/public/imgs/summary-primary/tools');
 
 // 获取文件夹中所有文件的名称
 fs.readdir(folderPath, (err, files) => {
@@ -15,7 +15,7 @@ fs.readdir(folderPath, (err, files) => {
   files.forEach((file, index) => {
     // 构建旧文件路径和新文件路径
     const oldPath = path.join(folderPath, file);
-    const newPath = path.join(folderPath, file.replace('summary_primary_basic_', ''));
+    const newPath = path.join(folderPath, file.replace('summary_primary_tools_', ''));
 
     // 修改文件名
     fs.rename(oldPath, newPath, (err) => {
