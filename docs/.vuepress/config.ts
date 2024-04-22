@@ -1,5 +1,6 @@
-import { defineUserConfig, defaultTheme } from 'vuepress';
-// import { docsearchPlugin } from '@vuepress/plugin-docsearch';
+import { defineUserConfig } from 'vuepress';
+import { viteBundler } from '@vuepress/bundler-vite'
+import { defaultTheme } from '@vuepress/theme-default'
 import configSummaryPrimary from '../summary-primary/config';
 import configSummaryMiddle from '../summary-middle/config';
 import configSummarySenior from '../summary-senior/config';
@@ -13,8 +14,9 @@ export default defineUserConfig({
   title: '木风同学',
   description: '木风同学的技术博客',
   head: [
-    ['link', { rel: 'icon', href: '/icon/favicon.svg' }]
+    ['link', { rel: 'icon', href: '/blog/icon/favicon.svg' }]
   ],
+  bundler: viteBundler(),
   theme: defaultTheme({
     logo: '/icon/icon_fengye.png',
     repo: 'https://github.com/gaofengJ/blog',
