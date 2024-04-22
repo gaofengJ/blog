@@ -10,6 +10,7 @@ export default [
       '/summary-middle/engineering/wx-js-sdk-local-debugging.md',
       '/summary-middle/engineering/development-workflow.md',
       '/summary-middle/engineering/code-specification.md',
+      '/summary-middle/engineering/monorepo.md',
     ],
   },
   {
