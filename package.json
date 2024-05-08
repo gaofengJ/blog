@@ -4,13 +4,15 @@
   "description": "木风同学的技术博客",
   "main": "index.js",
   "scripts": {
-    "dev": "vuepress dev docs",
-    "build": "vuepress build docs"
+    "dev": "vitepress dev docs --port 8088",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gaofengJ/blog.git"
   },
+  "keywords": [],
   "author": "mufeng",
   "license": "ISC",
   "bugs": {
@@ -18,9 +20,6 @@
   },
   "homepage": "https://github.com/gaofengJ/blog#readme",
   "devDependencies": {
-    "@vuepress/bundler-vite": "2.0.0-rc.9",
-    "@vuepress/theme-default": "2.0.0-rc.26",
-    "vue": "^3.4.23",
-    "vuepress": "2.0.0-rc.9"
+    "vitepress": "^1.1.4"
   }
 }

@@ -481,7 +481,7 @@ app.listen(port, '0.0.0.0', () => {
 
 ![secrets](/imgs/summary-primary/basic/aliyun_deploy_12.png)
 
-点击New repository secret按钮，在Name中填入`SERVER_SSH_KEY`，用别的也可以，但是要与后面的`SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}`字段名保持统一。在Value中填入本地的阿里云私钥。
+点击New repository secret按钮，在Name中填入`SERVER_SSH_KEY`，用别的也可以，但是要与后面的`SSH_PRIVATE_KEY: ${{ ``secrets.SERVER_SSH_KEY`` }}`字段名保持统一。在Value中填入本地的阿里云私钥。
 
 ![secrets](/imgs/summary-primary/basic/aliyun_deploy_13.png)
 
