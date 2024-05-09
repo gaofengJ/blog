@@ -78,12 +78,12 @@ const getSideBarConfig = (dirs) => {
       const secondLevelDir = secondLevelDirs[j];
       const secondLevelDirPath = path.join(dir, secondLevelDir);
       const secondLevelDirstat = fs.statSync(secondLevelDirPath);
-      const configValueItem = {
-        text: '',
-        collapsed: true,
-        items: [],
-      };
       if (secondLevelDirstat.isDirectory()) {
+        const configValueItem = {
+          text: '',
+          collapsed: true,
+          items: [],
+        };
         const indexPath = `${secondLevelDirPath}/index.md`;
         const titleOfMd = getTitleOfMarkdown(indexPath);
         configValueItem.text = titleOfMd;
