@@ -2,7 +2,6 @@ export default {
   '/essay/': [
     {
       text: '汇总',
-      collapsed: true,
       items: [
         {
           text: '汇总demo',
@@ -14,7 +13,6 @@ export default {
   '/note/': [
     {
       text: 'JavaScript红宝书',
-      collapsed: true,
       items: [
         {
           text: '什么是JavaScript',
@@ -44,7 +42,6 @@ export default {
     },
     {
       text: '可视化',
-      collapsed: true,
       items: [
         {
           text: '01. 浏览器中实现可视化的四种方式',
@@ -132,7 +129,6 @@ export default {
   '/summary-middle/': [
     {
       text: '工程化',
-      collapsed: true,
       items: [
         {
           text: '编码规范',
@@ -170,7 +166,6 @@ export default {
     },
     {
       text: '综合能力',
-      collapsed: true,
       items: [
         {
           text: 'Markdown推荐语法',
@@ -184,7 +179,6 @@ export default {
     },
     {
       text: '框架',
-      collapsed: true,
       items: [
         {
           text: 'nuxt对Vue项目首页进行SEO优化',
@@ -202,7 +196,6 @@ export default {
     },
     {
       text: '库',
-      collapsed: true,
       items: [
         {
           text: '企微一键拉群方案',
@@ -212,7 +205,6 @@ export default {
     },
     {
       text: '性能优化',
-      collapsed: true,
       items: [
         {
           text: '性能优化',
@@ -222,14 +214,12 @@ export default {
     },
     {
       text: '工作原理',
-      collapsed: true,
       items: [],
     },
   ],
   '/summary-primary/': [
     {
       text: '前端基础',
-      collapsed: true,
       items: [
         {
           text: '阿里云ECS服务器项目部署',
@@ -239,7 +229,6 @@ export default {
     },
     {
       text: '浏览器',
-      collapsed: true,
       items: [
         {
           text: '浏览器',
@@ -249,7 +238,6 @@ export default {
     },
     {
       text: 'CSS',
-      collapsed: true,
       items: [
         {
           text: 'CSS',
@@ -259,7 +247,6 @@ export default {
     },
     {
       text: 'HTML',
-      collapsed: true,
       items: [
         {
           text: 'HTML简介',
@@ -269,7 +256,6 @@ export default {
     },
     {
       text: 'JavaScript',
-      collapsed: true,
       items: [
         {
           text: 'JavaScript',
@@ -279,7 +265,6 @@ export default {
     },
     {
       text: '研发工具',
-      collapsed: true,
       items: [
         {
           text: '解决Github访问慢的问题',
@@ -311,7 +296,6 @@ export default {
   '/summary-senior/': [
     {
       text: 'Nodejs',
-      collapsed: true,
       items: [
         {
           text: 'Nodejs',

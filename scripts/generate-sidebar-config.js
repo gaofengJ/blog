@@ -81,7 +81,7 @@ const getSideBarConfig = (dirs) => {
       if (secondLevelDirstat.isDirectory()) {
         const configValueItem = {
           text: '',
-          collapsed: true,
+          // collapsed: true,
           items: [],
         };
         const indexPath = `${secondLevelDirPath}/index.md`;
