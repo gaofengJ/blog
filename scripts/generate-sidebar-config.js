@@ -93,7 +93,7 @@ const getSideBarConfig = (dirs) => {
           const filePath = path.join(secondLevelDirPath, file);
           const fileStat = fs.statSync(filePath);
           const fileSuffix = getFileExtension(filePath);
-          if (fileStat.isFile() && INCLUDE_FILE_TYPE.includes(fileSuffix)) {
+          if (fileStat.isFile() && INCLUDE_FILE_TYPE.includes(fileSuffix) && file !== 'index.md') {
             const fileTitleOfMd = getTitleOfMarkdown(filePath);
             configValueItem.items.push({
               text: fileTitleOfMd,
@@ -101,8 +101,8 @@ const getSideBarConfig = (dirs) => {
             });
           }
         }
+        configValue.push(configValueItem);
       }
-      configValue.push(configValueItem);
     }
     config[`/${lastPathOfFistLevel}/`] = configValue;
   }

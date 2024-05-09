@@ -1,18 +1,9 @@
 export default {
   '/essay/': [
     {
-      text: '',
-      collapsed: true,
-      items: [],
-    },
-    {
       text: '汇总',
       collapsed: true,
       items: [
-        {
-          text: '汇总',
-          link: '/essay/summary/index.md',
-        },
         {
           text: '汇总demo',
           link: '/essay/summary/summary.md',
@@ -21,11 +12,6 @@ export default {
     },
   ],
   '/note/': [
-    {
-      text: '',
-      collapsed: true,
-      items: [],
-    },
     {
       text: 'JavaScript红宝书',
       collapsed: true,
@@ -53,10 +39,6 @@ export default {
         {
           text: '集合引用类型',
           link: '/note/red-book/chapter6.md',
-        },
-        {
-          text: 'JavaScript红宝书',
-          link: '/note/red-book/index.md',
         },
       ],
     },
@@ -137,10 +119,6 @@ export default {
           link: '/note/visualization/chapter9.md',
         },
         {
-          text: '可视化',
-          link: '/note/visualization/index.md',
-        },
-        {
           text: '前言-可视化是什么？',
           link: '/note/visualization/preface1.md',
         },
@@ -169,10 +147,6 @@ export default {
           link: '/summary-middle/engineering/docker.md',
         },
         {
-          text: '工程化',
-          link: '/summary-middle/engineering/index.md',
-        },
-        {
           text: 'Monorepo',
           link: '/summary-middle/engineering/monorepo.md',
         },
@@ -199,10 +173,6 @@ export default {
       collapsed: true,
       items: [
         {
-          text: '综合能力',
-          link: '/summary-middle/entire/index.md',
-        },
-        {
           text: 'Markdown推荐语法',
           link: '/summary-middle/entire/markdown.md',
         },
@@ -216,10 +186,6 @@ export default {
       text: '框架',
       collapsed: true,
       items: [
-        {
-          text: '框架',
-          link: '/summary-middle/frame/index.md',
-        },
         {
           text: 'nuxt对Vue项目首页进行SEO优化',
           link: '/summary-middle/frame/nuxt-seo.md',
@@ -235,18 +201,9 @@ export default {
       ],
     },
     {
-      text: '',
-      collapsed: true,
-      items: [],
-    },
-    {
       text: '库',
       collapsed: true,
       items: [
-        {
-          text: '库',
-          link: '/summary-middle/library/index.md',
-        },
         {
           text: '企微一键拉群方案',
           link: '/summary-middle/library/wx-create-group.md',
@@ -259,10 +216,6 @@ export default {
       items: [
         {
           text: '性能优化',
-          link: '/summary-middle/performance/index.md',
-        },
-        {
-          text: '性能优化',
           link: '/summary-middle/performance/performance.md',
         },
       ],
@@ -270,12 +223,7 @@ export default {
     {
       text: '工作原理',
       collapsed: true,
-      items: [
-        {
-          text: '工作原理',
-          link: '/summary-middle/principle/index.md',
-        },
-      ],
+      items: [],
     },
   ],
   '/summary-primary/': [
@@ -287,10 +235,6 @@ export default {
           text: '阿里云ECS服务器项目部署',
           link: '/summary-primary/basic/aliyun-deploy.md',
         },
-        {
-          text: '前端基础',
-          link: '/summary-primary/basic/index.md',
-        },
       ],
     },
     {
@@ -300,10 +244,6 @@ export default {
         {
           text: '浏览器',
           link: '/summary-primary/browser/browser.md',
-        },
-        {
-          text: '浏览器',
-          link: '/summary-primary/browser/index.md',
         },
       ],
     },
@@ -315,10 +255,6 @@ export default {
           text: 'CSS',
           link: '/summary-primary/css/css.md',
         },
-        {
-          text: 'CSS',
-          link: '/summary-primary/css/index.md',
-        },
       ],
     },
     {
@@ -329,25 +265,12 @@ export default {
           text: 'HTML简介',
           link: '/summary-primary/html/html.md',
         },
-        {
-          text: 'HTML',
-          link: '/summary-primary/html/index.md',
-        },
       ],
-    },
-    {
-      text: '',
-      collapsed: true,
-      items: [],
     },
     {
       text: 'JavaScript',
       collapsed: true,
       items: [
-        {
-          text: 'JavaScript',
-          link: '/summary-primary/javascript/index.md',
-        },
         {
           text: 'JavaScript',
           link: '/summary-primary/javascript/javascript.md',
@@ -365,10 +288,6 @@ export default {
         {
           text: '使用ssh连接github',
           link: '/summary-primary/tools/github-ssh.md',
-        },
-        {
-          text: '研发工具',
-          link: '/summary-primary/tools/index.md',
         },
         {
           text: 'Mac常用快捷键',
@@ -391,18 +310,9 @@ export default {
   ],
   '/summary-senior/': [
     {
-      text: '',
-      collapsed: true,
-      items: [],
-    },
-    {
       text: 'Nodejs',
       collapsed: true,
       items: [
-        {
-          text: 'Nodejs',
-          link: '/summary-senior/nodejs/index.md',
-        },
         {
           text: 'Nodejs',
           link: '/summary-senior/nodejs/nodejs.md',
