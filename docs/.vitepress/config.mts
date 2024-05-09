@@ -1,8 +1,10 @@
 import { defineConfig } from 'vitepress';
-import navConfig from '../src/nav-config.mts'
+import navConfig from '../src/nav-config.mts';
+import sidebarConfig from '../src/sidebar-config.mts';
 
 export default defineConfig({
   base: '/blog/',
+  cleanUrls: true,
   lang: 'zh-CN',
   title: "Mufeng's blog",
   description: "木风同学的技术博客",
@@ -13,30 +15,7 @@ export default defineConfig({
   themeConfig: {
     logo: '/imgs/fengye.png',
     nav: navConfig,
-    sidebar: {
-      '/summary-primary/': [
-        {
-          text: '前端基础',
-          collapsed: true,
-          items: [
-            {
-              text: 'Index',
-              link: '/summary-primary/'
-            },
-            {
-              text: '111',
-              link: '/summary-primary/basic/aliyun-deploy.md',
-            },
-          ],
-        },
-      ],
-      '/summary-middle/': [
-        {
-          text: '工程化',
-          link: '/summary-middle/engineering/package-mng',
-        }
-      ]
-    },
+    sidebar: sidebarConfig,
     socialLinks: [
       { icon: 'github', link: 'https://github.com/gaofengJ/blog' },
     ],

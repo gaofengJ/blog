@@ -1,3 +1,3 @@
-const { generateNavConfig } = require('./generate-nav-config');
+const { generateSideBarConfig } = require('./generate-sidebar-config');
 
-generateNavConfig();
+generateSideBarConfig();

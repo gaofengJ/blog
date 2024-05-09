@@ -16,5 +16,7 @@ module.exports = {
     'no-continue': 'off',
     'prefer-destructuring': 'off',
     'import/prefer-default-export': 'off',
+    'import/no-unresolved': 'off',
+    'import/extensions': 'off',
   },
 };
