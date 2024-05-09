@@ -33,7 +33,7 @@ GPU 是由大量的小型处理单元构成的，它可能远远没有 CPU 那�
 
 ### 一、创建 WebGL 上下文
 
-```javascript
+```js
   const canvas = document.querySelector('canvas');
   const gl = canvas.getContext('webgl');
 ```
@@ -52,7 +52,7 @@ WebGL 绘制一个图形的过程，一般需要用到两段着色器。
 
 * 另一段叫**片元着色器**（Fragment Shader）负责处理图形的像素信息。顶点处理完成之后，WebGL 就会根据顶点和绘图模式指定的图元，计算出需要着色的像素点，然后对它们执行片元着色器程序。简单来说，就是对指定图元中的像素点着色。**无论有多少个像素点，片元着色器都可以同时处理。**
 
-```javascript
+```js
   const vertex = `
     attribute vec2 position;
 
@@ -91,7 +91,7 @@ WebGL 绘制一个图形的过程，一般需要用到两段着色器。
 
 WebGL 的坐标系是一个三维空间坐标系，坐标原点是（0,0,0）。其中，x 轴朝右，y 轴朝上，z 轴朝外。
 
-```javascript
+```js
   // 定义三角形顶点，使用Float32Array这种类型化数组来处理二进制缓冲区
   const points = new Float32Array([
     -1, -1,
@@ -106,7 +106,7 @@ WebGL 的坐标系是一个三维空间坐标系，坐标原点是（0,0,0）。
 
 ### 四、将缓冲区数据读取到 GPU
 
-```javascript
+```js
   const vPosition = gl.getAttribLocation(program, 'position'); // 获取顶点着色器中的position变量的地址
   gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0); // 给变量设置长度和类型
   gl.enableVertexAttribArray(vPosition); // 激活这个变量
@@ -114,7 +114,7 @@ WebGL 的坐标系是一个三维空间坐标系，坐标原点是（0,0,0）。
 
 ### 五、执行着色器程序完成绘制
 
-```javascript
+```js
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES, 0, points.length / 2);
 ```

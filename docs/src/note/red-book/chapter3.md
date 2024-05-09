@@ -11,7 +11,7 @@ ECMA-262 第5 版（ES5）定义的ECMAScript，是目前为止实现得最为�
 
 一、即使未初始化的变量会被自动赋予undefined 值，但我们仍然建议在声明变量的同时进行初始化。这样，当typeof 返回"undefined"时，你就会知道那是因为给定的变量尚未声明，而不是声明了但未初始化。例如：
 
-```javascript
+```js
 let message; // 这个变量被声明了，只是值为undefined
 // let age;
 console.log('typeof message', typeof message);

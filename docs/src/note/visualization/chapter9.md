@@ -23,7 +23,7 @@ description: 可视化
 
 * 旋转
 
-```javascript
+```js
 class Vector2D {
   rotate(rad) {
     const c = Math.cos(rad),
@@ -60,7 +60,7 @@ class Vector2D {
 
 #### 1.定义三角形的顶点并将数据送到缓冲区
 
-```javascript
+```js
 
 const position = new Float32Array([
   -1, -1,
@@ -80,7 +80,7 @@ gl.enableVertexAttribArray(vPosition);
 
 具体来说就是，利用 randomTriangles 随机创建一个三角形的信息，其中的参数包括颜色 u_color、初始旋转角度 u_rotation、初始大小 u_scale、初始时间 u_time、动画持续时间 u_diration、运动方向 u_dir 和创建时间 startTime。除了 startTime 之外的数据，我们都需要传给 shader 去处理。
 
-```javascript
+```js
 
 function randomTriangles() {
   const u_color = [Math.random(), Math.random(), Math.random(), 1.0]; // 随机颜色

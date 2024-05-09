@@ -5,7 +5,7 @@ description: 可视化
 
 ## 如何用向量描述曲线
 
-```javascript
+```js
 function regularShape(edges = 3, x, y, step) {
   const ret = [];
   const delta = Math.PI * (1 - (edges - 2) / edges);
@@ -27,7 +27,7 @@ draw(regularShape(60, 128, -64, 6));  // 绘制六十边形
 
 ![圆的参数方程](/imgs/note/visualization/chapter7_circle.png)
 
-```javascript
+```js
 
 const TAU_SEGMENTS = 60;
 const TAU = Math.PI * 2;

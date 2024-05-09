@@ -61,7 +61,7 @@ description: 工程化
 
 #### 二、修改本地api代理
 
-```javascript
+```js
 devServer: {
   historyApiFallback: true,
   allowedHosts: 'all',

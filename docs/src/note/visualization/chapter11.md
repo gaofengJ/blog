@@ -31,7 +31,7 @@ canvas {
 
 #### 4.将顶点数据送入缓冲区
 
-```javascript
+```js
 //顶点着色器:
 attribute vec2 a_vertexPosition;
 attribute vec2 uv;

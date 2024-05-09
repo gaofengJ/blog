@@ -27,7 +27,7 @@ RGBA 其实就是在 RGB 的基础上增加了一个 Alpha 通道，也就是透
 
 RGB 和 HSV 的转换代码：
 
-```javascript
+```js
 vec3 rgb2hsv(vec3 c){
   vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
   vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));

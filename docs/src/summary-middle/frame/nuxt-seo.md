@@ -223,7 +223,7 @@ winpty npx.cmd create-nuxt-app nuxt-demo
 
 这部分是重点，因为Nuxt很多东西其实在一开始就都配置好了，比如像它的目录结构，官方都建议一般不要修改。如果想修改配置的话，必须在nuxt.config.js中进行修改。Nuxt关于配置的文档很多，这里直说我用到的部分。
 
-```javascript
+```js
 inport webpack from 'webpack'
 export default {
   ssr: false, // 是否启用服务端渲染。默认为false，创建时可选择
@@ -309,7 +309,7 @@ export default {
 
 * 使用第三方插件时：
 
-  ```javascript
+  ```js
   plugins: [
     {
       src: '~plugins/log.js',
@@ -331,7 +331,7 @@ Nuxtjs中在进行路由导航时提供了```<nuxt-link to="/"></nuxt-link>```�
 
 另外也为我们提供了一种方法（inject(key, value)）来注册全局方法（变量）：
 
-```javascript
+```js
 // plugins/hello.js
 export default ({ app }, inject) => {
   // Inject $hello(msg) in Vue, context and store.
@@ -339,7 +339,7 @@ export default ({ app }, inject) => {
 }
 ```
 
-```javascript
+```js
 // nuxt.config.js
 export default {
   plugins: ['~/plugins/hello.js']
@@ -348,7 +348,7 @@ export default {
 
 然后就可以在页面、组件、插件中使用了。
 
-```javascirpt
+``````js
 // a.vue
 export default {
   mounted() {
@@ -365,7 +365,7 @@ export default {
 
 ##### 四、Nuxt支持在页面中加入head信息
 
-```javascript
+```js
 export default {
   data () {
     return {}
@@ -389,7 +389,7 @@ Nuxt.js 依据 pages 目录结构自动生成 vue-router 模块的路由配置�
 
 * 基础路由
 
-```javascirpt
+``````js
 pages/
 --| user/
 -----| index.vue
@@ -399,7 +399,7 @@ pages/
 
 那么，Nuxt.js 自动生成的路由配置如下：
 
-```javascript
+```js
 router: {
   routes: [
     {
@@ -429,7 +429,7 @@ router: {
 
 文件路径：
 
-```javascript
+```js
 pages/
 --| users/
 -----| _id.vue // 以下划线作为前缀的Vue文件：动态路由，做SSR的时候可能会用到
@@ -439,7 +439,7 @@ pages/
 
 Nuxt.js 自动生成的路由配置如下：
 
-```javascript
+```js
 router: {
   routes: [
     {

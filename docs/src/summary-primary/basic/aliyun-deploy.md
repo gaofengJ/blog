@@ -452,7 +452,7 @@ vim front-deploy-server.js // 编辑文件
 
 front-deploy-server.js内容为
 
-```javascript
+```js
 const express = require('express')
 const app = express()
 const port = 300X // 填入自己的阿里云映射端口，在网络安全组配置。

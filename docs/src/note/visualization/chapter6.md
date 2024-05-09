@@ -7,7 +7,7 @@ description: 可视化
 
 ### 向量的方向定义
 
-```javascript
+```js
 const getDir = (y, x) => {
   return Math.atan2(y, x); // atan2 方法返回一个 -pi 到 pi 之间的数值。表示点 (x, y) 对应的偏移角度
 }
@@ -20,7 +20,7 @@ const isInRange = (v) => {
 
 现在有两个 N 维向量 a 和 b，a = [a1, a2, ...an]，b = [b1, b2, ...bn]，那向量的点积代码如下：
 
-```javascript
+```js
 a•b = a1*b1 + a2*b2 + ... + an*bn
 ```
 
@@ -32,7 +32,7 @@ a•b = a1*b1 + a2*b2 + ... + an*bn
 
 ### 解决方案
 
-```javascript
+```js
 
 const isInRange = Math.abs(new Vec2(0, 1).cross(v0.normalize())) <= 0.5; // v0.normalize()即将v0归一化
 ```

@@ -21,7 +21,7 @@ description: 工程化
 
 ## 代码
 
-```javascript
+```js
 // 一键拉群弹窗确定
 const handleConfirm = async (id, peopleList: string[]) => {
   try {

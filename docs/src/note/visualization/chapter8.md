@@ -49,7 +49,7 @@ WebGL 虽然没有提供自动填充多边形的方法，但是可以用三角�
 
 isPointInPath 仅能判断鼠标是否在最后一次绘制的小三角形内，所以大多边形就没有被识别出来。
 
-```javascript
+```js
 
 const {left, top} = canvas.getBoundingClientRect();
 

@@ -25,7 +25,7 @@ Canvas 的坐标系和浏览器窗口的坐标系类似，它们都默认左上�
 
 ### 1. 获取 Canvas 上下文
 
-```javascript
+```js
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 ```
@@ -59,7 +59,7 @@ Canvas 的 API 大体可以分为两类：
 
 代码：
 
-```javascript
+```js
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 
@@ -73,7 +73,7 @@ context.fill();
 
 ## 四、如果绘制层次关系图
 
-```javascript
+```js
 const dataSource = 'https://s5.ssl.qhres.com/static/b0695e2dd30daa64.json';
 (async function () {
   const data = await (await fetch(dataSource)).json();
