@@ -27,26 +27,26 @@ Homebrew Cask 是 Homebrew 的扩展，借助它可以方便地在 macOS 上安�
 
 * 查看 Homebrew版本：
 
-```shell
+```sh
 brew -v
 ```
 
 * 更新 Homebrew：
 
-```shell
+```sh
 sudo brew update
 ```
 
 * 安装 homebrew cask：
 
-```shell
+```sh
 brew tap homebrew/cask && brew install brew-cask
 brew install brew-cask-completion
 ```
 
 使用 Homebrew 来安装 Docker：
 
-```shell
+```sh
 brew install --cask docker
 ```
 
@@ -60,14 +60,14 @@ brew install --cask docker
 
 此时，你可以在终端通过命令检查安装后的 Docker 版本：
 
-```shell
+```sh
 docker --version
 Docker version 20.10.24, build 297e128
 ```
 
 如果 docker version、docker info 都正常的话，可以尝试运行一个 Nginx 服务器：
 
-```shell
+```sh
 docker run -d -p 80:80 --name webserver nginx
 ```
 
@@ -89,7 +89,7 @@ docker run -d -p 80:80 --name webserver nginx
 
 要停止 Nginx 服务器并删除执行下面的命令：
 
-```shell
+```sh
 docker stop webserver
 docker rm webserver
 ```
@@ -131,7 +131,7 @@ docker-test
 
 创建好文件后，可以根据 `Dockerfile` 创建镜像了：
 
-```shell
+```sh
 cd docker-test
 docker image build ./ -t docker-test:1.0.0 # 打包镜像
 ```
@@ -144,7 +144,7 @@ docker image build ./ -t docker-test:1.0.0 # 打包镜像
 
 根据镜像创建容器：
 
-```shell
+```sh
 docker container create -p 2233:80 docker-test:1.0.0 # 基于docker-test:1.0.0镜像创建一个容器，-p：指定端口绑定-将容器中的80端口绑定在宿主机的2333端口，该命令会返回一个容器ID
 docker container start xxx # xxx 为上一条命令运行得到的结果
 ```
@@ -155,7 +155,7 @@ docker container start xxx # xxx 为上一条命令运行得到的结果
 
 当容器运行后，可以通过如下命令进入容器内部：
 
-```shell
+```sh
 docker container exec -it xxx /bin/bash # xxx 为容器ID
 ```
 

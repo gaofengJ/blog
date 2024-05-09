@@ -117,7 +117,7 @@ Nuxt.js 集成了以下组件/框架，用于开发完整而强大的 Web 应用
 在git bash中创建项目时，方向键可能失效，使用winpty npx.cmd可以解决此问题。
 执行下列代码然后选择配置项进行安装。
 
-```shell
+```sh
 npx create-nuxt-app nuxt-demo或
 winpty npx.cmd create-nuxt-app nuxt-demo
 ```

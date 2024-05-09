@@ -47,7 +47,7 @@ Ubuntu中的包管理工具就是apt。
 
 ### 1、首先更新Ubuntu软件源
 
-```shell
+```sh
 sudo apt-get update
 sudo apt-get install -y python-software-properties software-properties-common
 sudo add-apt-repository ppa:chris-lea/node.js
@@ -56,7 +56,7 @@ sudo apt-get update
 
 ### 2、安装Nodejs
 
-```shell
+```sh
 sudo apt-get install nodejs
 sudo apt install nodejs-legacy
 sudo apt install npm
@@ -64,25 +64,25 @@ sudo apt install npm
 
 ### 3、更新npm的包镜像源
 
-```shell
+```sh
 sudo npm config set registry https://registry.npm.taobao.org
 ```
 
 ### 4、全局安装n管理器（用于管理nodejs版本）
 
-```shell
+```sh
 sudo npm install n -g
 ```
 
 ### 5、安装最新版n管理器
 
-```shell
+```sh
 sudo n latest
 ```
 
 ### 6、提示设置PATH
 
-```shell
+```sh
 PATH="$PATH"
 ```
 
@@ -96,7 +96,7 @@ Nginx是一个高性能的HTTP服务器，占有内存少，并发能力强，�
 
 这里我用的是apt安装。
 
-```shell
+```sh
 sudo apt-get install nginx
 ```
 
@@ -142,7 +142,7 @@ Nginx常用命令：
 
 摘录自[菜鸟教程](https://www.runoob.com/w3cnote/nginx-setup-intro.html)
 
-```conf
+```sh
 ########### 每个指令必须有分号结束。#################
 #user administrator administrators;  #配置用户或者组，默认为nobody nobody。
 #worker_processes 2;  #允许生成的进程数，默认为1
@@ -186,7 +186,7 @@ http {
 
 Nginx的默认配置在`/etc/nginx/nginx.conf`中。初始配置如下：
 
-```conf
+```sh
 user www-data;
 worker_processes auto;
 pid /run/nginx.pid;
@@ -277,7 +277,7 @@ http {
 
 配置文件中引入了下面两个文件夹的内容，都是Nginx的默认配置。
 
-```conf
+```sh
 include /etc/nginx/conf.d/*.conf;
 include /etc/nginx/sites-enabled/*;
 ```
@@ -288,7 +288,7 @@ include /etc/nginx/sites-enabled/*;
 
 在覆盖默认配置的同学，我将root做了修改，指向了之后放置前端项目的目录/home/mufeng-front，并在前端项目的目录下新建了一个index.html用来测试。修改后配置如下：
 
-```conf
+```sh
 user www-data;
 worker_processes auto;
 pid /run/nginx.pid;
@@ -441,7 +441,7 @@ http {
 
 连接到远程服务器之后，选择合适的文件夹，我选择的是/home目录
 
-```shell
+```sh
 mkdir Mufeng-Deploy // 创建文件夹
 cd Mufeng-Deploy // 进入文件夹
 npm init -y // 初始化项目
@@ -545,7 +545,7 @@ jobs:
 
 之前Nginx中的这一行需要改一下：
 
-```conf
+```sh
 root /home/mufeng-front;
 改为：
 root /home/mufeng-front/dist;
@@ -561,7 +561,7 @@ root /home/mufeng-front/dist;
 
 ### 1、安装MySQL
 
-```shell
+```sh
 sudo apt-get install mysql-server
 sudo apt-get install mysql-client
 sudo apt-get install libmysqlclient-dev // 找了好久也没搞清楚这个包是做什么的，干脆就直接装上了。
@@ -576,7 +576,7 @@ sudo apt-get install libmysqlclient-dev // 找了好久也没搞清楚这个包�
 
 ### 2、登录
 
-```shell
+```sh
 mysql -uroot -proot对应的密码
 或者mysql -uroot -p 回车后再输入密码
 ```
@@ -589,14 +589,14 @@ mysql -uroot -proot对应的密码
 
 * 进入mysql服务，执行授权命令
 
-```shell
+```sh
 grant all on *.* to root@'%' identified by '你的密码' with grant option;
 flush privileges;
 ```
 
 * 然后执行quit退出mysql服务，重启mysql
 
-```shell
+```sh
 sudo service mysql restart
 ```
 
@@ -627,7 +627,7 @@ sudo service mysql restart
 
 在之前部署前端项目时新建的项目中添加back-deploy-server.js文件。
 
-```shell
+```sh
 cd Mufeng-Deploy // 进入文件夹
 touch back-deploy-server.js // 创建js文件
 vim back-deploy-server.js // 编辑文件
@@ -635,7 +635,7 @@ vim back-deploy-server.js // 编辑文件
 
 back-deploy-server.js内容为
 
-```shell
+```sh
 const express = require('express')
 const app = express()
 const port = 300X // 填入自己的阿里云映射端口，在网络安全组配置。这里我使用了和前端项目不同的端口

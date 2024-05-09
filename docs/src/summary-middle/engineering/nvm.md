@@ -13,7 +13,7 @@ nvm 是 Node.js 的版本管理工具，可以创建不同版本 Node 的隔离�
 
 #### 1、终端下查看 Node 的全局安装目录
 
-```shell
+```sh
 which node
 /usr/local/bin/node
 ```
@@ -37,7 +37,7 @@ which node
 
 #### 1、直接安装
 
-```shell
+```sh
 sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 ```
 
@@ -47,20 +47,20 @@ sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | 
 
 (1). 安装 Homebrew：
 
-```shell
+```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 (2). 安装 nvm：
 
-```shell
+```sh
 brew update 
 brew install nvm
 ```
 
 (3). 将以下两行代码加到你的启动脚本中 (~/.bash_profile, ~/.zshrc, ~/.profile, 或者 ~/.bashrc)：
 
-```shell
+```sh
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -72,7 +72,7 @@ export NVM_DIR="$HOME/.nvm"
 
 输入以下命令来测试 nvm 是否安装成功。
 
-```shell
+```sh
 npm --version
 0.33.6
 ```

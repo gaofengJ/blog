@@ -9,7 +9,7 @@ description: Shell脚本入门
 
 ### 示例
 
-```shell
+```sh
 #!/bin/sh
 cd ~
 mkdir shell_tut

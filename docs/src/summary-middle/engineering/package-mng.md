@@ -17,7 +17,7 @@ description: 工程化
 
 解决方案：
 
-```shell
+```sh
 # 让 shell 运行在 Rosetta2 下
 arch -x86_64 zsh
 ```
@@ -78,7 +78,7 @@ cnpm 是阿里巴巴推出的包管理工具，安装之后默认会使用 regis
 
 cnpm 不生成 版本锁定 lock 文件，也不会识别项目下的 lock 文件，所以还是推荐使用 npm 或者其他包管理工具，通过绑定镜像源的方式来管理项目的包。
 
-```shell
+```sh
 npm install -g cnpm
 
 # 或者
