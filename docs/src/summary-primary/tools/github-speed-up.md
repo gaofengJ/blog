@@ -15,7 +15,7 @@ Mac中hosts文件地址：`/etc/hosts`。
 
 由于权限问题我们无法直接修改该文件，把该文件拖到桌面上，修改完成之后再复制回覆盖原文件即可。
 
-```hosts
+```sh
 # github dns映射
 199.232.69.194 github.global.ssl.Fastly.net
 140.82.114.4 GitHub.com
