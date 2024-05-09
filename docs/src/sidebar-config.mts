@@ -1,368 +1,413 @@
 export default {
   '/essay/': [
     {
-      'text': '汇总',
-      'items': [
+      text: '',
+      collapsed: true,
+      items: [],
+    },
+    {
+      text: '汇总',
+      collapsed: true,
+      items: [
         {
-          'text': '汇总',
-          'link': '/essay/summary/index.md'
+          text: '汇总',
+          link: '/essay/summary/index.md',
         },
         {
-          'text': '汇总demo',
-          'link': '/essay/summary/summary.md'
-        }
-      ]
-    }
+          text: '汇总demo',
+          link: '/essay/summary/summary.md',
+        },
+      ],
+    },
   ],
   '/note/': [
     {
-      'text': 'JavaScript红宝书',
-      'items': [
-        {
-          'text': '什么是JavaScript',
-          'link': '/note/red-book/chapter1.md'
-        },
-        {
-          'text': 'HTML中的JavaScript',
-          'link': '/note/red-book/chapter2.md'
-        },
-        {
-          'text': '语言基础',
-          'link': '/note/red-book/chapter3.md'
-        },
-        {
-          'text': '变量、作用域与内存',
-          'link': '/note/red-book/chapter4.md'
-        },
-        {
-          'text': '基本引用类型',
-          'link': '/note/red-book/chapter5.md'
-        },
-        {
-          'text': '集合引用类型',
-          'link': '/note/red-book/chapter6.md'
-        },
-        {
-          'text': 'JavaScript红宝书',
-          'link': '/note/red-book/index.md'
-        }
-      ]
+      text: '',
+      collapsed: true,
+      items: [],
     },
     {
-      'text': '可视化',
-      'items': [
+      text: 'JavaScript红宝书',
+      collapsed: true,
+      items: [
         {
-          'text': '01. 浏览器中实现可视化的四种方式',
-          'link': '/note/visualization/chapter1.md'
+          text: '什么是JavaScript',
+          link: '/note/red-book/chapter1.md',
         },
         {
-          'text': '10. 图形系统如何表示颜色',
-          'link': '/note/visualization/chapter10.md'
+          text: 'HTML中的JavaScript',
+          link: '/note/red-book/chapter2.md',
         },
         {
-          'text': '11. 图案生成：如何生成重复图案、分形图案以及随机效果',
-          'link': '/note/visualization/chapter11.md'
+          text: '语言基础',
+          link: '/note/red-book/chapter3.md',
         },
         {
-          'text': '12. 如何使用滤镜函数实现美颜效果',
-          'link': '/note/visualization/chapter12.md'
+          text: '变量、作用域与内存',
+          link: '/note/red-book/chapter4.md',
         },
         {
-          'text': '18. 如何生成简单动画让图形动起来',
-          'link': '/note/visualization/chapter18.md'
+          text: '基本引用类型',
+          link: '/note/red-book/chapter5.md',
         },
         {
-          'text': '02. 指令式绘图：如何用Canvas绘制层次关系图',
-          'link': '/note/visualization/chapter2.md'
+          text: '集合引用类型',
+          link: '/note/red-book/chapter6.md',
         },
         {
-          'text': '28. Canvas、SVG与WebGL在性能上的优势与劣势',
-          'link': '/note/visualization/chapter28.md'
+          text: 'JavaScript红宝书',
+          link: '/note/red-book/index.md',
+        },
+      ],
+    },
+    {
+      text: '可视化',
+      collapsed: true,
+      items: [
+        {
+          text: '01. 浏览器中实现可视化的四种方式',
+          link: '/note/visualization/chapter1.md',
         },
         {
-          'text': '29. 怎么给Canvas绘制加速',
-          'link': '/note/visualization/chapter29.md'
+          text: '10. 图形系统如何表示颜色',
+          link: '/note/visualization/chapter10.md',
         },
         {
-          'text': '03. 声明式图形系统：如何用SVG图形元素绘制可视化图表?',
-          'link': '/note/visualization/chapter3.md'
+          text: '11. 图案生成：如何生成重复图案、分形图案以及随机效果',
+          link: '/note/visualization/chapter11.md',
         },
         {
-          'text': '30. 怎么给WebGL绘制加速',
-          'link': '/note/visualization/chapter30.md'
+          text: '12. 如何使用滤镜函数实现美颜效果',
+          link: '/note/visualization/chapter12.md',
         },
         {
-          'text': '31. 针对海量数据，如何优化性能',
-          'link': '/note/visualization/chapter31.md'
+          text: '18. 如何生成简单动画让图形动起来',
+          link: '/note/visualization/chapter18.md',
         },
         {
-          'text': '32. 数据之美：如何选择合适的方法对数据进行可视化处理',
-          'link': '/note/visualization/chapter32.md'
+          text: '02. 指令式绘图：如何用Canvas绘制层次关系图',
+          link: '/note/visualization/chapter2.md',
         },
         {
-          'text': '04. GPU与渲染管线：如何用 WebGL 绘制最简单的几何图形?',
-          'link': '/note/visualization/chapter4.md'
+          text: '28. Canvas、SVG与WebGL在性能上的优势与劣势',
+          link: '/note/visualization/chapter28.md',
         },
         {
-          'text': '05. 如何用向量和坐标系描述点和线段？',
-          'link': '/note/visualization/chapter5.md'
+          text: '29. 怎么给Canvas绘制加速',
+          link: '/note/visualization/chapter29.md',
         },
         {
-          'text': '06. 可视化中必须要掌握的向量乘法知识',
-          'link': '/note/visualization/chapter6.md'
+          text: '03. 声明式图形系统：如何用SVG图形元素绘制可视化图表?',
+          link: '/note/visualization/chapter3.md',
         },
         {
-          'text': '07. 可视化中必须要掌握的向量乘法知识',
-          'link': '/note/visualization/chapter7.md'
+          text: '30. 怎么给WebGL绘制加速',
+          link: '/note/visualization/chapter30.md',
         },
         {
-          'text': '08. 如何利用三角剖分和向量操作描述并处理多边形',
-          'link': '/note/visualization/chapter8.md'
+          text: '31. 针对海量数据，如何优化性能',
+          link: '/note/visualization/chapter31.md',
         },
         {
-          'text': '09. 如何用仿射变换对几何图形进行坐标变换',
-          'link': '/note/visualization/chapter9.md'
+          text: '32. 数据之美：如何选择合适的方法对数据进行可视化处理',
+          link: '/note/visualization/chapter32.md',
         },
         {
-          'text': '可视化',
-          'link': '/note/visualization/index.md'
+          text: '04. GPU与渲染管线：如何用 WebGL 绘制最简单的几何图形?',
+          link: '/note/visualization/chapter4.md',
         },
         {
-          'text': '前言-可视化是什么？',
-          'link': '/note/visualization/preface1.md'
+          text: '05. 如何用向量和坐标系描述点和线段？',
+          link: '/note/visualization/chapter5.md',
         },
         {
-          'text': '前言-Web前端与可视化有什么区别？',
-          'link': '/note/visualization/preface2.md'
-        }
-      ]
-    }
+          text: '06. 可视化中必须要掌握的向量乘法知识',
+          link: '/note/visualization/chapter6.md',
+        },
+        {
+          text: '07. 可视化中必须要掌握的向量乘法知识',
+          link: '/note/visualization/chapter7.md',
+        },
+        {
+          text: '08. 如何利用三角剖分和向量操作描述并处理多边形',
+          link: '/note/visualization/chapter8.md',
+        },
+        {
+          text: '09. 如何用仿射变换对几何图形进行坐标变换',
+          link: '/note/visualization/chapter9.md',
+        },
+        {
+          text: '可视化',
+          link: '/note/visualization/index.md',
+        },
+        {
+          text: '前言-可视化是什么？',
+          link: '/note/visualization/preface1.md',
+        },
+        {
+          text: '前言-Web前端与可视化有什么区别？',
+          link: '/note/visualization/preface2.md',
+        },
+      ],
+    },
   ],
   '/summary-middle/': [
     {
-      'text': '工程化',
-      'items': [
+      text: '工程化',
+      collapsed: true,
+      items: [
         {
-          'text': '编码规范',
-          'link': '/summary-middle/engineering/code-specification.md'
+          text: '编码规范',
+          link: '/summary-middle/engineering/code-specification.md',
         },
         {
-          'text': '项目开发工作流',
-          'link': '/summary-middle/engineering/development-workflow.md'
+          text: '项目开发工作流',
+          link: '/summary-middle/engineering/development-workflow.md',
         },
         {
-          'text': 'Docker',
-          'link': '/summary-middle/engineering/docker.md'
+          text: 'Docker',
+          link: '/summary-middle/engineering/docker.md',
         },
         {
-          'text': '工程化',
-          'link': '/summary-middle/engineering/index.md'
+          text: '工程化',
+          link: '/summary-middle/engineering/index.md',
         },
         {
-          'text': 'Monorepo',
-          'link': '/summary-middle/engineering/monorepo.md'
+          text: 'Monorepo',
+          link: '/summary-middle/engineering/monorepo.md',
         },
         {
-          'text': 'nvm',
-          'link': '/summary-middle/engineering/nvm.md'
+          text: 'nvm',
+          link: '/summary-middle/engineering/nvm.md',
         },
         {
-          'text': '包管理器对比',
-          'link': '/summary-middle/engineering/package-mng.md'
+          text: '包管理器对比',
+          link: '/summary-middle/engineering/package-mng.md',
         },
         {
-          'text': '前端工程化规范',
-          'link': '/summary-middle/engineering/project-specification.md'
+          text: '前端工程化规范',
+          link: '/summary-middle/engineering/project-specification.md',
         },
         {
-          'text': '企微JS-SDK调试、验证',
-          'link': '/summary-middle/engineering/wx-js-sdk-local-debugging.md'
-        }
-      ]
+          text: '企微JS-SDK调试、验证',
+          link: '/summary-middle/engineering/wx-js-sdk-local-debugging.md',
+        },
+      ],
     },
     {
-      'text': '综合能力',
-      'items': [
+      text: '综合能力',
+      collapsed: true,
+      items: [
         {
-          'text': '综合能力',
-          'link': '/summary-middle/entire/index.md'
+          text: '综合能力',
+          link: '/summary-middle/entire/index.md',
         },
         {
-          'text': 'Markdown推荐语法',
-          'link': '/summary-middle/entire/markdown.md'
+          text: 'Markdown推荐语法',
+          link: '/summary-middle/entire/markdown.md',
         },
         {
-          'text': 'Shell脚本入门',
-          'link': '/summary-middle/entire/shell.md'
-        }
-      ]
+          text: 'Shell脚本入门',
+          link: '/summary-middle/entire/shell.md',
+        },
+      ],
     },
     {
-      'text': '框架',
-      'items': [
+      text: '框架',
+      collapsed: true,
+      items: [
         {
-          'text': '框架',
-          'link': '/summary-middle/frame/index.md'
+          text: '框架',
+          link: '/summary-middle/frame/index.md',
         },
         {
-          'text': 'nuxt对Vue项目首页进行SEO优化',
-          'link': '/summary-middle/frame/nuxt-seo.md'
+          text: 'nuxt对Vue项目首页进行SEO优化',
+          link: '/summary-middle/frame/nuxt-seo.md',
         },
         {
-          'text': 'tailwind使用',
-          'link': '/summary-middle/frame/tailwind.md'
+          text: 'tailwind使用',
+          link: '/summary-middle/frame/tailwind.md',
         },
         {
-          'text': '项目模板(vue3 + vite4)',
-          'link': '/summary-middle/frame/vue3-vite4-template.md'
-        }
-      ]
+          text: '项目模板(vue3 + vite4)',
+          link: '/summary-middle/frame/vue3-vite4-template.md',
+        },
+      ],
     },
     {
-      'text': '库',
-      'items': [
-        {
-          'text': '库',
-          'link': '/summary-middle/library/index.md'
-        },
-        {
-          'text': '企微一键拉群方案',
-          'link': '/summary-middle/library/wx-create-group.md'
-        }
-      ]
+      text: '',
+      collapsed: true,
+      items: [],
     },
     {
-      'text': '性能优化',
-      'items': [
+      text: '库',
+      collapsed: true,
+      items: [
         {
-          'text': '性能优化',
-          'link': '/summary-middle/performance/index.md'
+          text: '库',
+          link: '/summary-middle/library/index.md',
         },
         {
-          'text': '性能优化',
-          'link': '/summary-middle/performance/performance.md'
-        }
-      ]
+          text: '企微一键拉群方案',
+          link: '/summary-middle/library/wx-create-group.md',
+        },
+      ],
     },
     {
-      'text': '工作原理',
-      'items': [
+      text: '性能优化',
+      collapsed: true,
+      items: [
         {
-          'text': '工作原理',
-          'link': '/summary-middle/principle/index.md'
-        }
-      ]
-    }
+          text: '性能优化',
+          link: '/summary-middle/performance/index.md',
+        },
+        {
+          text: '性能优化',
+          link: '/summary-middle/performance/performance.md',
+        },
+      ],
+    },
+    {
+      text: '工作原理',
+      collapsed: true,
+      items: [
+        {
+          text: '工作原理',
+          link: '/summary-middle/principle/index.md',
+        },
+      ],
+    },
   ],
   '/summary-primary/': [
     {
-      'text': '前端基础',
-      'items': [
+      text: '前端基础',
+      collapsed: true,
+      items: [
         {
-          'text': '阿里云ECS服务器项目部署',
-          'link': '/summary-primary/basic/aliyun-deploy.md'
+          text: '阿里云ECS服务器项目部署',
+          link: '/summary-primary/basic/aliyun-deploy.md',
         },
         {
-          'text': '前端基础',
-          'link': '/summary-primary/basic/index.md'
-        }
-      ]
+          text: '前端基础',
+          link: '/summary-primary/basic/index.md',
+        },
+      ],
     },
     {
-      'text': '浏览器',
-      'items': [
+      text: '浏览器',
+      collapsed: true,
+      items: [
         {
-          'text': '浏览器',
-          'link': '/summary-primary/browser/browser.md'
+          text: '浏览器',
+          link: '/summary-primary/browser/browser.md',
         },
         {
-          'text': '浏览器',
-          'link': '/summary-primary/browser/index.md'
-        }
-      ]
+          text: '浏览器',
+          link: '/summary-primary/browser/index.md',
+        },
+      ],
     },
     {
-      'text': 'CSS',
-      'items': [
+      text: 'CSS',
+      collapsed: true,
+      items: [
         {
-          'text': 'CSS',
-          'link': '/summary-primary/css/css.md'
+          text: 'CSS',
+          link: '/summary-primary/css/css.md',
         },
         {
-          'text': 'CSS',
-          'link': '/summary-primary/css/index.md'
-        }
-      ]
+          text: 'CSS',
+          link: '/summary-primary/css/index.md',
+        },
+      ],
     },
     {
-      'text': 'HTML',
-      'items': [
+      text: 'HTML',
+      collapsed: true,
+      items: [
         {
-          'text': 'HTML简介',
-          'link': '/summary-primary/html/html.md'
+          text: 'HTML简介',
+          link: '/summary-primary/html/html.md',
         },
         {
-          'text': 'HTML',
-          'link': '/summary-primary/html/index.md'
-        }
-      ]
+          text: 'HTML',
+          link: '/summary-primary/html/index.md',
+        },
+      ],
     },
     {
-      'text': 'JavaScript',
-      'items': [
-        {
-          'text': 'JavaScript',
-          'link': '/summary-primary/javascript/index.md'
-        },
-        {
-          'text': 'JavaScript',
-          'link': '/summary-primary/javascript/javascript.md'
-        }
-      ]
+      text: '',
+      collapsed: true,
+      items: [],
     },
     {
-      'text': '研发工具',
-      'items': [
+      text: 'JavaScript',
+      collapsed: true,
+      items: [
         {
-          'text': '解决Github访问慢的问题',
-          'link': '/summary-primary/tools/github-speed-up.md'
+          text: 'JavaScript',
+          link: '/summary-primary/javascript/index.md',
         },
         {
-          'text': '使用ssh连接github',
-          'link': '/summary-primary/tools/github-ssh.md'
+          text: 'JavaScript',
+          link: '/summary-primary/javascript/javascript.md',
+        },
+      ],
+    },
+    {
+      text: '研发工具',
+      collapsed: true,
+      items: [
+        {
+          text: '解决Github访问慢的问题',
+          link: '/summary-primary/tools/github-speed-up.md',
         },
         {
-          'text': '研发工具',
-          'link': '/summary-primary/tools/index.md'
+          text: '使用ssh连接github',
+          link: '/summary-primary/tools/github-ssh.md',
         },
         {
-          'text': 'Mac常用快捷键',
-          'link': '/summary-primary/tools/mac-keyboard.md'
+          text: '研发工具',
+          link: '/summary-primary/tools/index.md',
         },
         {
-          'text': '用户环境文件对比',
-          'link': '/summary-primary/tools/sh-diff.md'
+          text: 'Mac常用快捷键',
+          link: '/summary-primary/tools/mac-keyboard.md',
         },
         {
-          'text': '解决VS Code下载慢的问题',
-          'link': '/summary-primary/tools/vscode-download.md'
+          text: '用户环境文件对比',
+          link: '/summary-primary/tools/sh-diff.md',
         },
         {
-          'text': 'Windows下换行符问题解决',
-          'link': '/summary-primary/tools/windows-vscode-lf.md'
-        }
-      ]
-    }
+          text: '解决VS Code下载慢的问题',
+          link: '/summary-primary/tools/vscode-download.md',
+        },
+        {
+          text: 'Windows下换行符问题解决',
+          link: '/summary-primary/tools/windows-vscode-lf.md',
+        },
+      ],
+    },
   ],
   '/summary-senior/': [
     {
-      'text': 'Nodejs',
-      'items': [
+      text: '',
+      collapsed: true,
+      items: [],
+    },
+    {
+      text: 'Nodejs',
+      collapsed: true,
+      items: [
         {
-          'text': 'Nodejs',
-          'link': '/summary-senior/nodejs/index.md'
-        }
-      ]
-    }
-  ]
-}
+          text: 'Nodejs',
+          link: '/summary-senior/nodejs/index.md',
+        },
+        {
+          text: 'Nodejs',
+          link: '/summary-senior/nodejs/nodejs.md',
+        },
+      ],
+    },
+  ],
+};

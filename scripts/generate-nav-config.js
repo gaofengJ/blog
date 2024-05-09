@@ -5,7 +5,7 @@ const EXCLUDED_FOLDERS = ['public'];
 const INCLUDE_FILE_TYPE = ['md'];
 const targetPath = path.join(__dirname, '../docs/src');
 // 输出文件地址
-const outputPath = path.join(targetPath, 'sidebar-config.mts');
+const outputPath = path.join(targetPath, 'nav-config.mts');
 
 /**
  * 获取文件名后缀
@@ -64,56 +64,40 @@ const getDirsPath = () => {
 };
 
 /**
- * 生成sidebar config
+ * 生成nav config
  */
-const getSideBarConfig = (dirs) => {
+const getNavConfig = (dirs) => {
   const regex = /\/([^/]+)$/; // 匹配最后一个斜杠后面的内容
-  const config = {};
+  const config = [];
   for (let i = 0; i < dirs.length; i++) { // 遍历一级路径
     const dir = dirs[i];
+    const configItem = {};
+    const indexPath = `${dir}/index.md`;
+    const titleOfMd = getTitleOfMarkdown(indexPath);
+    configItem.text = titleOfMd;
     const lastPathOfFistLevel = dir.match(regex)[1]; // 获取最后一级路径作为key
-    const configValue = [];
+
     const secondLevelDirs = fs.readdirSync(dir);
     for (let j = 0; j < secondLevelDirs.length; j++) { // 遍历二级路径
       const secondLevelDir = secondLevelDirs[j];
       const secondLevelDirPath = path.join(dir, secondLevelDir);
       const secondLevelDirstat = fs.statSync(secondLevelDirPath);
-      const configValueItem = {
-        text: '',
-        collapsed: true,
-        items: [],
-      };
-      if (secondLevelDirstat.isDirectory()) {
-        const indexPath = `${secondLevelDirPath}/index.md`;
-        const titleOfMd = getTitleOfMarkdown(indexPath);
-        configValueItem.text = titleOfMd;
+      if (secondLevelDirstat.isDirectory() && !configItem.link) {
         const files = fs.readdirSync(secondLevelDirPath);
-        for (let k = 0; k < files.length; k++) { // 遍历文件
-          const file = files[k];
-          const filePath = path.join(secondLevelDirPath, file);
-          const fileStat = fs.statSync(filePath);
-          const fileSuffix = getFileExtension(filePath);
-          if (fileStat.isFile() && INCLUDE_FILE_TYPE.includes(fileSuffix)) {
-            const fileTitleOfMd = getTitleOfMarkdown(filePath);
-            configValueItem.items.push({
-              text: fileTitleOfMd,
-              link: `/${lastPathOfFistLevel}/${secondLevelDir}/${file}`,
-            });
-          }
-        }
+        configItem.link = `/${lastPathOfFistLevel}/${secondLevelDir}/${files.filter((file) => file !== 'index.md')[0]}`;
       }
-      configValue.push(configValueItem);
     }
-    config[`/${lastPathOfFistLevel}/`] = configValue;
+    configItem.activeMatch = `/${lastPathOfFistLevel}/`;
+    config.push(configItem);
   }
   return config;
 };
 
-const generateSideBarConfig = () => {
+const generateNavConfig = () => {
   const dirs = getDirsPath();
-  const sidebarConfig = getSideBarConfig(dirs);
-  writeFile(sidebarConfig);
-  console.info('sidebar-config生成成功！');
+  const navConfig = getNavConfig(dirs);
+  writeFile(navConfig);
+  console.info('nav-config生成成功！');
 };
 
-module.exports = generateSideBarConfig;
+module.exports = generateNavConfig;
