@@ -31,5 +31,5 @@ export default [
   {
     text: '八股文',
     link: '/essay',
-  }
-]
+  },
+];
