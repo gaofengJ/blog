@@ -18,9 +18,9 @@ fs.readdir(folderPath, (err, files) => {
     const newPath = path.join(folderPath, file.replace('summary_primary_tools_', ''));
 
     // 修改文件名
-    fs.rename(oldPath, newPath, (err) => {
-      if (err) {
-        console.error(`Error renaming file ${oldPath}:`, err);
+    fs.rename(oldPath, newPath, (e) => {
+      if (e) {
+        console.error(`Error renaming file ${oldPath}:`, e);
       } else {
         console.log(`File ${oldPath} renamed to ${newPath}`);
       }
