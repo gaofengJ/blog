@@ -1,6 +1,6 @@
 ---
 title: 项目模板(vue3 + vite4)
-description: 项目模板(vue3 + vite4)
+description: 框架
 ---
 
 # 项目模板(vue3 + vite4)

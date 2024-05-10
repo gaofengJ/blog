@@ -1,7 +1,9 @@
 ---
 title: tailwind使用
-description: tailwind使用
+description: 框架
 ---
+
+# tailwind使用
 
 [tailwind官网](https://tailwind.nodejs.cn/)
 

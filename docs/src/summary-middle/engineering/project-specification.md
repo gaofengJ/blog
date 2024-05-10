@@ -4,7 +4,11 @@ description: 工程化
 keywords: Eslint、Prettier、Husky、Commitlint、Lint-staged
 ---
 
+# 前端工程化规范
+
 参考[https://juejin.cn/post/7038143752036155428](https://juejin.cn/post/7038143752036155428)。
+
+## 概述
 
 记录前端工程化规范，主要涉及的插件有：
 

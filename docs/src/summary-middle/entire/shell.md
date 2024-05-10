@@ -1,7 +1,9 @@
 ---
 title: Shell脚本入门
-description: Shell脚本入门
+description: 综合能力
 ---
+
+# Shell脚本入门
 
 本文转载自[https://github.com/qinjx/30min_guides/blob/master/shell.md](https://github.com/qinjx/30min_guides/blob/master/shell.md)。
 

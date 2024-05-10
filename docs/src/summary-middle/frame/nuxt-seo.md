@@ -1,14 +1,18 @@
 ---
 title: nuxt对Vue项目首页进行SEO优化
-description: nuxt对Vue项目首页进行SEO优化
+description: 框架
 ---
+
+# nuxt对Vue项目首页进行SEO优化
 
 参考：[关于SPA的SEO解决方案](https://medium.com/@keshidong.dev/%E5%85%B3%E4%BA%8Espa%E7%9A%84seo%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88-2639a63361ad)
 作者：[shidong ke](https://medium.com/@keshidong.dev/about)
 
 最近部门的项目有个需求，对首页进行SEO优化。
 
-需求背景：我们组的项目主要是前端Vue+Element，后端PHP+Yii。该项目并不是前后端完全分离的项目，index.html由后端提供，然后在index.html中引用前端项目生成的静态资源。鉴于时间成本和实际需要，先对首页及几个宣传页进行了改造。
+## 需求背景
+
+我们组的项目主要是前端Vue+Element，后端PHP+Yii。该项目并不是前后端完全分离的项目，index.html由后端提供，然后在index.html中引用前端项目生成的静态资源。鉴于时间成本和实际需要，先对首页及几个宣传页进行了改造。
 
 本文分三部分：
 
