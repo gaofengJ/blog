@@ -39,6 +39,7 @@ export default {
           link: '/note/red-book/chapter6.md',
         },
       ],
+      collapsed: true,
     },
     {
       text: '可视化',
@@ -124,6 +125,7 @@ export default {
           link: '/note/visualization/32-chapter32.md',
         },
       ],
+      collapsed: true,
     },
   ],
   '/summary-middle/': [

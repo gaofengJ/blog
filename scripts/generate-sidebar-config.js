@@ -19,14 +19,19 @@ const getFileExtension = (fileName) => {
 };
 
 /**
- * 获取md中title属性
+ * 获取md中属性
  */
-const getTitleOfMarkdown = (file) => {
+const getInfoOfMarkdown = (file) => {
   try {
     const data = fs.readFileSync(file, 'utf8');
     // 使用正则表达式匹配title的值
     const titleMatch = data.match(/title:\s*(.*)/);
-    return titleMatch[1] || '';
+    // 使用正则表达式匹配collapsed的值
+    const collapsedMatch = data.match(/collapsed:\s*(.*)/);
+    return {
+      title: titleMatch[1] || '',
+      collapsed: collapsedMatch ? !!collapsedMatch[1] : false,
+    };
   } catch (e) {
     console.log('e', e);
   }
@@ -81,12 +86,18 @@ const getSideBarConfig = (dirs) => {
       if (secondLevelDirstat.isDirectory()) {
         const configValueItem = {
           text: '',
-          // collapsed: true,
+          // collapsed: false,
           items: [],
         };
         const indexPath = `${secondLevelDirPath}/index.md`;
-        const titleOfMd = getTitleOfMarkdown(indexPath);
+        const {
+          title: titleOfMd,
+          collapsed: collapsedOfMd,
+        } = getInfoOfMarkdown(indexPath);
         configValueItem.text = titleOfMd;
+        if (collapsedOfMd) {
+          configValueItem.collapsed = true;
+        }
         let files = fs.readdirSync(secondLevelDirPath);
         files = files.sort((a, b) => {
           // 提取文件名中的数字部分
@@ -101,7 +112,9 @@ const getSideBarConfig = (dirs) => {
           const fileStat = fs.statSync(filePath);
           const fileSuffix = getFileExtension(filePath);
           if (fileStat.isFile() && INCLUDE_FILE_TYPE.includes(fileSuffix) && file !== 'index.md') {
-            const fileTitleOfMd = getTitleOfMarkdown(filePath);
+            const {
+              title: fileTitleOfMd,
+            } = getInfoOfMarkdown(filePath);
             configValueItem.items.push({
               text: fileTitleOfMd,
               link: `/${lastPathOfFistLevel}/${secondLevelDir}/${file}`,
