@@ -36,7 +36,15 @@ const getTitleOfMarkdown = (file) => {
  * 写文件
  */
 const writeFile = async (config) => {
-  let str = JSON.stringify(config, null, 2);
+  const sortOrder = {
+    前端初阶: 1,
+    前端中阶: 2,
+    前端高阶: 3,
+    八股文: 4,
+    学习笔记: 5,
+  };
+  const sortedConfig = config.sort((a, b) => sortOrder[a.text] - sortOrder[b.text]);
+  let str = JSON.stringify(sortedConfig, null, 2);
   str = str.replace(/"/g, "'");
   await fs.writeFileSync(outputPath, `export default ${str}`);
 };
