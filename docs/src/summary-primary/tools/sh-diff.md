@@ -3,6 +3,8 @@ title: 用户环境文件对比
 description: 研发工具
 ---
 
+# 用户环境文件对比
+
 * ~/.bash_profile：
 
   * 这个文件是bash shell的配置文件，用于登录时加载用户环境设置。

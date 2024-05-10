@@ -144,7 +144,7 @@ Nginx常用命令：
 
 摘录自[菜鸟教程](https://www.runoob.com/w3cnote/nginx-setup-intro.html)
 
-```sh
+```nginx
 ########### 每个指令必须有分号结束。#################
 #user administrator administrators;  #配置用户或者组，默认为nobody nobody。
 #worker_processes 2;  #允许生成的进程数，默认为1
@@ -188,7 +188,7 @@ http {
 
 Nginx的默认配置在`/etc/nginx/nginx.conf`中。初始配置如下：
 
-```sh
+```nginx
 user www-data;
 worker_processes auto;
 pid /run/nginx.pid;
@@ -279,7 +279,7 @@ http {
 
 配置文件中引入了下面两个文件夹的内容，都是Nginx的默认配置。
 
-```sh
+```nginx
 include /etc/nginx/conf.d/*.conf;
 include /etc/nginx/sites-enabled/*;
 ```
@@ -290,7 +290,7 @@ include /etc/nginx/sites-enabled/*;
 
 在覆盖默认配置的同学，我将root做了修改，指向了之后放置前端项目的目录/home/mufeng-front，并在前端项目的目录下新建了一个index.html用来测试。修改后配置如下：
 
-```sh
+```nginx
 user www-data;
 worker_processes auto;
 pid /run/nginx.pid;
@@ -483,7 +483,7 @@ app.listen(port, '0.0.0.0', () => {
 
 ![secrets](/imgs/summary-primary/basic/aliyun_deploy_12.png)
 
-点击New repository secret按钮，在Name中填入`SERVER_SSH_KEY`，用别的也可以，但是要与后面的`SSH_PRIVATE_KEY: ${{ ``secrets.SERVER_SSH_KEY`` }}`字段名保持统一。在Value中填入本地的阿里云私钥。
+点击New repository secret按钮，在Name中填入`SERVER_SSH_KEY`，用别的也可以，但是要与后面的`SSH_PRIVATE_KEY`中`secrets.SERVER_SSH_KEY`字段名保持统一。在Value中填入本地的阿里云私钥。
 
 ![secrets](/imgs/summary-primary/basic/aliyun_deploy_13.png)
 
@@ -493,7 +493,7 @@ app.listen(port, '0.0.0.0', () => {
 
 内容如下：
 
-```yaml
+```yml
 name: Build mufeng-front and deploy to aliyun
 on:
   #监听push操作
@@ -637,7 +637,7 @@ vim back-deploy-server.js // 编辑文件
 
 back-deploy-server.js内容为
 
-```sh
+```js
 const express = require('express')
 const app = express()
 const port = 300X // 填入自己的阿里云映射端口，在网络安全组配置。这里我使用了和前端项目不同的端口
