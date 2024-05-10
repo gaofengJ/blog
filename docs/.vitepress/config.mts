@@ -12,15 +12,27 @@ export default defineConfig({
     ['link', { rel: 'icon', href: '/blog/icon/favicon.svg' }],
   ],
   srcDir: './src',
+  lastUpdated: true,
   themeConfig: {
     logo: '/imgs/fengye.png',
     nav: navConfig,
     sidebar: sidebarConfig,
+    search: {
+      provider: 'local',
+    },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/gaofengJ/blog' },
     ],
-    search: {
-      provider: 'local',
+    outline: {
+      label: '页面导航'
+    },
+    docFooter: {
+      prev: '上一页',
+      next: '下一页'
+    },
+    editLink: {
+      pattern: 'https://github.com/gaofengJ/blog/blob/master/src/:path',
+      text: 'Edit this page on GitHub',
     },
   },
 })
