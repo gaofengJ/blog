@@ -3,7 +3,7 @@ title: HTML中的JavaScript
 description: javaScript
 ---
 
-HTML中的JavaScript
+# HTML中的JavaScript
 
 ## script元素
 

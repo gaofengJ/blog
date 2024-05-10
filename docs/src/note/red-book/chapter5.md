@@ -3,6 +3,8 @@ title: 基本引用类型
 description: javaScript
 ---
 
+# 基本引用类型
+
 ## Date
 
 ## RegExp

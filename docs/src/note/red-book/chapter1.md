@@ -3,6 +3,8 @@ title: 什么是JavaScript
 description: javaScript
 ---
 
+# 什么是JavaScript
+
 ## 虽然JavaScript和ECMAScript，但是JavaScript远远不限于ECMA-262定义的那样。完整的JavaScript实现包括以下几个部分
 
 ### 核心（ECMAScript）

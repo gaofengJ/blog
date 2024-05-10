@@ -3,6 +3,8 @@ title: 集合引用类型
 description: javaScript
 ---
 
+# 集合引用类型
+
 ## 检测数组
 
 只用instanceof和isArray都可以检测一个对象是不是数组。

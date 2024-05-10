@@ -2,5 +2,6 @@
   "no-inline-html": false,
   "no-space-in-code": false,
   "line_length": false,
-  "no-duplicate-header": false
+  "no-duplicate-header": false,
+  "MD025": false
 }
