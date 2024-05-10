@@ -3,7 +3,9 @@ title: 30. 怎么给WebGL绘制加速
 description: 可视化
 ---
 
-尽量发挥 GPU 的优势。
+# 30. 怎么给WebGL绘制加速
+
+## 尽量发挥 GPU 的优势
 
 * 减少 CPU 计算次数
 

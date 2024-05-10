@@ -3,6 +3,10 @@ title: 03. 声明式图形系统：如何用SVG图形元素绘制可视化图表
 description: 可视化
 ---
 
+# 03. 声明式图形系统：如何用SVG图形元素绘制可视化图表?
+
+## SVG
+
 SVG 的全称是 Scalable Vector Graphics，可缩放矢量图，它是浏览器支持的一种基于 XML 语法的图像格式。
 
 ## 利用 SVG 绘制几何图形

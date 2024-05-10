@@ -3,6 +3,8 @@ title: 02. 指令式绘图：如何用Canvas绘制层次关系图
 description: 可视化
 ---
 
+# 02. 指令式绘图：如何用Canvas绘制层次关系图
+
 ## 一、 Canvas 元素和 2D 上下文
 
 对于浏览器来说，Canvas 也是 HTML 元素，我们可以用 canvas 标签将它插入到 HTML 内容中。
