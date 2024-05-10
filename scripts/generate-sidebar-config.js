@@ -87,7 +87,14 @@ const getSideBarConfig = (dirs) => {
         const indexPath = `${secondLevelDirPath}/index.md`;
         const titleOfMd = getTitleOfMarkdown(indexPath);
         configValueItem.text = titleOfMd;
-        const files = fs.readdirSync(secondLevelDirPath);
+        let files = fs.readdirSync(secondLevelDirPath);
+        files = files.sort((a, b) => {
+          // 提取文件名中的数字部分
+          const numA = parseInt((a.match(/^\d+/) || [])[0], 10);
+          const numB = parseInt((b.match(/^\d+/) || [])[0], 10);
+          // 比较数字部分的大小
+          return numA - numB;
+        });
         for (let k = 0; k < files.length; k++) { // 遍历文件
           const file = files[k];
           const filePath = path.join(secondLevelDirPath, file);
