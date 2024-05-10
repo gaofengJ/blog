@@ -1,4 +1,4 @@
 ---
-title: 汇总
-description: 汇总
+title: 八股文
+description: 八股文
 ---
