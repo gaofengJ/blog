@@ -24,7 +24,8 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/gaofengJ/blog' },
     ],
     outline: {
-      label: '页面导航'
+      level: 2,
+      label: '页面导航',
     },
     docFooter: {
       prev: '上一页',
