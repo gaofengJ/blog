@@ -3,9 +3,6 @@ module.exports = {
     'eslint:recommended',
     'airbnb',
   ],
-  ignorePatterns: [
-    '.eslintrc.js',
-  ],
   rules: {
     'no-unused-vars': 'off',
     'no-plusplus': 'off',
