@@ -402,7 +402,7 @@ cliInit();
 
 回答完成后，可以在下图中清楚地看到答案格式。
 
-## 四、文件拷贝模块
+## 四、目录拷贝模块
 
 要生成一个模板文件，最简单的做法就是执行脚手架提供的命令后，把脚手架中的模板文件，拷贝到对应的地方。模板文件可以是单个文件，也可以是一个文件夹。本小节先介绍一下模板文件是文件夹时候如何拷贝。
 
@@ -527,3 +527,88 @@ cliInit();
 再次执行，会提示错误：
 
 ![mufeng-cli copy](/imgs/summary-middle/engineering/cli_6.png)
+
+## 五、文件拷贝模块
+
+文件拷贝要比目录拷贝简单，分三步实现：
+
+* 1. 使用 `fs.readFileSync` 读取被拷贝的文件内容
+* 2. 创建一个文件
+* 3. 使用 `fs.writeFileSync` 写入文件内容
+
+代码如下：
+
+```js
+const copyFile = (from, to) => {
+  const buffer = fs.readFileSync(from);
+  const parentPath = path.dirname(to);
+
+  mkdirGuard(parentPath); // 创建目录
+
+  fs.writeFileSync(to, buffer);
+}
+
+exports.copyFile = copyFile;
+```
+
+> [!TIP]
+>
+> * **path.dirname**: 获取指定路径的目录部分
+
+## 六、动态文件生成模块
+
+假设脚手架中提供的模版文件中某些信息需要根据用户输入的命令参数来动态生成对用的模版文件，可以通过 **mustache** 来实现。
+
+安装 **mustache**。
+
+```sh
+pnpm add mustache --F mufeng-cli
+```
+
+例如在 `/packages/mufeng-cli/template/app` 目录下创建 `home.tpl`:
+
+```vue
+<template>
+  {{name}}
+</template>
+```
+
+然后在 `/packages/mufeng-cli/bin/copy.js` 中新增方法：
+
+```js
+/**
+ * 读取模版中内容并返回
+ */
+const readTemplate = (dir, data = {}) => {
+  const str = fs.readFileSync(dir, { encoding: 'utf8' });
+  return Mustache.render(str, data);
+};
+```
+
+调用时：
+
+```js
+copyTemplate(
+  path.resolve(__dirname, `../template/${frame}/home.tpl`),
+  path.resolve(process.cwd(), `.${name}/home.vue`),
+  {
+    name,
+  }
+)
+```
+
+重新在 /apps 目录下执行 `pnpm mufeng-cli c --name=vue`，就会将 `packages/mufeng-cli/template/vue/home.tpl` 复制到 /apps/vue 目录下, 并将模板中的 name 替换为 copyTemplate 传入的 name。
+
+## 七、发布与安装
+
+* 1. 登录到 npm
+
+```js
+npm login --registry=https://registry.npmjs.org/
+```
+
+* 2. 发布到 npm
+
+```js
+pnpm publish --F mufeng-cli  --registry=https://registry.npmjs.org/
+```
