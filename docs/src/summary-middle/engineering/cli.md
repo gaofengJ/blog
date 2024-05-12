@@ -17,7 +17,7 @@ Node版本: v18.20.2（pnpm需要）
 
 关于 monorepo 可以参考 <a href="/blog/summary-middle/engineering/monorepo" target="_blank">Monorepo</a>。
 
-## 前提: 全局安装 pnpm
+### 前提: 全局安装 pnpm
 
 ```js
 npm install pnpm -g
@@ -32,14 +32,19 @@ npm install pnpm -g
 ```yml
 packages:
   - 'packages/*'
-  - 'apps/*'
+  - 'apps/**'
 ```
+
+> [!TIP]
+>
+> * **packaegs/\*** 表示 packages 所有直接子目录
+> * **apps/\*\*** 表示 apps 下所有目录
 
 配置后, 声明了 packages 和 apps 目录中子工程是同属一个工作空间的, 工作空间中的子工程编译打包的产物都可以被其它子工程引用。
 
 ### 3、在 packages下初始化项目
 
-在根目录下创建 packages 目录, 并在 packages 目录中新建 cli 目录。
+在根目录下创建 packages 目录, 并在 packages 目录中新建 mufeng-cli 目录。
 
 通过 `pnpm init` 命令来初始化一个工程。
 
@@ -67,12 +72,12 @@ packages:
 >
 > * **package.json** 中 bin 字段用于定义一个或多个项目的可执行文件的路径。当在全局安装一个 npm 包时, npm 会查找 bin 字段, 并将其指定的可执行文件创建一个符号链接到全局的 **node_modules/.bin** 目录下, 这样就可以在命令行中直接运行这些可执行文件了。
 
-在 `packages/cli` 中创建 bin 目录, 并新建 index.js, 并在文件中添加如下代码:
+在 `packages/mufeng-cli` 中创建 bin 目录, 并新建 index.js, 并在文件中添加如下代码:
 
 ```js
 #!/usr/bin/env node
 
-console.log('Welcome to experience Mufeng-cli');
+console.log('Welcome to use Mufeng-cli');
 ```
 
 > [!TIP]
@@ -81,15 +86,15 @@ console.log('Welcome to experience Mufeng-cli');
 > * **/usr/bin/env** 是一个 Unix/Linux 系统中用来查找环境中的可执行文件的标准路径, **node** 是 Node.js 的可执行文件名。
 > * 具体来说, 就是告诉操作系统在执行这个脚本时使用 node解释器。
 
-在根目录下创建 apps 目录, 并在 apps 目录中新建 app 目录。
+在根目录下创建 apps 目录。
 
 通过 `pnpm init` 命令来初始化一个工程。
 
-我们在 apps/app/pakeage.json 中添加 dependencies 字段, 来添加 mufeng-cli 依赖。再给 scripts 增加一条自定义脚本命令。完成后代码如下:
+我们在 apps/pakeage.json 中添加 dependencies 字段, 来添加 mufeng-cli 依赖。再给 scripts 增加一条自定义脚本命令。完成后代码如下:
 
 ```json
 {
-  "name": "app",
+  "name": "apps",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -108,7 +113,7 @@ console.log('Welcome to experience Mufeng-cli');
 
 然后在最外层根目录下运行 pnpm i 命令, 安装依赖。
 
-安装成功后, 在 app 目录下运行 pnpm mufeng-cli, 会发现命令行窗口打印出 Welcome to experience Mufeng-cli, 脚手架工程的搭建就成功了。
+安装成功后, 在 apps 目录下运行 pnpm mufeng-cli, 会发现命令行窗口打印出 Welcome to experience Mufeng-cli, 脚手架工程的搭建就成功了。
 
 ![mufeng-cli log](/imgs/summary-middle/engineering/cli_1.png)
 
@@ -118,9 +123,8 @@ console.log('Welcome to experience Mufeng-cli');
 |-- cli
   |-- node_modules
   |-- apps
-    |-- app
-      |-- node_modules
-      |-- package.json
+    |-- node_modules
+    |-- package.json
   |-- packages
     |-- mufeng-cli
       |-- bin
@@ -183,7 +187,7 @@ const yargs = require('yargs');
 console.log('name', yargs.argv.name);
 ```
 
-在 /apps/app 目录下运行 pnpm mufeng-cli --name=hello, 结果如图所示:
+在 /apps 目录下运行 pnpm mufeng-cli --name=hello, 结果如图所示:
 
 ![mufeng-cli yargs](/imgs/summary-middle/engineering/cli_2.png)
 
@@ -235,7 +239,7 @@ yargs.command(
 >
 > * .argv 的作用是告诉 yargs 库解析命令行参数, 并将解析后的结果存储在 argv 变量中, 以便在后续代码中使用。
 
-在 /apps/app 目录下分别运行 pnpm mufeng-cli create --name=hello 和 pnpm mufeng-cli c --name=hello 命令, 执行结果如下图所示:
+在 /apps 目录下分别运行 pnpm mufeng-cli create --name=hello 和 pnpm mufeng-cli c --name=hello 命令, 执行结果如下图所示:
 
 ![mufeng-cli create](/imgs/summary-middle/engineering/cli_3.png)
 
@@ -392,7 +396,7 @@ const cliInit = () => {
 cliInit();
 ```
 
-在/apps/app目录下执行 `pnpm mufeng-cli c --n=hello`, 结果如图所示：
+在 /apps 目录下执行 `pnpm mufeng-cli c --n=hello`, 结果如图所示：
 
 ![mufeng-cli inquirer](/imgs/summary-middle/engineering/cli_4.png)
 
@@ -409,3 +413,71 @@ cliInit();
 ```sh
 pnpm add copy-dir --F mufeng-cli
 ```
+
+在 /packages/mufeng-cli/bin 目录下新建 copy.js 文件, 代码如下：
+
+```js
+const fs = require('fs');
+const copydir = require('copy-dir');
+
+/**
+ * 复制文件
+ */
+const copyDir = (from, to, options) => {
+  copydir.sync(from, to, options);
+};
+
+/**
+ * 判断目录是否存在
+ */
+const checkMkdirExists = (path) => fs.existsSync(path);
+
+exports.copyDir = copyDir;
+exports.checkMkdirExists = checkMkdirExists;
+```
+
+在 packages/mufeng-cli 目录下新建 template 目录用来存放模版文件。
+
+比如在 template 目录中创建一个 vue 目录来存放 vue 项目模版，文件目录如下：
+
+```md
+|-- cli
+  |-- node_modules
+  |-- apps
+    |-- node_modules
+    |-- package.json
+  |-- packages
+    |-- mufeng-cli
+      |-- bin
+        |-- index.js
+      |-- template
+        |-- vue
+          |-- app.vue
+      |-- package.json
+  |-- package.json
+  |-- pnpm-lock.yaml
+  |-- pnpm-workspace.yaml
+
+```
+
+下面实现把 packages/mufeng-cli/template/vue 这个目录下的所有文件拷贝到 /apps 目录中。
+
+在 /packages/mufeng-cli/bin/index.js 代码：
+
+```js
+
+```
+
+> [!TIP]
+
+> copyDir(from, to, options)
+>
+> * **from**: 要拷贝目录的路径
+> * **to**: 文件拷贝的目标路径
+> * **options**: 指定额外的选项和配置，以控制复制过程的行为
+
+> [!TIP]
+> 脚手架中处理路径时经常使用 **Nodejs** 中 **path** 模块提供的 `path.resolve([...path])`, 将传入的多个 path参数拼接成一个绝对路径。
+>
+> * **__dirname** 是用来动态获取当前文件模块所属目录的绝对路径。比如在 bin/index.js 文件中使用 __dirname ，__dirname 表示就是 bin/index.js 文件所属目录的绝对路径: `/packages/mufeng-cli/bin`。
+> * **process.cwd()** 当前 Nodejs 进程执行时的文件所属目录的绝对路径。比如在 bin 文件夹目录下运行 node index.js 时，process.cwd() 得到的是 `/packages/mufeng-cli/bin`。
