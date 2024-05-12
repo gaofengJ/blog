@@ -465,11 +465,49 @@ exports.checkMkdirExists = checkMkdirExists;
 在 /packages/mufeng-cli/bin/index.js 代码：
 
 ```js
+#!/usr/bin/env node
+const path = require('path');
+const yargs = require('yargs');
+const { inquirerPrompt } = require('./inquirer');
+const { copyDir, checkMkdirExists } = require('./copy');
 
+const cliInit = () => {
+  // eslint-disable-next-line no-unused-expressions
+  yargs.command(
+    ['create', 'c'],
+    '新建一个模板',
+    (yargsObj) => yargsObj.option('name', {
+      alias: 'n',
+      demand: true,
+      describe: '模板名称',
+      type: 'string',
+    }),
+    async (argv) => {
+      try {
+        const answers = await inquirerPrompt(argv);
+        const { name, frame } = answers;
+        const isMkdirExists = checkMkdirExists(
+          path.resolve(process.cwd(), `./${name}`),
+        );
+        if (isMkdirExists) {
+          console.log(`${name}文件夹已经存在`);
+        } else {
+          copyDir(
+            path.resolve(__dirname, `../template/${frame}`),
+            path.resolve(process.cwd(), `./${name}`),
+          );
+        }
+      } catch (e) {
+        console.error('e', e);
+      }
+    },
+  ).argv;
+};
+
+cliInit();
 ```
 
 > [!TIP]
-
 > copyDir(from, to, options)
 >
 > * **from**: 要拷贝目录的路径
@@ -481,3 +519,11 @@ exports.checkMkdirExists = checkMkdirExists;
 >
 > * **__dirname** 是用来动态获取当前文件模块所属目录的绝对路径。比如在 bin/index.js 文件中使用 __dirname ，__dirname 表示就是 bin/index.js 文件所属目录的绝对路径: `/packages/mufeng-cli/bin`。
 > * **process.cwd()** 当前 Nodejs 进程执行时的文件所属目录的绝对路径。比如在 bin 文件夹目录下运行 node index.js 时，process.cwd() 得到的是 `/packages/mufeng-cli/bin`。
+
+在 /apps 目录下执行 `pnpm mufeng-cli c --name=vue`, 发现 `/packages/mufeng-cli/template/vue` 被成功复制到 `/apps` 目录下。
+
+![mufeng-cli copy](/imgs/summary-middle/engineering/cli_5.png)
+
+再次执行，会提示错误：
+
+![mufeng-cli copy](/imgs/summary-middle/engineering/cli_6.png)
