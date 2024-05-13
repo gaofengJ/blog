@@ -1,6 +1,6 @@
 ---
-title: Monorepo
-description: 工程化
+title：Monorepo
+description：工程化
 ---
 
 # Monorepo
@@ -23,7 +23,7 @@ Monorepo 是一种项目代码管理方式，指单个仓库中管理多个项�
 
 ### 阶段三：单仓库多模块应用
 
-随着业务复杂度的提升，模块仓库越来越多， MultiRepo 这种方式虽然从业务上解耦了，但增加了项目工程管理的难度，随着模块仓库达到一定数量级，会有几个问题：
+随着业务复杂度的提升，模块仓库越来越多， MultiRepo 这种方式虽然从业务上解耦了，但增加了项目工程管理的难度，随着模块仓库达到一定数量级，会有几个问题:
 
 * 跨仓库代码难共享；
 * 分散在单仓库的模块依赖挂你复杂（底层模块升级后，其他上层依赖需要及时更新，否则会有问题）；
@@ -39,12 +39,12 @@ Monorepo 是一种项目代码管理方式，指单个仓库中管理多个项�
 
 | 场景 | MultiRepo | MonoRepo |
 | --- | --- | --- |
-| 代码可见性 | :white_check_mark: 代码隔离，研发者只需关注自己负责的仓库<br/><br/>:x: 包管理按照各自owner划分，当出现问题时，需要到依赖包中进行判断并解决 | :white_check_mark: 一个仓库中多个项目，很容易看见整个代码库<br/><br/>:x: 增加了非owner改动代码的风险 |
-| 依赖管理 | :x: 多个仓库都有自己的node_modules，存在依赖重复安装的情况，占用磁盘内存大 | :white_check_mark: 多项目代码都在一个仓库中，相同版本依赖提升到顶层只安装一次，节省磁盘内存 |
-| 代码权限 | :white_check_mark: 个项目单独仓库，不会出现代码被误改的情况，单个项目出现问题不会影响其他项目 | :x: 多个项目代码都在一个仓库中，没有项目粒度的权限管控，一个项目出问题，可能影响所有项目 |
-| 开发迭代 | :white_check_mark: 仓库体积小，模块划分清晰，可维护性强<br/><br/>:x: 多仓库来回切换（编辑器及命令行），项目多的话效率很低。多仓库见存在依赖时，需要手动 `npm link`，操作繁琐。<br/><br/>:x: 依赖管理不便，多个依赖可能在多个仓库中存在不同版本，重复安装，npm link 时不同项目的依赖会存在冲突。 | :white_check_mark: 多个项目都在一个仓库中，可看到相关项目全貌，编码非常方便。<br/><br/>:white_check_mark: 代码复用高，方便进行代码重构。<br/><br/>:x: 多项目在一个仓库中，代码体积多大几个 G，git clone时间较长。<br/><br/>:white_check_mark: 依赖调试方便，依赖包迭代场景下，借助工具自动 npm link，直接使用最新版本依赖，简化了操作流程。 |
-| 工程配置 | :x: 各项目构建、打包、代码校验都各自维护，不一致时会导致代码差异或构建差异。 | :white_check_mark: 多项目在一个仓库，工程配置一致，代码质量标准及风格也很容易一致。 |
-| 构建部署 | :x: 多个项目间存在依赖，部署时需要手动到不同的仓库根据先后顺序去修改版本及进行部署，操作繁琐效率低。 | :white_check_mark: 构建性 Monorepo 工具可以配置依赖项目的构建优先级，可以实现一次命令完成所有的部署。 |
+| 代码可见性 | :white_check_mark：代码隔离，研发者只需关注自己负责的仓库<br/><br/>:x：包管理按照各自owner划分，当出现问题时，需要到依赖包中进行判断并解决 | :white_check_mark：一个仓库中多个项目，很容易看见整个代码库<br/><br/>:x：增加了非owner改动代码的风险 |
+| 依赖管理 | :x：多个仓库都有自己的node_modules，存在依赖重复安装的情况，占用磁盘内存大 | :white_check_mark：多项目代码都在一个仓库中，相同版本依赖提升到顶层只安装一次，节省磁盘内存 |
+| 代码权限 | :white_check_mark：个项目单独仓库，不会出现代码被误改的情况，单个项目出现问题不会影响其他项目 | :x：多个项目代码都在一个仓库中，没有项目粒度的权限管控，一个项目出问题，可能影响所有项目 |
+| 开发迭代 | :white_check_mark：仓库体积小，模块划分清晰，可维护性强<br/><br/>:x：多仓库来回切换（编辑器及命令行），项目多的话效率很低。多仓库见存在依赖时，需要手动 `npm link`，操作繁琐。<br/><br/>:x：依赖管理不便，多个依赖可能在多个仓库中存在不同版本，重复安装，npm link 时不同项目的依赖会存在冲突。 | :white_check_mark：多个项目都在一个仓库中，可看到相关项目全貌，编码非常方便。<br/><br/>:white_check_mark：代码复用高，方便进行代码重构。<br/><br/>:x：多项目在一个仓库中，代码体积多大几个 G，git clone时间较长。<br/><br/>:white_check_mark：依赖调试方便，依赖包迭代场景下，借助工具自动 npm link，直接使用最新版本依赖，简化了操作流程。 |
+| 工程配置 | :x：各项目构建、打包、代码校验都各自维护，不一致时会导致代码差异或构建差异。 | :white_check_mark：多项目在一个仓库，工程配置一致，代码质量标准及风格也很容易一致。 |
+| 构建部署 | :x：多个项目间存在依赖，部署时需要手动到不同的仓库根据先后顺序去修改版本及进行部署，操作繁琐效率低。 | :white_check_mark：构建性 Monorepo 工具可以配置依赖项目的构建优先级，可以实现一次命令完成所有的部署。 |
 
 ## 四、Monorepo场景
 
@@ -82,8 +82,8 @@ Monorepo 是一种项目代码管理方式，指单个仓库中管理多个项�
 
 **构建加速思路**:
 
-* **Multiple Running Task**: 构建任务并行进行，构建顺序交给开发者配置
-* **Cache、Remote Cache**: 通过缓存 及 远程缓存，减少构建时间
+* **Multiple Running Task**：构建任务并行进行，构建顺序交给开发者配置
+* **Cache、Remote Cache**：通过缓存 及 远程缓存，减少构建时间
 
 #### 6.1.2、 Rush
 
@@ -152,7 +152,7 @@ Lerna 允许您使用两种模式来管理您的项目：固定模式(Fixed)、�
 
 ```json
 {
-  "version": "0.0.0"
+  "version"："0.0.0"
 }
 ```
 
@@ -163,7 +163,7 @@ Lerna 允许您使用两种模式来管理您的项目：固定模式(Fixed)、�
 
 ```json
 {
-  "version": "independent"
+  "version"："independent"
 }
 ```
 
@@ -181,33 +181,33 @@ Lerna 允许您使用两种模式来管理您的项目：固定模式(Fixed)、�
 
 ```json
 {
-  "version": "0.0.0",
-  "useWorkspaces": true,
-  "packages": [
+  "version"："0.0.0",
+  "useWorkspaces"：true,
+  "packages"：[
     "packages/*",
   ],
 }
 ```
 
-需要在项目根目录下的 package.json中设置 "private": true。
+需要在项目根目录下的 package.json中设置 "private"：true。
 
 ```json
 {
-  "name": "xxxx",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
-  "private": true,
-  "scripts": {
-    "test": "echo "Error: no test specified" && exit 1"
+  "name"："xxxx",
+  "version"："0.0.1",
+  "description"："",
+  "main"："index.js",
+  "private"：true,
+  "scripts"：{
+    "test"："echo "Error：no test specified" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "lerna": "^6.4.1"
+  "keywords"：[],
+  "author"："",
+  "license"："ISC",
+  "devDependencies"：{
+    "lerna"："^6.4.1"
   },
-  "workspaces": [
+  "workspaces"：[
     "packages/*"
   ]
 }
@@ -322,19 +322,89 @@ lerna import [npm 包所在本地路径]
 lerna list
 ```
 
-#### 6.2.2、yarn/npm + workspace
+#### 6.2.2、pnpm + workspace
 
-yarn 1.x 及以上版本，新增 workspace 能力，不借助 Lerna，也可以提供原生的 Monorepo 支持，需要在根目录下 package.json 中，声明 workspace。
+**Workspace协议（workspace:）
+
+默认情况下，如果可用的 packages 与已声明的可用范围相匹配，pnpm 将从工作区链接这些 packages。 例如, 如果bar引用"foo": "^1.0.0"并且foo@1.0.0存在工作区，那么pnpm会从工作区将foo@1.0.0链接到bar。 但是，如果 bar 的依赖项中有 "foo": "2.0.0"，而 foo@2.0.0 在工作空间中并不存在，则将从 npm registry 安装 foo@2.0.0 。 这种行为带来了一些不确定性。
+
+幸运的是，pnpm 支持 workspace 协议 workspace: 。 当使用此协议时，pnpm 将拒绝解析除本地 workspace 包含的 package 之外的任何内容。 因此，如果您设置为 "foo": "workspace:2.0.0" 时，安装将会失败，因为 "foo@2.0.0" 不存在于此 workspace 中。
+
+yarn及npm的新版本都新增 workspace 能力，不借助 Lerna也可以提供原生的 Monorepo 支持。建议使用 pnpm + workspace 的方案，下面是一个使用 pnpm + workspace 搭建脚手架的例子：
+
+1、使用 `pnpm init` 初始化项目，然后创建 `pnpm-workspace.yaml` 工作空间配置文件:
+
+```yml
+packages:
+  - 'packages/*'
+  - 'apps/**'
+```
+
+配置后，声明了 packages 和 apps 目录中子工程是同属一个工作空间的，工作空间中的子工程编译打包的产物都可以被其它子工程引用。
+
+2、在 /packages 目录下创建 `mufeng-cli`，并在 /packages/mufeng-cli 中执行 `pnpm init` 初始化项目，package.json内容如下：
 
 ```json
 {
-  "private": true, // 必须是私有项目
-  "workspaces": ["project1", "project2/*"]
+  "name": "mufeng-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "mufeng-cli": "./bin/index.js"
+  },
+}
+
+```
+
+3、在 /packages 目录下创建 apps 目录，同样在 /packages/apps 中执行 `pnpm init` 初始化项目，package.json内容如下：
+
+```json
+{
+  "name": "apps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mufeng-cli": "mufeng-cli"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+}
+
+```
+
+4、在 /packages 目录（根目录下所有子孙目录都可以）下执行 `pnpm i mufeng-cli --F apps`，就会将 /packages/mufeng-cli 的包添加到 /packages/apps 的依赖中：
+
+```json
+{
+  "dependencies": {
+    "mufeng-cli": "workspace:*"
+  }
 }
 ```
 
-**yarn workspace VS lerna**
+> [!TIP]
+>
+> * **--F**: **--filter**的缩写, 表示只安装在指定的路径下。这里指将 yargs 安装在 mufeng-cli 目录下
+> * **mufeng-cli** 是取 packages/mufeng-cli 中 package.json 中 name 字段的值
+> * **apps** 是取 子工程中 package.json 中 name 字段的值, 而不是 apps 子工程目录的名称
 
-* yarn workspace 更突出对依赖的管理： 依赖提升到根目录的 node_modules 下，安装更快，体积更小
+常用命令：
 
-* Lerna 更突出工作流方面：使用 Lerna 命令来优化多个包的管理，如：依赖发包、版本管理，批量执行脚本
+* `pnpm i -w`：在当前工作目录下的工作区中安装所有项目的依赖，而不需要进入每个项目的目录分别执行安装命令
+* `pnpm add yargs --F mufeng-cli`：在package.json 的 name=mufeng-cli 的子目录下添加依赖 yargs
+
+**pnpm workspace VS lerna**
+
+* **pnpm + workspace** 更突出对依赖的管理：依赖提升到根目录的 node_modules 下，安装更快，体积更小
+
+* **Lerna** 更突出工作流方面：使用 Lerna 命令来优化多个包的管理，如：依赖发包、版本管理，批量执行脚本
