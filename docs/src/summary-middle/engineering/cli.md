@@ -191,7 +191,7 @@ console.log('name', yargs.argv.name);
 
 ![mufeng-cli yargs](/imgs/summary-middle/engineering/cli_2.png)
 
-### 3、设置自命令
+### 3、设置子命令
 
 加入脚手架要对外提供多个功能, 不能将所有功能都集中在 `mufeng-cli` 命令中实现。
 
