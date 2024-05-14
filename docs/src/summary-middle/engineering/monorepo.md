@@ -1,6 +1,6 @@
 ---
-title：Monorepo
-description：工程化
+title: Monorepo
+description: 工程化
 ---
 
 # Monorepo
