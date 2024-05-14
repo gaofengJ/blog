@@ -73,6 +73,14 @@ Docker version 20.10.24, build 297e128
 docker run -d -p 80:80 --name webserver nginx
 ```
 
+> [!TIP]
+>
+> * `docker run`：运行 docker 容器
+> * `-d`：在后台运行容器，即以守护进程模式（detached）进行
+> * `-p 80:80`：表示将容器的 80 端口映射到主机的 80 端口，左边的 80 是主机的端口号，右边的 80 是容器的端口号
+> * `--name webserver`：指定容器的名称为 webserver
+> * `nginx`：指定要使用的 docker 镜像为 nginx
+
 服务运行后，可以访问 [`http://localhost`](http://localhost)，如果看到了 "Welcome to nginx!"，就说明 Docker Desktop for Mac 安装成功了。
 
 尝试在 Docker 中启动 Nginx 时，终端可能报错：`Unable to find image 'nginx:latest' locally`，这是因为国内从 Docker Hub 拉取镜像有时会遇到困难，此时可以配置镜像加速器。
