@@ -149,8 +149,8 @@ export default {
           'link': '/summary-middle/engineering/development-workflow.md'
         },
         {
-          'text': 'docker + github-actions 多项目部署',
-          'link': '/summary-middle/engineering/docker+github-action.md'
+          'text': 'docker + github actions 多项目部署',
+          'link': '/summary-middle/engineering/docker+github-actions.md'
         },
         {
           'text': 'Docker',

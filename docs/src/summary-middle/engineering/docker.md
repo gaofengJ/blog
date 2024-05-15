@@ -52,6 +52,9 @@ brew install brew-cask-completion
 brew install --cask docker
 ```
 
+> [!TIP]
+> 这里有一个很坑的点，通过上述方式安装的 Docker 不兼容 M1、M2芯片，建议通过第二种方式安装最新的 Docker
+
 #### 二、Docker Desktop for Mac 安装
 
 地址：`https://docs.docker.com/desktop/install/mac-install`

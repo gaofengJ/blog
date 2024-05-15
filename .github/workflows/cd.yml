@@ -1,32 +1,48 @@
-name: Build blog and deploy to aliyun
+# actions 名称
+name: Docker Blog
+# 执行时机
 on:
   #监听push操作
   push:
     branches:
-      # master分支，你也可以改成其他分支
       - master
+  # 监听拉取请求操作
   pull_request:
     types:
       - closed
     branches:
-      # master分支，你也可以改成其他分支
       - master
+
+# 任务
 jobs:
   build:
+    # 指定运行所需要的虚拟机环境
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@master
-      - name: Install npm dependencies
-        run: npm install
-      - name: Run build task
-        run: npm run build
-      - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          ARGS: '-rltgoDzvO --delete' # easingthemes/ssh-deploy使用的参数
-          SOURCE: docs/.vuepress/dist # 这是要复制到阿里云静态服务器的文件夹名称
-          REMOTE_HOST: '47.99.111.167' # 你的阿里云公网地址
-          REMOTE_USER: root # 阿里云登录后默认为 root 用户，并且所在文件夹为 root
-          TARGET: /home/blog # 打包后的 dist 文件夹将放在 /home/blog
+      # 拉取代码
+      - name: checkout # 步骤名称
+        uses: actions/checkout@master # 使用action库  actions/checkout拉取源码
+
+      # 安装依赖
+      - name: install
+        run: pnpm install
+
+      # 打包
+      - name: build
+        run: pnpm run build
+
+      # 登录阿里云镜像容器服务，打包镜像，推送镜像
+      - name: build Docker Image
+        run: |
+          docker login --username=${{ secrets.DOCKER_USERNAME }} registry.cn-hangzhou.aliyuncs.com --password=${{ secrets.DOCKER_PASSWORD }}
+          docker build -t blog:latest .
+          docker tag blog registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
+      # 使用 appleboy/ssh-action@master 登录服务器执行拉取镜像脚本，服务器ip、用户名、密码配置方式同容器镜像服务配置方式一样
+      - name: ssh docker login
+        uses: appleboy/ssh-action@master
+        with: 
+          host: ${{ secrets.SSH_HOST }} 
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: cd ~ && sh bilibili-vue-deploy.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
