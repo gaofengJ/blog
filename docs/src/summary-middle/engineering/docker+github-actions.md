@@ -112,4 +112,37 @@ EXPOSE 80
 
 ![docker_github_actions_2](/imgs/summary-middle/engineering/docker_github_actions_2.png)
 
-### 6、
+完成后先不要提交，因为我们还没有在服务器中创建 **appleboy/ssh-action** 所需要的脚本。
+
+## 三、创建子域名
+
+在阿里云 -> 云解析 DNS -> 域名解析 -> 解析设置中新增子域名：
+
+![docker_github_actions_3](/imgs/summary-middle/engineering/docker_github_actions_3.png)
+
+同时，在安全组中开放 8080～8090端口，供服务器 Nginx 做映射：
+
+![docker_github_actions_4](/imgs/summary-middle/engineering/docker_github_actions_4.png)
+
+## 四、服务器 Nginx 映射到子域名
+
+整个服务器的结构大概是这样的：
+
+* **使用 Nginx （这里指原生的 Nginx）对二级域名（每一个二级域名对应一个端口号）进行映射**
+* **服务器的每一个端口号对应一个 Docker 容器**
+
+登录远程服务器，修改 nginx 配置：
+
+```sh
+server {
+        listen  80; # 监听的端口
+        server_name  blog.mufengtongxue.com; # 监听的URL
+        location  /  {
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_pass http://47.99.111.167:8080;
+        }
+}
+```
