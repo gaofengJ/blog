@@ -25,15 +25,13 @@ jobs:
 
       # 指定 node 版本
       - name: set node version
-        uses: actions/setup-node@v3
+        uses: pnpm/action-setup@v3
         with:
-          node-version: 18
+          version: 8
 
       # 安装依赖
       - name: install
-        run: |
-          export PATH=$PATH:/home/runner/.npm-global/bin
-          pnpm install
+        run: pnpm install
 
       # 打包
       - name: build
