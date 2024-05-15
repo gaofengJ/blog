@@ -3,13 +3,12 @@ import navConfig from '../src/nav-config.mts';
 import sidebarConfig from '../src/sidebar-config.mts';
 
 export default defineConfig({
-  base: '/blog/',
   cleanUrls: true,
   lang: 'zh-CN',
   title: "Mufeng's blog",
   description: "木风同学的技术博客",
   head: [
-    ['link', { rel: 'icon', href: '/blog/icon/favicon.svg' }],
+    ['link', { rel: 'icon', href: '/icon/favicon.svg' }],
   ],
   srcDir: './src',
   lastUpdated: true,
