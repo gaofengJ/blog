@@ -103,6 +103,60 @@ EXPOSE 80
 在项目根目录下创建 **/.github/workflows/cd.yml**，内容如下：
 
 ```yml
+# actions 名称
+name: Docker Blog
+# 执行时机
+on:
+  #监听push操作
+  push:
+    branches:
+      - master
+  # 监听拉取请求操作
+  pull_request:
+    types:
+      - closed
+    branches:
+      - master
+
+# 任务
+jobs:
+  build:
+    # 指定运行所需要的虚拟机环境
+    runs-on: ubuntu-latest
+    steps:
+      # 拉取代码
+      - name: checkout # 步骤名称
+        uses: actions/checkout@master # 使用action库  actions/checkout拉取源码
+
+      # 指定 pnpm 版本
+      - name: set node version
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      # 安装依赖
+      - name: install
+        run: pnpm install
+
+      # 打包
+      - name: build
+        run: pnpm run build
+
+      # 登录阿里云镜像容器服务，打包镜像，推送镜像
+      - name: build Docker Image
+        run: |
+          docker login --username=${{ secrets.DOCKER_USERNAME }} registry.cn-hangzhou.aliyuncs.com --password=${{ secrets.DOCKER_PASSWORD }}
+          docker build -t blog:latest .
+          docker tag blog registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
+      # 使用 appleboy/ssh-action@master 登录服务器执行拉取镜像脚本，服务器ip、用户名、密码配置方式同容器镜像服务配置方式一样
+      - name: ssh actions
+        uses: appleboy/ssh-action@master
+        with: 
+          host: ${{ secrets.SSH_HOST }} 
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: cd /home && sh blog-deploy.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
 
 ```
 
@@ -148,6 +202,9 @@ server {
 ```
 
 在 /home 目录下新增 blog-deploy.sh 文件：
+
+> [!TIP]
+> 文件位置要和 **cd.yml** 中 `cd /home && sh blog-deploy.sh` 路径、名称一致
 
 ```sh
 echo -e "---------docker login--------"
