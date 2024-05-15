@@ -146,3 +146,20 @@ server {
         }
 }
 ```
+
+在 /home 目录下新增 blog-deploy.sh 文件：
+
+```sh
+echo -e "---------docker login--------"
+docker login --username=$1 registry.cn-hangzhou.aliyuncs.com --password=$2
+echo -e "---------docker stop--------"
+docker stop blog
+echo -e "---------docker rm--------"
+docker rm blog
+docker rmi registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
+echo -e "---------docker pull--------"
+docker pull registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
+echo -e "---------docker create and start--------"
+docker run --rm -d -p 8080:80 --name blog registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
+echo -e "---------deploy success--------"
+```
