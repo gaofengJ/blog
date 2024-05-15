@@ -31,7 +31,9 @@ jobs:
 
       # 安装依赖
       - name: install
-        run: pnpm install
+        run: |
+          export PATH=$PATH:/home/runner/.npm-global/bin
+          pnpm install
 
       # 打包
       - name: build
