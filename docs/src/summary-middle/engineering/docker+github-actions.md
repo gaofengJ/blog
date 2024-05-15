@@ -1,9 +1,9 @@
 ---
-title: docker + github actions 多项目部署
+title: Docker + github actions 多项目部署
 description: 工程化
 ---
 
-# docker + GitHub Actions 多项目部署
+# Docker + GitHub Actions 多项目部署
 
 ## 前言
 
@@ -13,7 +13,7 @@ description: 工程化
 
 **GitHub Actions** 是一种持续集成和持续交付 (CI/CD) 平台，可用于自动执行生成、测试和部署管道。可以参考阮一峰老师的文章[GitHub Actions 入门教程](https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html)
 
-下面 CI/CD 流程说明以 blog 项目为例。
+下面 CI/CD 流程说明以 blog 项目为例。具体步骤可以看[总结](#summary)
 
 ## 一、添加 CI 流程
 
@@ -178,9 +178,9 @@ jobs:
 
 ![docker_github_actions_4](/imgs/summary-middle/engineering/docker_github_actions_4.png)
 
-## 四、服务器 Nginx 映射到子域名
+## 四、服务器 Nginx 配置
 
-整个服务器的结构大概是这样的：
+整个服务器的项目部署大概是这样的：
 
 * **使用 Nginx （这里指原生的 Nginx）对二级域名（每一个二级域名对应一个端口号）进行映射**
 * **服务器的每一个端口号对应一个 Docker 容器**
@@ -220,3 +220,17 @@ echo -e "---------docker create and start--------"
 docker run --rm -d -p 8080:80 --name blog registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
 echo -e "---------deploy success--------"
 ```
+
+## 总结 {#summary}
+
+现在我们推送代码之后，就可以实现持续部署了。总结一下：
+
+* 1、在 **master** 分支上 `git push` 到远程仓库（**github**）
+* 2、**github actions** 根据 **/.github/workflows/cd.yml** 执行任务
+  * 2.1、使用 **actions/checkout@master** 拉取源码
+  * 2.2、使用 **pnpm/action-setup@v3** 指定 pnpm 版本
+  * 2.3、执行 `pnpm install` 安装依赖
+  * 2.4、执行 `pnpm run build` 构建打包
+  * 2.5、登录阿里云镜像容器服务，打包镜像，推送镜像
+  * 2.6、使用 **appleboy/ssh-action@master** 登录服务器执行拉取镜像脚本，启动 docker 容器
+* 3、服务器中外层是一个 Nginx 服务，定义不同的虚拟主机（**server配置**），每个虚拟主机监听不同的二级域名，并将请求转发到端口对应的 **docker**。比如本文的 blog 服务使用 8080 端口，虚拟主机通过监听 **blog.mufengtongxue.com**，然后将请求转发到 8080 端口，也就是 blog 项目所在的 docker容器。
