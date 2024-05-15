@@ -28,6 +28,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18.20.2'
+          cache: 'pnpm'
 
       # 安装依赖
       - name: install
