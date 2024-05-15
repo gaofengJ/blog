@@ -149,7 +149,7 @@ export default {
           'link': '/summary-middle/engineering/development-workflow.md'
         },
         {
-          'text': 'docker + github actions 多项目部署',
+          'text': 'Docker + github actions 多项目部署',
           'link': '/summary-middle/engineering/docker+github-actions.md'
         },
         {
@@ -171,6 +171,10 @@ export default {
         {
           'text': '前端工程化规范',
           'link': '/summary-middle/engineering/project-specification.md'
+        },
+        {
+          'text': 'Semver（语意化版本号）',
+          'link': '/summary-middle/engineering/semver.md'
         },
         {
           'text': '企微JS-SDK调试、验证',
