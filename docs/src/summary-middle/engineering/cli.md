@@ -612,3 +612,19 @@ npm login --registry=https://registry.npmjs.org/
 ```js
 pnpm publish --F mufeng-cli  --registry=https://registry.npmjs.org/
 ```
+
+## 八、使用
+
+将 mufeng-cli 发布至 npm 后在本地使用：
+
+* 1、全局安装 mufeng-cli：
+
+```sh
+pnpm install mufeng-cli -g
+```
+
+* 2、初始化项目：
+
+```sh
+mufeng-cli c --name=demo
+```
