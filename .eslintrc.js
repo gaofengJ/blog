@@ -3,6 +3,10 @@ module.exports = {
     'eslint:recommended',
     'airbnb',
   ],
+  ignorePatterns: [
+    '/docs/src/nav-config.mts',
+    '/docs/src/sidebar-config.mts',
+  ],
   rules: {
     'no-unused-vars': 'off',
     'no-plusplus': 'off',

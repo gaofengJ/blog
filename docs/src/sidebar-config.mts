@@ -157,6 +157,10 @@ export default {
           'link': '/summary-middle/engineering/docker.md'
         },
         {
+          'text': 'Monorepo + Nest + React 搭建前后端一体化项目',
+          'link': '/summary-middle/engineering/monorepo+nest+react.md'
+        },
+        {
           'text': 'Monorepo',
           'link': '/summary-middle/engineering/monorepo.md'
         },
@@ -173,7 +177,7 @@ export default {
           'link': '/summary-middle/engineering/project-specification.md'
         },
         {
-          'text': 'Semver（语意化版本号）',
+          'text': 'Semver（语义化版本号）',
           'link': '/summary-middle/engineering/semver.md'
         },
         {

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "gen-config": "node ./scripts/generate-config",
-    "dev": "vitepress dev docs --port 8088",
-    "build": "vitepress build docs",
+    "dev": "pnpm run gen-config && vitepress dev docs --port 8088",
+    "build": "pnpm run gen-config && vitepress build docs",
     "preview": "vitepress preview docs"
   },
   "repository": {
