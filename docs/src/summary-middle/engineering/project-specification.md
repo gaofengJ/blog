@@ -81,9 +81,11 @@ module.exports = {
 };
 ```
 
-## git 规范
+## Git规范
 
-> Git 有很多的 hooks, 让我们在不同的阶段,对代码进行不同的操作,控制提交到仓库的代码的规范性,和准确性, 以下只是几个常用的钩子
+Git 有很多的 hooks, 让我们在不同的阶段,对代码进行不同的操作,控制提交到仓库的代码的规范性,和准确性。
+
+### 常用钩子
 
 | hooks      | 作用                                       |
 |------------|------------------------------------------|
@@ -93,57 +95,95 @@ module.exports = {
 
 ### git规范工具
 
-* **husky**  
-操作 git 钩子的工具
-
-* **lint-staged**  
-本地暂存代码检查工具
-
-* **commitlint**  
-commit 信息校验工具
-
-* **commitizen**  
-辅助 commit 信息，通过在终端选择输入，规范提交信息
+| 工具      | 作用                                       |
+|------------|------------------------------------------|
+| husky | 操作 git 钩子的工具    |
+| lint-staged | 本地暂存代码检查工具  |
+| commitlint   | commit 信息校验工具 |
+| commitizen | 通过在终端选择输入，规范提交信息 |
 
 ### 安装流程
 
-#### 1、安装代码校验依赖
+> [!TIP]
+> 整个项目共用一个 Git 仓库，所以相关依赖应安装在根目录下。
+
+* 1、安装代码校验依赖，由于新版的 husky 与旧版的配置方式不一样，这里选择老版本的依赖：
 
 ```sh
-npm i -D lint-staged husky
-npm set-script prepare "husky install" # 在 package.json 中添加脚本
-npm run prepare # 初始化 husky，将 git hooks 钩子交由 husky 执行。初始化 husky 后, 会在根目录创建 .husky 文件夹
+pnpm i -D lint-staged@13 husky@8
 ```
 
-```sh
-npx husky add .husky/pre-commit "npx lint-staged" # 执行 npx lint-staged 指令
-```
-
-根目录创建 .lintstagedrc.json 文件控制检查和操作方式。
+在 package.json 中增加 scripts：
 
 ```json
-{
-  "*.{js,vue,jsx,tsx,ts}": ["eslint"],
-  "*.md": ["prettier"]
-}
+"scripts": {
+  "prepare": "husky install"
+},
 ```
 
-#### 2、安装提交信息依赖
+然后执行 `pnpm i`，初始化 husky，将 git hooks 钩子交由 husky 处理。
+
+> [!TIP]
+> prepare 脚本是一个特殊的 npm 脚本，当运行 `npm install` 或 `yarn install` 时，prepare 脚本会在安装依赖之前执行
+
+初始化之后，会自动在根目录创建 .husky 目录。
+
+执行以下命令：
 
 ```sh
-npm i -D @commitlint/config-conventional
+# 为 Husky 创建一个 Git 钩子，在每次提交代码之前运行 lint-staged
+npx husky add .husky/pre-commit "npx lint-staged"
+```
+
+此命令会在 .husky 目录下生成 **pre-commit** 文件，并向其中写入以下内容：
+
+```sh
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx lint-staged
+```
+
+package.json中添加以下代码，控制检查和操作方式。
+
+```json
+"lint-staged": {
+  "*.{js,vue,jsx,tsx,ts}": [
+    "eslint --config=.eslintrc.js"
+  ],
+  "*.{html,vue,css,less}": [
+    "stylelint 'src/**/*.{vue,css,less}' --fix --config=.stylelintrc.js"
+  ]
+},
+```
+
+* 2、安装提交信息依赖
+
+```sh
+ pnpm i commitlint -D
+```
+
+然后执行以下命令：
+
+```sh
 npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
 ```
 
-* `@commitlint/config-conventional` 是一个规范配置，标识采用什么规范来执行消息校验, 这个默认是Angular的提交规范。
-
-* 也可以使用自己的方法来校验内容：
+该命令的会创建或覆盖 **.husky/commit-msg** 文件，并将以下内容写入该文件：
 
 ```sh
-npx husky add .husky/commit-msg 'node [dir]/filename.js' # 指定目录文件
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx --no-install commitlint --edit "$1"
 ```
 
-类型 | 描述 |
+> [!TIP]
+> **@commitlint/config-conventional** 是一个规范配置，标识采用什么规范来执行消息校验, 默认采用 Angular 的提交规范。**本项目中未使用**。
+
+**Angular的提交规范**：
+
+| 类型 | 描述 |
 | -- | -- |
 | build | 编译相关的修改，例如发布版本、对项目构建或者依赖的改动 |
 | chore | 其他修改, 比如改变构建流程、或者增加依赖库、工具等 |
@@ -156,32 +196,99 @@ npx husky add .husky/commit-msg 'node [dir]/filename.js' # 指定目录文件
 | style | 代码格式修改, 注意不是 css 修改 |
 | test | 测试用例修改 |
 
-* `commit-msg` 钩子执行消息校验
+> [!TIP]
+> **commit-msg**： 每次提交消息被创建后执行特定的操作
 
-#### 3、安装辅助提交依赖
-
-```sh
-npm i -D commitizen # 安装指令和命令行的展示信息
-npm set-script commit "git-cz" # package.json 中添加 commit 指令, 执行 `git-cz` 指令
-npx commitizen init 
-```
-
-**在此过程中可能需要安装 chalk，这是一个可以修改终端输出字符样式的 npm 包。chalk5 是 ESM，commonjs 中需要使用 chalk4.x**。
-
-#### 4、自定义提交规范
+* 3、安装辅助提交依赖
 
 ```sh
-npm i -D cz-customizable
+pnpm i -D commitizen
 ```
 
-增加 `.cz-config.js`。
+在 package.json 中添加 scripts：
 
-package.json 中，将原来 commit 配置，变更为自定义配置：
+```json
+"scripts": {
+  "commit": "git-cz"
+},
+```
+
+> [!TIP]
+> **cz-conventional-changelog** 遵循了 Conventional Commits 的规范，即一种约定化的提交消息格式，有助于生成更具可读性和可维护性的提交日志，可以通过 `npx commitizen init cz-conventional-changelog --save-dev --save-exact` 来规范化提交消息的格式。这里我们使用了自定义的提交规范，方便后期扩展。
+
+自定义提交规范，安装以下依赖：
+
+```sh
+pnpm i -D commitlint-config-cz cz-customizable
+```
+
+在根目录下创建 **commitlint.config.js** ,采用自己定义的规范，内容如下：
+
+```js
+module.exports = {
+  extends: ['cz'],
+  rules: {
+    'type-empty': [2, 'never'],
+    'subject-empty': [2, 'never'],
+  },
+};
+```
+
+在根目录下创建 **.cz-config.js**，内容如下：
+
+```js
+module.exports = {
+  // 可选类型
+  types: [
+    { value: 'feat', name: 'feat:     新功能' },
+    { value: 'fix', name: 'fix:      修复' },
+    { value: 'merge', name: 'merge:     分支合并' },
+    { value: 'style', name: 'style:    样式和代码格式' },
+    {
+      value: 'refactor',
+      name: 'refactor: 重构(既不是增加feature,也不是修复bug)'
+    },
+    { value: 'test', name: 'test:     增加测试' },
+    { value: 'chore', name: 'chore:    构建过程或辅助工具的变动' },
+    { value: 'revert', name: 'revert:   回退' },
+    { value: 'docs', name: 'revert:  文档' }
+  ],
+  // 消息步骤
+  messages: {
+    type: '请选择提交类型:',
+    // scope: '选择一个更改的范围(scope) (可选):',
+    // used if allowCustomScopes is true
+    // customScope: 'Denote the SCOPE of this change:',
+    subject: '请输入本次commit记录说明(必填):',
+    // body: '长说明，使用"|"换行(可选)：\n',
+    // breaking: '非兼容性说明 (可选):\n',
+    // footer: '关联关闭的issue，例如：#31, #34(可选):\n',
+    confirmCommit: '确定提交说明?'
+  },
+
+  skipQuestions: ['scope', 'body', 'breaking', 'footer'],
+
+  allowBreakingChanges: [
+    'fix',
+    'feat',
+    'test',
+    'refactor',
+    'revert',
+    'docs',
+    'style',
+    'chore',
+    'merge'
+  ],
+  subjectLimit: 100
+};
+```
+
+在 package.json 中新增以下代码，指定项目中使用的 Commitizen 适配器。
 
 ```json
 "config": {
   "commitizen": {
-    "path": "./node_modules/cz-customizable"
+    "path": "node_modules/cz-customizable"
   }
 }
 ```
