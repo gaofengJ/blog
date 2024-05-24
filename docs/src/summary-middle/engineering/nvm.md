@@ -75,7 +75,7 @@ export NVM_DIR="$HOME/.nvm"
 输入以下命令来测试 nvm 是否安装成功。
 
 ```sh
-npm --version
+nvm --version
 0.33.6
 ```
 
