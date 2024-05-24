@@ -15,16 +15,6 @@ description: javaScript
 
 * crossorigin：可选。配置相关请求的CORS（跨域资源共享）设置。默认不使用CORS。corssorigin="anonymous"配置文件请求不必设置凭据标志。corssorigin="use-credentials"设置凭据标志，意味着出战请求会包含凭据。
 
-crossorigin 属性在 `<audio>`、`<img>`、`<link>`、`<script>` 和 `<video>` 元素中有效，它们提供对 CORS 的支持，定义该元素如何处理跨源请求，从而实现对该元素获取数据的 CORS 请求的配置。根据元素的不同，该属性可以是一个 CORS 设置属性。
-
-    * anonymous
-      请求使用了 CORS 标头，且证书标志被设置为 'same-origin'。没有通过 cookies、客户端 SSL 证书或 HTTP 认证交换用户凭据，除非目的地是同一来源。
-
-    * use-credentials
-      请求使用了 CORS 标头，且证书标志被设置为 'include'。总是包含用户凭据。
-
-    * ""
-      将属性名称设置为空值，如 crossorigin 或 crossorigin=""，与设置为 anonymous 的效果一样。
 
 * defer：可选。表示脚本可以延迟到文档完全被解析和显示之后再执行。只对外部脚本有效。
 
