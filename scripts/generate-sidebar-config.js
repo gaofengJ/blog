@@ -72,7 +72,8 @@ const getDirsPath = () => {
  * 生成sidebar config
  */
 const getSideBarConfig = (dirs) => {
-  const regex = /\/([^/]+)$/; // 匹配最后一个斜杠后面的内容
+  // eslint-disable-next-line no-useless-escape
+  const regex = /[\\\/]([^\\\/]+)$/; // 匹配最后一个斜杠后面的内容
   const config = {};
   for (let i = 0; i < dirs.length; i++) { // 遍历一级路径
     const dir = dirs[i];
