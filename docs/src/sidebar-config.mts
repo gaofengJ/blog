@@ -1,11 +1,27 @@
 export default {
-  '/essay/': [
+  '/experience/': [
     {
-      'text': '八股文',
+      'text': '面经',
       'items': [
         {
-          'text': '面经',
-          'link': '/essay/summary/summary.md'
+          'text': 'HTML',
+          'link': '/experience/theory/1-html.md'
+        },
+        {
+          'text': 'CSS',
+          'link': '/experience/theory/2-css.md'
+        },
+        {
+          'text': 'JavaScript',
+          'link': '/experience/theory/3-javascript.md'
+        },
+        {
+          'text': 'Vue',
+          'link': '/experience/theory/4-vue.md'
+        },
+        {
+          'text': 'React',
+          'link': '/experience/theory/5-react.md'
         }
       ]
     }

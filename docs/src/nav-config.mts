@@ -15,13 +15,13 @@ export default [
     'activeMatch': '/summary-senior/'
   },
   {
-    'text': '八股文',
-    'link': '/essay/summary/summary.md',
-    'activeMatch': '/essay/'
-  },
-  {
     'text': '学习笔记',
     'link': '/note/red-book/chapter1.md',
     'activeMatch': '/note/'
+  },
+  {
+    'text': '面经',
+    'link': '/experience/theory/1-html.md',
+    'activeMatch': '/experience/'
   }
 ]
