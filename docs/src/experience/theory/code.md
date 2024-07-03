@@ -32,3 +32,54 @@ function debounce(fn, delay = 100) {
   };
 }
 ```
+
+## 对象深拷贝
+
+```js
+// DFS版
+function deepCopyDFS(obj, map = new Map()) {
+  if (typeof obj !== 'object' || obj === null) return obj;
+  if (map.has(obj)) return map.get(obj);
+
+  const copy = Array.isArray(obj) ? [] : {};
+  map.set(obj, copy);
+
+  for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+          copy[key] = deepCopyDFS(obj[key], map);
+      }
+  }
+  return copy;
+}
+
+// BFS版
+function deepCopyBFS(obj) {
+  if (typeof obj !== 'object' || obj === null) return obj;
+
+  const root = Array.isArray(obj) ? [] : {};
+  const queue = [{ original: obj, copy: root }];
+  const map = new Map();
+  map.set(obj, root);
+
+  while (queue.length) {
+    const { original, copy } = queue.shift();
+    
+    for (const key in original) {
+      if (original.hasOwnProperty(key)) {
+        const value = original[key];
+        if (typeof value === 'object' && value !== null) {
+          if (!map.has(value)) {
+            const newCopy = Array.isArray(value) ? [] : {};
+            map.set(value, newCopy);
+            queue.push({ original: value, copy: newCopy });
+          }
+          copy[key] = map.get(value);
+        } else {
+          copy[key] = value;
+        }
+      }
+    }
+  }
+  return root;
+}
+```

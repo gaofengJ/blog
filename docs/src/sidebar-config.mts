@@ -22,6 +22,10 @@ export default {
         {
           'text': 'React',
           'link': '/experience/theory/5-react.md'
+        },
+        {
+          'text': '手写代码',
+          'link': '/experience/theory/code.md'
         }
       ]
     }
