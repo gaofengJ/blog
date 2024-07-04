@@ -24,6 +24,10 @@ export default {
           'link': '/experience/theory/5-react.md'
         },
         {
+          'text': '算法与数据结构',
+          'link': '/experience/theory/8-algorithm.md'
+        },
+        {
           'text': '手写代码',
           'link': '/experience/theory/code.md'
         }

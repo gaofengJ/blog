@@ -76,12 +76,150 @@ map 传递给 parseInt 的参数包括当前元素的值，当前元素的索引
 键是弱引用，如果没有其他引用指向该对象，则键和值可以被垃圾回收。
 没有 `clear()` 方法，也没有 `size` 属性，因为键值对可能随时被回收。
 
-## 介绍下深度优先遍历和广度优先遍历
+## ES5/ES6中继承的区别
 
-* 深度优先遍历（DFS）
+* 语法糖
 
-DFS是一种优先访问尽可能深的节点的遍历方法。其思想是从起始节点开始，沿着一条路径一直走到底，然后回溯到上一个节点，再探索其他路径，直到所有节点都被访问过。
+ES6中的类(class)语法主要是对ES5原型继承(prototype-based inheritance)的一种语法糖。尽管两者在底层实现上是相同的，但类语法提供了一种更简洁和直观的方式来定义继承。
 
-* 广度优先遍历（BFS）
+* 严格模式
 
-BFS是一种优先访问距离起始节点最近的节点的遍历方法。其思想是从起始节点开始，逐层访问其邻近节点，再访问这些邻近节点的邻近节点，直到所有节点都被访问过。
+ES6类中的所有代码都在严格模式下运行，即使你没有显式地启用严格模式。这样可以避免一些常见的错误，如意外创建全局变量​。
+
+* 构造函数强制使用 `new` 关键字
+
+在ES6中，类的构造函数必须使用new关键字调用，否则会抛出错误。在ES5中，构造函数可以不使用new关键字，这可能会导致意外的结果。
+
+* 方法的不可枚举性
+
+ES6类中的方法是不可枚举的，这意味着它们不会出现在for...in循环中。这与ES5不同，在ES5中，必须手动设置方法的不可枚举性。
+
+* 静态方法和实例方法的定义
+
+在ES6中，可以很方便地在类中定义静态方法和实例方法，并且静态方法会绑定在类的构造函数上，而不是实例上。这在ES5中需要更多的代码来实现。
+
+* `super`关键字
+
+ES6引入了super关键字，用于调用父类的构造函数和方法，这使得继承关系中的方法调用变得更加直观和简单。在ES5中，需要通过`Function.call`或`Function.apply`来实现类似的功能。
+
+## setTimeout、Promise、Async/Await 的区别
+
+* setTimeout
+  * 作用：用于延迟执行代码
+  * 特性：
+    * 创建一个任务，在执行时间后执行
+    * 不会阻塞后续代码执行
+    * 属于宏任务（Macrotask）
+
+* Promise
+  * 作用：用于处理异步操作
+  * 特性：
+    * 不依赖于具体的时间延迟
+    * 用于链式调用，避免回调地狱
+    * 创建微任务（Microtask），优先级高于宏任务
+
+* async/await
+  * 作用：用于简化基于Promise的代码，使其看起来像同步代码
+  * 特性：
+    * async函数会返回一个Promise
+    * await会等待Promise resolve 或 reject，并返回其解决值
+    * 使代码更加易读和调试，尤其在复杂的异步流程中
+
+## async/await 如何通过同步的方式实现异步
+
+async/await 使异步代码看起来像同步代码，但它实际上并不会使代码变得同步。它只是通过暂停函数的执行来等待异步操作的完成，然后继续执行。这种机制让你能够写出类似于同步代码的异步代码，而不需要回调地狱或复杂的 Promise 链。
+
+在实际操作中，await在遇到一个Promise时会暂停函数的执行，直到该Promise解决为止。这种暂停并不会阻塞事件循环或阻止其他代码的执行。例如，当你在一个循环中使用await时，函数会一个接一个地等待每个Promise的解决，而不是同时发送多个请求。
+
+## JavaScript的事件循环机制
+
+首先明确几个概念：
+
+### 任务队列
+
+* js 分为同步任务和异步任务
+* 同步任务都在主线程上执行，形成一个执行栈
+* 主线程之外，事件触发线程管理着一个任务队列，只要异步任务有了运行结果，就会在任务队列中放置一个事件
+* 一旦执行栈中的所有同步任务执行完毕（此时 js 引擎空闲），系统就会读取任务队列，将可运行的异步任务添加到可执行栈中，开始执行。
+
+根据规范，事件循环是通过任务队列的机制来进行协调的。一个 Event Loop 中，可以有一个或多个任务队列（task queue），一个任务队列便是一系列有序任务（task）的集合；每个任务都有一个任务源（task source），源自同一个任务源的task必须放在同一个任务队列，从不同源来的则被添加到不同队列。setTimeout/Promise等API便是任务源，而进入任务队列的是他们指定的具体执行任务。
+
+### 宏任务
+
+macrotask（又称之为宏任务），可以理解是每次执行栈执行的代码就是一个宏任务（包括每次从事件队列中获取一个事件回调并放到执行栈中执行）。
+
+浏览器为了能够使得JS内部 macrotask 与DOM任务能够有序的执行，会在一个macrotask 执行结束后，在下一个 macrotask 执行开始前，对页面进行重新渲染。
+
+macrotask 主要包含：script(整体代码)、setTimeout、setInterval、I/O、UI交互事件、postMessage、MessageChannel、setImmediate(Node.js 环境)
+
+### 微任务
+
+microtask（又称为微任务），可以理解是在当前 task 执行结束后立即执行的任务。也就是说，在当前task任务后，下一个task之前，在渲染之前。
+
+所以它的响应速度相比setTimeout（ setTimeout 是 macrotask）会更快，因为无需等渲染。也就是说，在某一个 macrotask 执行完后，就会将在它执行期间产生的所有 microtask 都执行完毕（在渲染前）。
+
+microtask主要包含：Promise.then、MutaionObserver、process.nextTick(Node.js 环境)。
+
+### 运行机制
+
+在事件循环中，每进行一次循环操作称为 tick，每一次 tick 的任务处理模型是比较复杂的，但关键步骤如下：
+
+* 执行一个宏任务（栈中没有就从事件队列中获取）
+* 执行过程中如果遇到微任务，就将它添加到微任务的任务队列中
+* 宏任务执行完毕后，立即执行当前微任务队列中的所有微任务（依次执行）
+* 当前宏任务执行完毕，开始检查渲染，然后GUI线程接管渲染
+* 渲染完毕后，JS线程继续接管，开始下一个宏任务（从事件队列中获取）
+
+## 写出下面代码的运行结果
+
+```js
+async function async1() {
+  console.log('async1 start');
+  await async2();
+  console.log('async1 end');
+}
+async function async2() {
+  console.log('async2');
+}
+console.log('script start');
+setTimeout(function() {
+  console.log('setTimeout');
+}, 0)
+async1();
+new Promise(function(resolve) {
+  console.log('promise1');
+  resolve();
+}).then(function() {
+  console.log('promise2');
+});
+console.log('script end');
+```
+
+```js
+script start
+async1 start
+async2
+promise1
+script end
+async1 end
+promise2
+setTimeout
+```
+
+### 执行过程
+
+1. 首先，事件循环从宏任务（macrotask）队列开始，这个时候，宏任务队列中只有一个 script（整体代码）任务；当遇到任务源（task source）时，则会先分发任务到对应的任务队列中去。
+
+2. 这段代码首先定义了两个 async 函数，然后执行了一个 console，直接输出 `script start`。之后 script 任务继续往下执行，遇到 setTimeout，其作为一个宏任务源，则会将其任务分发到对应的队列中去。
+
+3. script 任务继续往下，执行了 async1 函数，async 函数之前的代码是立即执行的，所以会立即输出 `async1 start`。
+
+4. 遇到 await 时，会将 await 后面的表达式执行一遍，所以紧接着输出`async2`,然后将 await 后面的代码也就是 `console.log(async1 end)`加入到microtask 中的 Promise 队列中，接着跳出 async1 函数来执行后面的代码。
+
+5. script 任务继续往下执行，遇到了 Promise实例。由于 Promise 中的函数是立即执行的，而后续的 `.then`则会被分发到 microtask 中的 Promise 队列中去。所以会先输出 promise1，然后执行 resolve，将 promise2 分配到对应队列。
+
+6. script 任务继续往下，最后输出了 `script end`，至此全局任务就执行完毕了。
+
+7. 执行完一个宏任务后，回去检查是否存在微任务。如果有，则执行微任务直至清空 Microtask queue。所以在 script 任务执行完毕后，开始查找清空微任务队列。此时，微任务中 Promise 队列有两个任务 async1 end 和 promise2，因此按照先后顺序输出`async1 end` 和 `promise2`。当所有 Microtasks 执行完毕后，表示第一轮的循环就结束了。
+
+8. 第二轮循环依旧从宏任务队列开始。此时宏任务重只有一个 setTimeout，取出直接输出即可，至此整个流程结束。
