@@ -83,3 +83,28 @@ function deepCopyBFS(obj) {
   return root;
 }
 ```
+
+## 算法手写题
+
+已知如下数组：
+var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];
+编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
+
+```js
+const fn = (arr) => {
+  return Array.from(new Set(arr.flat(Infinity))).sort((a, b) => a - b);
+}
+```
+
+## 实现 new
+
+```js
+function _new (fn, ...args) {
+  // 创建一个新对象，将原型指向构造函数的原型
+  const obj = Object.create(fn.prototype);
+  // 调用构造函数，将this绑定到新创建的对象上
+  const ret = fn.apply(obj, args);
+  // 如果构造函数返回了一个对象，那么返回这个对象，否则返回新创建的对象
+  return ret instanceof Objet ? ret : obj;
+}
+```
