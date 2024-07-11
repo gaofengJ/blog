@@ -251,3 +251,180 @@ setTimeout
 
 promise构造函数是同步执行的，then方法是异步执行的。
 
+## 有以下 3 个判断数组的方法，请分别介绍它们之间的区别和优劣
+
+> Object.prototype.toString.call() 、 instanceof 以及 Array.isArray()
+
+### `Object.prototype.toString.call()`
+
+用法：
+
+```js
+Object.prototype.toString.call(val) === '[object Array]';
+```
+
+* 优点
+  * 可以准确判断所有数组，即使是在跨框架（cross-frame）或不同窗口环境中
+  * 适用于各种 JavaScript 对象类型的检查
+
+* 缺点
+  * 语法较为冗长
+  * 在一些特定场景下（低版本浏览器），可能需要手动实现
+
+### `instanceof`
+
+用法：
+
+```js
+val instanceof Array
+```
+
+* 优点
+  * 简洁明了，代码可读性高。
+  * 可以用于一般的数组判断。
+
+* 缺点
+  * 在跨框架（cross-frame）环境中失效。例如，当数组是从一个 iframe 中创建的，instanceof 检查会失败。
+
+### `Array.isArray()`
+
+用法：
+
+```js
+Array.isArray(val)
+```
+
+* 优点
+  * ES5 引入的方法，现代浏览器（IE9 及以上）和环境均支持。
+  * 专门用于判断数组，语法简洁，性能优越。
+  * 对跨框架的数组判断也能正确处理。
+
+* 缺点
+  * 在 IE8 及更早的浏览器中不支持，如果需要兼容这些浏览器，则需要使用 polyfill​。
+
+最佳选择： 对于现代浏览器和大多数应用场景，Array.isArray() 是最简洁和直接的方法。
+
+## 介绍下观察者模式和发布-订阅模式的区别，各自适用于什么场景
+
+### 观察者模式（Observer Pattern）
+
+* 耦合性: 在观察者模式中，观察者和被观察者（主题）之间存在直接的依赖关系。被观察者知道有哪些观察者，并且直接通知它们变化。
+
+* 应用范围: 通常用于同一进程内的事件处理。当一个对象状态改变时，所有依赖于它的对象都收到通知并自动更新。例如，在GUI应用程序中，一个按钮的点击事件可以通知多个处理器。
+
+* 实现方式: 观察者模式通常由两个主要部分组成：主题（Subject）和观察者（Observer）。主题维护观察者列表，当其状态改变时通知所有观察者。
+
+代码示例：
+
+```js
+interface Observer {
+  update: (message: string) => void;
+}
+
+class Subject {
+  private observers: Observer[] = [];
+
+  registerObserver(observer: Observer): void {
+    this.observers.push(observer);
+  }
+
+  removeObserver(observer: Observer): void {
+    this.observers = this.observers.filter(obs => obs !== observer);
+  }
+
+  notifyObservers(message: string): void {
+    this.observers.forEach(observer => observer.update(message));
+  }
+}
+```
+
+### 发布-订阅模式（Publish-Subscribe Pattern）
+
+* 解耦性: 订阅者和发布者之间没有直接的联系。消息通过中介（消息代理）传递，发布者发送消息到特定的主题，订阅者订阅这些主题以接收消息。这种模式解耦了发布者和订阅者，使得它们可以独立演化。
+
+* 应用范围: 适用于跨进程、跨网络的消息传递。例如，微服务架构中，服务之间可以通过消息队列系统（如Kafka、RabbitMQ）进行通信。
+
+* 实现方式: 包含发布者（Publisher）、订阅者（Subscriber）和消息代理（Broker）等组件。发布者将消息发送到代理，代理根据订阅者的订阅信息分发消息。
+
+代码示例：
+
+```js
+class Publisher {
+  private broker: Broker;
+
+  constructor(broker: Broker) {
+    this.broker = broker;
+  }
+
+  publish(topic: string, message: string): void {
+    this.broker.publish(topic, message);
+  }
+}
+
+class Broker {
+  private topics: { [key: string]: Function[] } = {};
+
+  subscribe(topic: string, subscriber: Function): void {
+    if (!this.topics[topic]) {
+      this.topics[topic] = [];
+    }
+    this.topics[topic].push(subscriber);
+  }
+
+  publish(topic: string, message: string): void {
+    if (this.topics[topic]) {
+      this.topics[topic].forEach(subscriber => subscriber(message));
+    }
+  }
+}
+
+class Subscriber {
+  constructor(broker: Broker, topic: string) {
+    broker.subscribe(topic, this.receive);
+  }
+
+  receive(message: string): void {
+    console.log(`Received message: ${message}`);
+  }
+}
+```
+
+### 使用场景
+
+* 观察者模式: 适用于需要紧密耦合的场景，例如GUI组件之间的交互。
+* 订阅-发布模式: 适用于需要解耦的场景，特别是分布式系统和跨网络通信。
+
+## 浏览器和 Node 事件循环的区别
+
+### 浏览器
+
+关于微任务和宏任务在浏览器的执行顺序是这样的：
+
+* 执行一个macro-task（宏任务）
+* 执行完micro-task队列（微任务）
+
+### Node
+
+Node的事件循环是libuv实现的。
+
+大体的task（宏任务）执行顺序是这样的：
+
+* timers定时器：本阶段执行已经安排的 setTimeout() 和 setInterval() 的回调函数。
+
+* pending callbacks待定回调：执行延迟到下一个循环迭代的 I/O 回调。
+
+* idle, prepare：仅系统内部使用。
+
+* poll 轮询：检索新的 I/O 事件;执行与 I/O 相关的回调（几乎所有情况下，除了关闭的回调函数，它们由计时器和 setImmediate() 排定的之外），其余情况 node 将在此处阻塞。
+
+* check 检测：setImmediate() 回调函数在这里执行。
+
+* close callbacks 关闭的回调函数：一些准备关闭的回调函数，如：socket.on('close', ...)。
+
+Node 10以前：
+
+* 执行完一个阶段的所有任务
+* 执行完nextTick队列里面的内容
+* 然后执行完微任务队列的内容
+
+Node 11以后和浏览器的行为统一了，都是每执行一个宏任务就执行完微任务队列。

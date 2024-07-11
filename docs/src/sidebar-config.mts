@@ -30,6 +30,14 @@ export default {
         {
           'text': '手写代码',
           'link': '/experience/theory/code.md'
+        },
+        {
+          'text': '工程化',
+          'link': '/experience/theory/engineer.md'
+        },
+        {
+          'text': '网络协议',
+          'link': '/experience/theory/network.md'
         }
       ]
     }
