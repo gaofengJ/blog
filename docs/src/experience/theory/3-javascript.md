@@ -428,3 +428,63 @@ Node 10以前：
 * 然后执行完微任务队列的内容
 
 Node 11以后和浏览器的行为统一了，都是每执行一个宏任务就执行完微任务队列。
+
+## 介绍模块化发展历史
+
+JavaScript 模块化的演变经历了多个重要阶段，每个阶段都有其独特的解决方案和使用场景。以下是对主要模块化方案的概述：
+
+### 1、IIFE（立即调用的函数表达式）
+
+IIFE是一种早期的模块化模式，通过立即调用一个匿名函数来创建一个私有作用域，避免全局变量污染。这在模块化方案尚未成熟时非常流行。
+
+### 2、AMD（异步模块定义）
+
+AMD主要用于浏览器环境，强调异步加载模块。它通过define函数定义模块，并通过require函数加载模块。RequireJS是其代表性实现。
+
+### 3、CMD（通用模块定义）
+
+CMD和AMD类似，但更强调依赖的延迟执行。SeaJS是CMD的典型实现。CMD在定义模块时通过define函数，将依赖项放在模块体内。
+
+### 4、CommonJS
+
+CommonJS是Node.js采用的模块规范，通过require函数引入模块，通过module.exports导出模块。它在服务器端广泛使用，并且支持同步加载。
+
+### 5、UMD（通用模块定义）
+
+UMD试图兼容AMD和CommonJS，同时也支持全局变量模式。UMD模式用于创建可在多种环境下运行的模块
+
+### 6、Webpack（require.ensure）
+
+Webpack是一个流行的打包工具，它支持动态导入（通过require.ensure实现）和代码拆分，能够高效管理依赖关系并生成优化的包。
+
+### 7、ESModule
+
+ES6引入了原生的模块系统，支持import和export语法。ES模块在编译时静态解析，具有更好的优化潜力和性能。它已经成为现代前端开发的标准。
+
+### 8、<script type="module">
+
+HTML中可以通过`<script type="module">`标签直接加载ES模块。浏览器支持ES模块的原生导入和导出，使前端开发更加简洁和高效。
+
+## 全局作用域中，用 const 和 let 声明的变量不在 window 上，那到底在哪里？如何去获取？
+
+在ES5中，顶层对象的属性和全局变量是等价的，var 命令和 function 命令声明的全局变量，自然也是顶层对象。
+
+```js
+var a = 12;
+function f(){};
+
+console.log(window.a); // 12
+console.log(window.f); // f(){}
+```
+
+但ES6规定，var 命令和 function 命令声明的全局变量，依旧是顶层对象的属性，但 let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性。
+
+```js
+let aa = 1;
+const bb = 2;
+
+console.log(window.aa); // undefined
+console.log(window.bb); // undefined
+```
+
+在全局作用域中，用 let 和 const 声明的全局变量并没有在全局对象中，只是一个块级作用域（Script）中。
