@@ -28,6 +28,10 @@ export default {
           'link': '/experience/theory/8-algorithm.md'
         },
         {
+          'text': '浏览器',
+          'link': '/experience/theory/browser.md'
+        },
+        {
           'text': '手写代码',
           'link': '/experience/theory/code.md'
         },
@@ -38,6 +42,10 @@ export default {
         {
           'text': '网络协议',
           'link': '/experience/theory/network.md'
+        },
+        {
+          'text': '安全',
+          'link': '/experience/theory/safe.md'
         }
       ]
     }

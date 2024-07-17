@@ -121,3 +121,73 @@ for (let i = 0; i < arr2.length; i++) {
   result.push(...arr1.slice(i * 2, i * 2 + 2), arr2[i]);
 }
 ```
+
+## 改造下面的代码，使之输出0 - 9，写出你能想到的所有解法
+
+```js
+// 题目
+for (var i = 0; i < 10; i++) {
+  setTimeout(() => {
+    console.log(i);
+  }, 1000)
+}
+```
+
+```js
+// 答案
+for (let i = 0; i < 10; i++) {
+  setTimeout(() => {
+    console.log(i);
+  }, 1000)
+}
+```
+
+## 下面的代码打印什么内容
+
+```js
+var b = 10;
+(function b(){
+  b = 20;
+  console.log(b); 
+})();
+```
+
+打印结果内容如下：
+
+```js
+ƒ b() {
+b = 20;
+console.log(b)
+}
+```
+
+原因：**在非匿名自执行函数中，函数变量为只读状态无法修改；**
+
+## 简单改造下面的代码，使之分别打印 10 和 20
+
+```js
+// 题目
+var b = 10;
+(function b(){
+    b = 20;
+    console.log(b); 
+})();
+```
+
+```js
+// 打印10
+var b = 10;
+(function (){
+  console.log(b);
+  b = 20;
+})();
+```
+
+```js
+// 打印20
+var b = 10;
+(function (){
+  b = 20;
+  console.log(b);
+})();
+```
