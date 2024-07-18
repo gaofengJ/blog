@@ -298,8 +298,8 @@ export default {
       'text': '浏览器',
       'items': [
         {
-          'text': '浏览器',
-          'link': '/summary-primary/browser/browser.md'
+          'text': '浏览器缓存',
+          'link': '/summary-primary/browser/cache.md'
         }
       ]
     },
