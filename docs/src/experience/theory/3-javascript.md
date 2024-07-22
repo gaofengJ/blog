@@ -488,3 +488,25 @@ console.log(window.bb); // undefined
 ```
 
 在全局作用域中，用 let 和 const 声明的全局变量并没有在全局对象中，只是一个块级作用域（Script）中。
+
+## 下面代码中 a 在什么情况下会打印 1
+
+```js
+var a = ?;
+if(a == 1 && a == 2 && a == 3){
+  console.log(1);
+}
+```
+
+```js
+var a = {
+  i: 1,
+  toString() {
+    return a.i++;
+  }
+}
+
+if( a == 1 && a == 2 && a == 3 ) {
+  console.log(1);
+}
+```

@@ -191,3 +191,18 @@ var b = 10;
   console.log(b);
 })();
 ```
+
+## 使用迭代的方式实现 flatten 函数
+
+```js
+const flatten = (arr, ret = []) => {
+  for (let i = 0; i < arr.length; i++) {
+    if (Array.isArray(arr[i])) {
+      ret.push(flatten(arr[i], ret));
+    } else {
+      ret.push(arr[i]);
+    }
+  }
+  return ret;
+}
+```
