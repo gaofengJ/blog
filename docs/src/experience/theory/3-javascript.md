@@ -461,7 +461,7 @@ Webpack是一个流行的打包工具，它支持动态导入（通过require.en
 
 ES6引入了原生的模块系统，支持import和export语法。ES模块在编译时静态解析，具有更好的优化潜力和性能。它已经成为现代前端开发的标准。
 
-### 8、<script type="module">
+### 8、`<script type="module">`
 
 HTML中可以通过`<script type="module">`标签直接加载ES模块。浏览器支持ES模块的原生导入和导出，使前端开发更加简洁和高效。
 
