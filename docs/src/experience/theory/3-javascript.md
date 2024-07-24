@@ -510,3 +510,34 @@ if( a == 1 && a == 2 && a == 3 ) {
   console.log(1);
 }
 ```
+
+## 以下代码执行结果是什么？
+
+```js
+var obj = {
+  '2': 3,
+  '3': 4,
+  'length': 2,
+  'splice': Array.prototype.splice,
+  'push': Array.prototype.push
+}
+obj.push(1)
+obj.push(2)
+console.log(obj)
+```
+
+```js
+{2: 1, 3: 2, length: 4, splice: ƒ, push: ƒ}
+```
+
+## call 和 apply 的区别是什么，哪个性能更好一些
+
+call 和 apply 都是 JavaScript 中用于函数调用的两种方法，主要区别在于参数的传递方式：
+
+* call 方法接受一个参数列表，格式为 fn.call(thisArg, arg1, arg2, ...)。
+
+* apply 方法接受一个包含参数的数组，格式为 fn.apply(thisArg, [arg1, arg2, ...])。
+
+在性能方面，通常 call 比 apply 更快。这主要是因为 apply 需要进行额外的参数处理，将数组转换为参数列表。apply 方法需要执行更多的步骤，包括参数类型检查和循环处理所有参数，从而导致了额外的开销​。
+
+因此，在性能敏感的场景中，若已知参数数量且可以明确列出参数，推荐使用 call 方法。此外，如果参数已经存在于一个数组中且数组大小不确定，apply 会更方便一些。

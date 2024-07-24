@@ -99,3 +99,37 @@ Angular 和 Vue 都提供了列表重绘的优化机制，也就是 “提示”
 一个常见的解决方案是使用本地副本。如果需要在子组件中修改传递的 Prop，可以在子组件中创建一个本地的 data 属性并将 Prop 的值复制到这个本地属性，然后对子组件中的本地属性进行修改。另外，可以通过事件来与父组件进行通信，子组件在需要修改 Prop 时，发送一个事件给父组件，父组件接收到事件后修改自己的状态，再将更新后的 Prop 传递回子组件。
 
 这种方式可以确保数据流的清晰和可维护性。
+
+## 双向绑定和 vuex 是否冲突
+
+当在严格模式中使用 Vuex 时，在属于 Vuex 的 state 上使用 `v-model` 会比较棘手：
+
+```html
+<input v-model="obj.message">
+```
+
+假设这里的 obj 是在计算属性中返回的一个属于 Vuex store 的对象，在用户输入时，`v-model` 会试图直接修改 obj.message。在严格模式中，由于这个修改不是在 mutation 函数中执行的, 这里会抛出一个错误。
+
+用“Vuex 的思维”去解决这个问题的方法是：给 `<input>` 中绑定 value，然后侦听 input 或者 change 事件，在事件回调中调用一个方法:
+
+```js
+// 业务代码
+computed: {
+  ...mapState({
+    message: state => state.obj.message
+  })
+},
+methods: {
+  updateMessage (e) {
+    this.$store.commit('updateMessage', e.target.value)
+  }
+}
+
+
+// mutations 函数
+mutations: {
+  updateMessage (state, message) {
+    state.obj.message = message
+  }
+}
+```

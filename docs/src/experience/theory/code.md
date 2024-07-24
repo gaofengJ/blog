@@ -198,7 +198,7 @@ var b = 10;
 const flatten = (arr, ret = []) => {
   for (let i = 0; i < arr.length; i++) {
     if (Array.isArray(arr[i])) {
-      ret.push(flatten(arr[i], ret));
+      flatten([...arr[i]], ret);
     } else {
       ret.push(arr[i]);
     }
@@ -206,3 +206,50 @@ const flatten = (arr, ret = []) => {
   return ret;
 }
 ```
+
+## 以下代码输出内容？
+
+```js
+var a = 10;
+(function () {
+    console.log(a)
+    a = 5
+    console.log(window.a)
+    var a = 20;
+    console.log(a)
+})()
+```
+
+```js
+undefined
+10
+20
+```
+
+**解析：**
+
+在立即执行函数中，var a = 20; 语句定义了一个局部变量 a，由于js的变量声明提升机制，局部变量a的声明会被提升至立即执行函数的函数体最上方，且由于这样的提升并不包括赋值，因此第一条打印语句会打印undefined，最后一条语句会打印20。
+
+由于变量声明提升，a = 5; 这条语句执行时，局部的变量a已经声明，因此它产生的效果是对局部的变量a赋值，此时window.a 依旧是最开始赋值的10。
+
+## 实现一个 sleep 函数
+
+```js
+const sleep = (time) => {
+  return new Promise((resolve) => setTimeout(rsolve, time));
+}
+
+sleep(1000).then(() => {
+  // 这里写你的骚操作
+})
+```
+
+## 使用 sort() 对数组 [3, 15, 8, 29, 102, 22] 进行排序，输出结果
+
+[102, 15, 22, 29, 3, 8]
+
+**解析：**
+
+根据MDN上对Array.sort()的解释，默认的排序方法会将数组元素转换为字符串，然后比较字符串中字符的UTF-16编码顺序来进行排序。所以'102' 会排在 '15' 前面。
+
+## 实现 (5).add(3).minus(2) 功能
