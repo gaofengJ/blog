@@ -253,3 +253,8 @@ sleep(1000).then(() => {
 根据MDN上对Array.sort()的解释，默认的排序方法会将数组元素转换为字符串，然后比较字符串中字符的UTF-16编码顺序来进行排序。所以'102' 会排在 '15' 前面。
 
 ## 实现 (5).add(3).minus(2) 功能
+
+```js
+Number.prototype.add = (n) => this.valueOf() + n;
+Number.prototype.minus = (n) => this.valueOf() - n;
+```
