@@ -258,3 +258,103 @@ sleep(1000).then(() => {
 Number.prototype.add = (n) => this.valueOf() + n;
 Number.prototype.minus = (n) => this.valueOf() - n;
 ```
+
+## 以下代码的执行结果
+
+```js
+var a = {n: 1};
+var b = a;
+a.x = a = {n: 2};
+
+console.log(a.x); 
+console.log(b.x);
+```
+
+```js
+undefined
+{n: 2};
+```
+
+* 1.初始状态
+
+```js
+var a = {n: 1}; // a 指向一个对象 {n: 1}
+var b = a; // b 也指向同一个对象 {n: 1}
+```
+
+* 2.操作链 `a.x = a = {n: 2}`
+
+  * 这行代码涉及到链式赋值，从右到左执行
+
+  * 点的优先级大于等号的优先级
+
+  * `a = {n: 2}`:
+    * 这部分操作将 a 重新赋值为一个新的对象 {n: 2}。此时，a 不再指向最初的对象 {n: 1}，而是指向新的对象 {n: 2}。
+  
+  * `a.x = {n: 2}`:
+    * 然而，由于赋值操作是从右到左的，在 a 被重新赋值之前，左边的 a 仍然指向原来的对象 {n: 1}。
+    * 所以，实际上 `a.x = a = {n: 2}` 可以拆分为两步：
+      * 1、`a.x = {n: 2}`：给最初的对象 `{n: 1}` 添加一个属性 x，其值为新的对象 `{n: 2}`。
+      * 2、`a = {n: 2}`：将 a 重新赋值为新的对象 `{n: 2}`
+
+* 3.结果
+
+经过上述操作，a 最终指向的是新的对象 {n: 2}，而 b 仍然指向最初的对象 {n: 1}，但此对象现在具有一个新属性 x，其值为 {n: 2}。
+
+```js
+console.log(a.x); // undefined，因为新的对象 `{n: 2}` 没有 `x` 属性。
+console.log(b.x); // {n: 2}，因为 `b` 仍然指向最初的对象 `{n: 1}`，且该对象具有 `x` 属性，其值为 `{n: 2}`。
+```
+
+## 冒泡排序如何实现，时间复杂度是多少， 还可以如何改进
+
+冒泡排序的时间复杂度为 log(n^2)
+
+```js
+// 冒泡排序
+function bubbleSort(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        const temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  console.log(arr);
+}
+
+// 改良版
+function bubbleSort(arr) {
+  let n = arr.length;
+  let swapped = true; // 当前遍历是否发生了交换
+
+  while (swapped) {
+    swapped = false;
+    for (let i = 0; i < n - 1; i++) {
+      if (arr[i] > arr[i + 1]) {
+        [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+        swapped = true;
+      }
+    }
+    n--; // 减少比较的范围
+  }
+
+  console.log(arr);
+}
+```
+
+## 手写代码
+
+某公司 1 到 12 月份的销售额存在一个对象里面，如下：`{1:222, 2:123, 5:888}`，请把数据处理为如下结构：`[222, 123, null, null, 888, null, null, null, null, null, null, null]`
+
+```js
+const fn = (obj) => {
+  const ret = new Array(12).fill(null);
+  for (let i = 0; i < Object.keys(obj).length; i++) {
+    ret[Object.keys(obj)[i] - 1] = obj[Object.keys(obj)[i]];
+  }
+  return ret;
+}
+```

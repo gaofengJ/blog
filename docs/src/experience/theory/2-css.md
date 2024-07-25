@@ -25,3 +25,17 @@ BFC（块格式化上下文）是一种在CSS中用于处理元素布局和浮�
 * 清除浮动（clearfix），避免容器高度为0。
 * 防止外边距合并，确保块级元素之间有正确的间距。
 * 包含浮动元素，防止布局破坏。
+
+## div水平垂直居中
+
+```css
+<div class="parent">
+  <div class="child"></div>
+</div>
+
+div.parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
