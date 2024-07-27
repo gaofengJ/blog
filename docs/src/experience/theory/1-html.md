@@ -38,3 +38,19 @@ description: HTML
 * **隐藏性强**：透明的 1x1 像素图片几乎不可见，不会影响用户的浏览体验，同时能够悄无声息地收集数据​ (Stack Overflow)​。
 
 这种方法被广泛用于网页访问统计、广告效果监测以及电子邮件阅读率统计等场景。尽管现代浏览器和邮件客户端开始默认阻止图片加载以防止这种跟踪，但它仍然是一个常见且有效的解决方案。
+
+## 已知如下代码，如何修改才能让图片宽度为 300px ？注意下面代码不可修改
+
+```html
+<img src="1.jpg" style="width:480px!important;”>
+```
+
+```html
+<style>
+img {
+  max-width: 300px;
+}
+</style>
+
+<img src="1.jpg" style="width:480px!important;”>
+```
