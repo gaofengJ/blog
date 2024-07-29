@@ -217,7 +217,7 @@ docker rmi registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
 echo -e "---------docker pull--------"
 docker pull registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
 echo -e "---------docker create and start--------"
-docker run --restart unless-stopped --rm -d -p 8080:80 --name blog registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
+docker run --restart unless-stopped -d -p 8080:80 --name blog registry.cn-hangzhou.aliyuncs.com/mufengtongxue/blog:latest
 echo -e "---------deploy success--------"
 ```
 
