@@ -51,3 +51,85 @@ div.parent {
 * display: none：完全移除元素，不占据任何页面空间，且不响应事件。适用于需要彻底从布局中移除元素的场景，例如根据条件动态展示或隐藏内容​。
 
 * display: none和opacity: 0：是非继承属性，子孙节点消失由于元素从渲染树消失造成，通过修改子孙节点属性无法显示。visibility: hidden：是继承属性，子孙节点消失由于继承了hidden，通过设置visibility: visible;可以让子孙节点显式。
+
+## 如何设计实现无缝轮播
+
+无缝轮播是一种能够在滚动到末尾时自动返回到开头、看起来没有明显断点的轮播效果。这种效果通常用于图片或内容的连续滚动展示。为了实现无缝轮播，通常需要将内容首尾连接起来，确保在视觉上实现无缝过渡。
+
+**实现无缝轮播的基本思路：**
+
+* 复制内容： 将轮播的内容进行复制，例如，将图片列表的第一个和最后一个元素分别复制到列表的末尾和开头。这样在切换到末尾或开头时，实际上是在切换到复制的元素上，从而实现无缝效果。
+
+* 监听滚动事件： 通过监听轮播容器的滚动事件，当检测到滚动到复制的元素时，瞬间切换回实际的元素位置。这种切换应该是无动画的，用户不会察觉到位置的瞬间变化。
+
+* CSS和JavaScript结合： 使用CSS进行基础的布局和过渡效果，通过JavaScript控制轮播的逻辑和位置切换。
+
+**示例代码：**
+
+**html部分：**
+
+```html
+<div class="carousel">
+  <div class="carousel-inner">
+    <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div>
+    <div class="item">1</div> <!-- 复制的第一个元素 -->
+  </div>
+</div>
+```
+
+**CSS部分：**
+
+```css
+.carousel {
+  position: relative;
+  overflow: hidden;
+  width: 300px;
+  height: 200px;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.item {
+  min-width: 100%;
+  height: 200px;
+}
+```
+
+**JavaScript：**
+
+```js
+const carousel = document.querySelector('.carousel-inner');
+let index = 0;
+const items = document.querySelectorAll('.item');
+const totalItems = items.length;
+
+function moveToNext() {
+  if (index >= totalItems - 1) {
+    index = 0;
+    carousel.style.transition = 'none';
+    carousel.style.transform = `translateX(-${index * 100}%)`;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        carousel.style.transition = 'transform 0.5s ease-in-out';
+        index++;
+        carousel.style.transform = `translateX(-${index * 100}%)`;
+      });
+    });
+  } else {
+    index++;
+    carousel.style.transform = `translateX(-${index * 100}%)`;
+  }
+}
+
+setInterval(moveToNext, 3000);
+```
+
+> [!TIP]
+>
+> * 第一帧：关闭过渡效果并瞬间切换到实际元素位置。
+> * 第二帧：恢复过渡效果，并开始新的过渡。

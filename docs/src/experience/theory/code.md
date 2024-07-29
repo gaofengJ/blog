@@ -467,3 +467,23 @@ const intersect = (nums1, nums2) => {
   return ret;
 }
 ```
+
+## 模拟实现一个 Promise.finally
+
+```js
+Promise.prototype.finally = function(callback) {
+  const constructor = this.constructor;
+  return this.then(
+    (value) => constructor.resolve(callback()).then(() => value),
+    (reason) => constructor.resolve(callback()).then(() => { throw reason; })
+  )
+}
+```
+
+解释：
+
+* finally 方法不论 Promise 是成功还是失败，都会执行回调 callback。
+
+* 通过 then 方法，在 Promise 成功时返回原始值，在失败时抛出原始错误。
+
+* 使用 constructor.resolve 确保 callback 可以返回一个 Promise 或简单值。

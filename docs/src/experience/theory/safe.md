@@ -33,3 +33,15 @@ Cookie和Token是两种不同的认证和会话管理机制，以下是它们的
 
   * Cookie：服务器需要保存Session数据，与Session ID对应，增加了服务器的存储和管理负担。
   * Token：服务器不需要保存会话数据，所有信息都包含在Token中，便于水平扩展。
+
+## 如何实现 token 加密
+
+JWT 举例
+
+* 需要一个secret（随机数）
+
+* 后端利用secret和加密算法(如：HMAC-SHA256)对payload(如账号密码)生成一个字符串(token)，返回前端
+
+* 前端每次request在header中带上token
+
+* 后端用同样的算法解密
