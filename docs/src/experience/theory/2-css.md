@@ -133,3 +133,48 @@ setInterval(moveToNext, 3000);
 >
 > * 第一帧：关闭过渡效果并瞬间切换到实际元素位置。
 > * 第二帧：恢复过渡效果，并开始新的过渡。
+
+## 什么是Retina 屏？如何解决移动端 Retina 屏 1px 像素问题
+
+Retina屏幕是苹果公司推出的一种高分辨率屏幕技术，主要特点是其像素密度足够高，以至于人眼在正常视距下无法分辨单个像素。这种屏幕技术提高了显示效果，使文字和图像更加锐利和清晰。
+
+在移动端的Retina屏幕上，实现1px的像素效果通常会遇到挑战，因为Retina屏幕的像素密度远高于普通屏幕，标准的1px边框在Retina屏幕上可能会显得过厚。以下是几种解决方法。
+
+* **使用transform属性缩放**：可以通过CSS的transform属性来缩放边框，使其达到类似1px的效果。例如，使用scaleY(0.5)将1px的边框缩小为0.5px​。
+
+```css
+.transform-border-hairline {
+  border-bottom: 1px solid #000;
+  transform: scaleY(0.5);
+}
+```
+
+* **使用0.5px边框**：在支持的浏览器中，可以直接使用0.5px的边框宽度。为确保兼容性，可以检测设备的像素比率，并在支持的设备上应用0.5px边框​。
+
+```js
+if (window.devicePixelRatio && devicePixelRatio >= 2) {
+  var testElem = document.createElement('div');
+  testElem.style.border = '.5px solid transparent';
+  document.body.appendChild(testElem);
+  if (testElem.offsetHeight == 1) {
+      document.querySelector('html').classList.add('hairlines');
+  }
+  document.body.removeChild(testElem);
+}
+
+.element {
+  border: 1px solid #bbb;
+}
+
+.hairlines .element {
+  border-width: 0.5px;
+}
+```
+
+* **使用box-shadow属性**：通过使用box-shadow属性和扩散半径（spread radius），可以实现类似于1px的细线效果。
+
+```css
+.element {
+  box-shadow: inset 0 0 1px #000;
+}
+```

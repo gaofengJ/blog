@@ -487,3 +487,51 @@ Promise.prototype.finally = function(callback) {
 * 通过 then 方法，在 Promise 成功时返回原始值，在失败时抛出原始错误。
 
 * 使用 constructor.resolve 确保 callback 可以返回一个 Promise 或简单值。
+
+## 数组编程题
+
+随机生成一个长度为 10 的整数类型的数组，例如 `[2, 10, 3, 4, 5, 11, 10, 11, 20]`，将其排列成一个新数组，要求新数组形式如下，例如 `[[2, 3, 4, 5], [10, 11], [20]]`。
+
+```js
+// 区间分类
+
+// 得到一个两数之间的随机整数，包括两个数在内
+const getRandomIntInclusive = (min, max) => {
+  const minCeil = Math.ceil(min);
+  const maxFloor = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloor - minCeil + 1)) + minCeil; // 含最大值，含最小值 
+};
+
+// 随机生成10个整数数组, 排序, 去重
+let initArr = Array.from({ length: 10 }, () => getRandomIntInclusive(0, 99));
+initArr = [...new Set(initArr)].sort((a, b) => a - b);
+
+// 放入hash表
+const obj = {};
+initArr.forEach((i) => {
+  const intNum = Math.floor(i / 10);
+  if (!obj[intNum]) obj[intNum] = [];
+  obj[intNum].push(i);
+});
+
+// 输出结果
+const resArr = Object.values(obj);
+console.log(resArr);
+```
+
+## 如何把一个字符串的大小写取反（大写变小写小写变大写），例如 'AbC' 变成 'aBc'
+
+```js
+const fn = (str) => {
+  let ret = '';
+  for (let i = 0; i < str.length; i++) {
+    if ('a' <= str[i] && 'z' >= str[i]) {
+      ret += str[i].toUpperCase();
+    }
+    if ('A' <= str[i] && 'Z' >= str[i]) {
+      ret += str[i].toLowerCase();
+    }
+  }
+  return ret;
+}
+```
