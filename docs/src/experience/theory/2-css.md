@@ -178,3 +178,36 @@ if (window.devicePixelRatio && devicePixelRatio >= 2) {
   box-shadow: inset 0 0 1px #000;
 }
 ```
+
+## 介绍下 BFC、IFC、GFC 和 FFC
+
+**BFC（Block Formatting Context）**
+
+块级格式化上下文（BFC）是页面上的一个独立的渲染区域，容器里的子元素不会在布局上影响外部的元素。它是决定块级盒子布局及浮动元素相互影响的一个关键机制。创建BFC的常见情况包括：
+
+* 根元素或其它包含块元素
+* 浮动元素（float属性不为none）
+* 绝对定位元素（position为absolute或fixed）
+* display属性为inline-block的元素
+* overflow属性不为visible的元素
+* 弹性容器（display属性为flex或inline-flex）
+
+BFC在清除浮动、避免外边距重叠以及包含内部浮动元素等场景中有很大作用​。
+
+**IFC（Inline Formatting Context）**
+
+行内格式化上下文（IFC）用来规定行内级别盒子的布局规则。IFC通常在一个块级元素中仅包含行内级别元素时生成。布局规则包括：
+
+* 盒子在水平方向一个接一个地放置。
+* 盒子垂直方向的起点从包含块盒子的顶部开始。
+* line box的宽度由包含块和存在的浮动决定。
+
+IFC主要用于水平和垂直居中对齐内容​。
+
+**GFC（Grid Formatting Context）**
+
+栅格格式化上下文（GFC）是通过display:grid创建的，用于实现二维的网格布局。GFC能够简化复杂的网页布局，提供更灵活的对齐和排版功能。
+
+**FFC（Flex Formatting Context）**
+
+弹性格式化上下文（FFC）是通过display:flex或inline-flex创建的。FFC用于实现一维的弹性布局，支持水平和垂直方向上的灵活分配和对齐。与块级布局不同，弹性容器中的浮动、清除和列属性无效。

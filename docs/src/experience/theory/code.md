@@ -535,3 +535,50 @@ const fn = (str) => {
   return ret;
 }
 ```
+
+## 实现一个字符串匹配算法，从长度为 n 的字符串 s 中，查找是否存在字符串 t，t 的长度是 m，若存在返回所在位置
+
+```js
+const findIndex = (s, t) => {
+  if (s.length < t.length) return -1;
+  for (let i = 0; i < s.length - t.length; i++) {
+    if (s.slice(i, i + t.length) === t) return i;
+  }
+  return -1;
+}
+```
+
+## 使用 JavaScript Proxy 实现简单的数据绑定
+
+```html
+<!DOCTPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Proxy Data Binding</title>
+</head>
+<body>
+  <input type="text" id="input" />
+  <div id="output"></div>
+</body>
+<script>
+  const data = {
+    text: '',
+  };
+
+  const handler = {
+    set(target, key, value) {
+      target[key] = value;
+      docoment.getElementById('output').textContent = value;
+      return true;
+    }
+  };
+
+  const proxy = new Proxy(data, handler);
+
+  document.getElementById('input').addEventListener('input', () => {
+    proxy.text = this.value;
+  })
+</script>
+</html>
+```
