@@ -654,3 +654,105 @@ for 循环的性能通常高于 forEach，主要是因为两者在底层实现�
 数组可以直接根据索引取的对应的元素，所以不管取哪个位置的元素的时间复杂度都是 O(1)
 
 得出结论：**消耗时间几乎一致，差异可以忽略不计**
+
+## 输出以下代码运行结果
+
+```js
+// example 1
+var a={}, b='123', c=123;  
+a[b]='b';
+a[c]='c';  
+console.log(a[b]);
+
+---------------------
+// example 2
+var a={}, b=Symbol('123'), c=Symbol('123');  
+a[b]='b';
+a[c]='c';  
+console.log(a[b]);
+
+---------------------
+// example 3
+var a={}, b={key:'123'}, c={key:'456'};  
+a[b]='b';
+a[c]='c';  
+console.log(a[b]);
+
+```
+
+输出如下：
+
+```js
+// example 1
+
+// c 的键名会被转换成字符串'123'，这里会把 b 覆盖掉。
+'c'
+
+// example 2
+
+// c 是 Symbol 类型，不需要转换。任何一个 Symbol 类型的值都是不相等的，所以不会覆盖掉 b。
+'b'
+
+// example 3
+
+// c 不是字符串也不是 Symbol 类型，需要转换成字符串。
+// 对象类型会调用 toString 方法转换成字符串 [object Object]。这里会把 b 覆盖掉。
+a[c]='c'; 
+'c'
+```
+
+## 介绍下 Promise.all 使用、原理实现及错误处理
+
+`Promise.all` 是一个 JavaScript 方法，用于处理多个异步操作。它接受一个可迭代对象（如数组），其中包含多个 Promise，并返回一个新的 Promise。当所有 Promise 都成功时，这个新的 Promise 会解析为一个包含所有结果的数组；如果任何一个 Promise 被拒绝，它将立即拒绝并返回第一个被拒绝的 Promise 的原因。
+
+**示例：**
+
+```js
+const promise1 = Promise.resolve(3);
+const promise2 = 42;
+const promise3 = new Promise((resolve) => {
+  setTimeout(resolve, 100, 'foo');
+});
+
+Promise.all([promise1, promise2, promise3]).then((values) => {
+  console.log(values); // [3, 42, 'foo']
+}).catch((error) => {
+  console.error(error);
+});
+```
+
+**原理**
+
+`Promise.all` 内部会遍历传入的可迭代对象，将每个元素转为 Promise（如果它不是 Promise），然后等待所有 Promise 完成。如果所有 Promise 成功，Promise.all 返回的 Promise 会解析为包含所有结果的数组。如果有任何一个 Promise 被拒绝，Promise.all 返回的 Promise 会立即拒绝，并返回第一个被拒绝的 Promise 的原因
+
+**错误处理**
+
+`Promise.all` 的一个特点是“全有或全无”。如果任何一个 Promise 被拒绝，整个 Promise.all 调用都会被拒绝。可以通过 .catch 方法处理错误
+
+```js
+Promise.all([promise1, promise2, promise3])
+  .then((values) => {
+    console.log(values);
+  })
+  .catch((error) => {
+    console.error('One of the promises failed:', error);
+  });
+```
+
+为了更灵活的错误处理，可以使用 `Promise.allSettled`，它会等待所有 Promise 完成，不论它们是成功还是失败，并返回每个 Promise 的结果对象。
+
+```js
+const promise1 = Promise.resolve('成功');
+const promise2 = Promise.reject('失败');
+const promise3 = Promise.resolve('也成功');
+
+Promise.allSettled([promise1, promise2, promise3]).then((results) => {
+  results.forEach((result) => {
+    if (result.status === 'fulfilled') {
+      console.log('成功:', result.value);
+    } else {
+      console.error('失败:', result.reason);
+    }
+  });
+});
+```

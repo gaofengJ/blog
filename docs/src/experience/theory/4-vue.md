@@ -143,3 +143,31 @@ mutations: {
 * 灵活性和简洁性：Proxy 允许在一个地方定义所有的拦截逻辑，而不需要在每个属性上重复定义 getter 和 setter。这使得代码更简洁和易于维护​​。
 
 * 支持复杂的数据结构：Proxy 对嵌套对象的处理也更加自然，可以递归地应用于所有嵌套的属性。而使用 Object.defineProperty 处理嵌套对象则需要更多的手动工作​​。
+
+## Vue 的父组件和子组件生命周期钩子执行顺序是什么
+
+* 加载渲染过程
+  * 1.父beforeCreate
+  * 2.父created
+  * 3.父beforeMount
+  * 4.子beforeCreate
+  * 5.子created
+  * 6.子beforeMount
+  * 7.子mounted
+  * 8.父mounted
+
+* 子组件更新过程
+  * 1.父beforeUpdate
+  * 2.子beforeUpdate
+  * 3.子updated
+  * 4.父updated
+
+* 父组件更新过程
+  * 父beforeUpdate
+  * 父updated
+
+* 销毁过程
+  * 1.父beforeDestroy
+  * 2.子beforeDestroy
+  * 3.子destroyed
+  * 4.父destroyed

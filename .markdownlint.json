@@ -3,5 +3,6 @@
   "no-space-in-code": false,
   "line_length": false,
   "no-duplicate-header": false,
-  "MD025": false
+  "MD025": false,
+  "MD036": false
 }
