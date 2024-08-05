@@ -612,3 +612,80 @@ var rotate = function(nums, k) {
   return nums;
 };
 ```
+
+## 打印出 1 - 10000 之间的所有对称数
+
+> [!TIP]
+>
+> 例如：121、1331 等
+
+```js
+const isSymmetric = (num) => {
+  const str = `${num}`;
+  let reversedStr = str.split('').reverse().join('');
+  return str === reversedStr;
+}
+
+const printSymmetricNumbers = () => {
+  for (let i = 1; i <= 10000; i++) {
+    if (isSymmetric(i)) {
+      console.log(i);
+    }
+  }
+}
+```
+
+## 移动0
+
+给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+
+> [!TIP]
+>
+> 输入: [0,1,0,3,12]<br />
+> 输出: [1,3,12,0,0]<br />
+> 说明:<br />
+> 必须在原数组上操作，不能拷贝额外的数组。<br />
+> 尽量减少操作次数。
+
+```js
+const moveZeroes = (nums) => {
+  let index = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== 0) {
+      nums[index] = nums[i];
+      index++;
+    }
+  }
+
+  for (let i = index; i < nums.length; i++) {
+      nums[i] = 0;
+  }
+
+  return nums;
+}
+```
+
+## 请实现一个 add 函数，满足以下功能
+
+```js
+add(1); // 1
+add(1)(2); // 3
+add(1)(2)(3); // 6
+add(1)(2, 3); // 6
+add(1, 2)(3); // 6
+add(1, 2, 3); // 6
+```
+
+```js
+const add = (...args) => {
+  const sum = args.reduce((acc, val) => acc + val, 0);
+
+  const innerAdd = (...innerArgs) => add(sum + innerArgs.reduce((acc, val) => acc + val, 0));
+
+  innerAdd.valueOf = () => sum;
+  innerAdd.toString = () => sum.toString();
+
+  return innerAdd;
+};
+```

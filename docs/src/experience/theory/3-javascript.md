@@ -756,3 +756,25 @@ Promise.allSettled([promise1, promise2, promise3]).then((results) => {
   });
 });
 ```
+
+## var、let 和 const 区别的实现原理是什么
+
+在 JavaScript 中，var、let 和 const 的区别主要体现在作用域、提升（hoisting）和变量重新赋值等方面：
+
+* **作用域（Scope）**
+
+* var 声明的变量是函数作用域或全局作用域。如果在函数内部声明变量，它在整个函数中都可以访问；如果在函数外部声明，则在全局范围内可用。
+
+* let 和 const 声明的变量是块级作用域（block scope）。这意味着它们只在声明它们的代码块内有效。
+
+* **提升（Hoisting）**
+
+* var 声明的变量会被提升到其作用域的顶部，这意味着变量声明会被提升到函数或全局的顶部，但是初始化仍然留在原来的位置，因此在提升前访问会得到 `undefined`。
+
+* let 和 const 也会被提升，但它们会保持在“暂时性死区”（Temporal Dead Zone，TDZ）内，直到声明语句被执行。访问 TDZ 内的 let 或 const 变量会导致 `ReferenceError`。
+
+* **变量重新赋值（Reassignment）**
+
+* var 变量可以重新赋值和重新声明。
+* let 变量可以重新赋值，但不能重新声明。
+* const 变量一旦声明后，不能重新赋值，且必须立即初始化。不过，如果 const 变量引用的是对象或数组，可以修改对象的属性或数组的元素。
