@@ -778,3 +778,26 @@ Promise.allSettled([promise1, promise2, promise3]).then((results) => {
 * var 变量可以重新赋值和重新声明。
 * let 变量可以重新赋值，但不能重新声明。
 * const 变量一旦声明后，不能重新赋值，且必须立即初始化。不过，如果 const 变量引用的是对象或数组，可以修改对象的属性或数组的元素。
+
+## 在输入框中如何判断输入的是一个正确的网址
+
+```js
+const isUrl = (url) => {
+  try {
+    new URL(url);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+```
+
+## 设计并实现 `Promise.race()`
+
+```js
+const race = (promises) => {
+  return Promise((resolve, reject) => {
+    promises.forEach((p) => Promise.resolve(p).then(resolve, reject));
+  })
+}
+```

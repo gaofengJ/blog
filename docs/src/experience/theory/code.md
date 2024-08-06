@@ -689,3 +689,108 @@ const add = (...args) => {
   return innerAdd;
 };
 ```
+
+## 两数之和
+
+```js
+var twoSum = function(nums, target) {
+  const map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    if (map.has(target - nums[i])) {
+      return [map.get(target - nums[i]), i];
+    } else {
+      map.set(nums[i], i);
+    }
+  }
+};
+```
+
+## 实现 convert 方法，把原始 list 转换成树形结构
+
+```js
+// 原始 list 如下
+let list = [
+  {id:1,name:'部门A',parentId:0},
+  {id:2,name:'部门B',parentId:0},
+  {id:3,name:'部门C',parentId:1},
+  {id:4,name:'部门D',parentId:1},
+  {id:5,name:'部门E',parentId:2},
+  {id:6,name:'部门F',parentId:3},
+  {id:7,name:'部门G',parentId:2},
+  {id:8,name:'部门H',parentId:4}
+];
+const result = convert(list);
+
+// 转换后的结果如下
+let result = [
+  {
+    id: 1,
+    name: '部门A',
+    parentId: 0,
+    children: [
+      {
+        id: 3,
+        name: '部门C',
+        parentId: 1,
+        children: [
+          {
+            id: 6,
+            name: '部门F',
+            parentId: 3
+          }, {
+            id: 16,
+            name: '部门L',
+            parentId: 3
+          }
+        ]
+      },
+      {
+        id: 4,
+        name: '部门D',
+        parentId: 1,
+        children: [
+          {
+            id: 8,
+            name: '部门H',
+            parentId: 4
+          }
+        ]
+      }
+    ]
+  },
+  ···,
+];
+```
+
+```js
+const convert = (list) => {
+  const map = {};
+  const result = [];
+
+  list.forEach(item => {
+    map[item.id] = { ...item, children: [] };
+  });
+
+  list.forEach(item => {
+    if (item.parentId === 0) {
+      result.push(map[item.id]);
+    } else {
+      if (map[item.parentId]) {
+        map[item.parentId].children.push(map[item.id]);
+      }
+    }
+  });
+
+  return result;
+}
+```
+
+## 实现模糊搜索结果的关键词高亮显示
+
+```js
+const fn = () => {
+  const keyword = '关键字';
+  const panter = new RegExp(keyword, 'g')
+  return str.replace(panter, '<b style="color: #2D7BFF">' + keyword + '</b>')
+}
+```
