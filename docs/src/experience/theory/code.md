@@ -794,3 +794,124 @@ const fn = () => {
   return str.replace(panter, '<b style="color: #2D7BFF">' + keyword + '</b>')
 }
 ```
+
+## 已知数据格式，实现一个函数 fn 找出链条中所有的父级 id
+
+```js
+[
+  {
+    id: '1',
+    name: '广东省',
+    children: [
+      {
+        id: '11',
+        name: '深圳',
+        children: [
+          {
+            id: '111',
+            name: '南山区'
+          },
+          {
+            id: '112',
+            name: '福田区'
+          }
+        ]
+      }
+    ]
+  }
+]
+
+const value = '112'
+const fn = (value) => {
+...
+}
+fn(value) // 输出 [1， 11， 112]
+```
+
+```js
+const fn = (arr, value) => { 
+  const findPath = (nodes, target, path = []) => {
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      const newPath = [...path, node.id];
+      if (node.id === target) {
+        return newPath;
+      }
+      if (node.children) {
+        const result = findPath(node.children, target, newPath);
+        if (result) return result;
+      }
+    }
+    return [];
+  }
+
+  return findPath(arr, value);
+}
+```
+
+## 给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。请找出这两个有序数组的中位数。要求算法的时间复杂度为 O(log(m+n))
+
+> [!TIP]
+>
+> nums1 = [1, 3]
+> nums2 = [2]
+> 输出 2
+
+```js
+function qSort(arr) {
+  if (arr.length <= 1) return arr;
+  const left = [];
+  const right = [];
+  const pivot = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] < pivot) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
+    }
+  }
+  return qSort(left).concat(pivot, qSort(right));
+}
+
+const findMedianSortedArrays = (nums1, nums2) => {
+  let nums = nums1.concat(nums2);
+  nums = qSort(nums);
+  const len = nums.length;
+  const midIndex = Math.floor(len / 2);
+  if (len % 2) {
+    return nums[midIndex];
+  }
+  return ((nums[midIndex - 1]) + nums[midIndex]) / 2;
+```
+
+## 模拟实现一个深拷贝，并考虑对象相互引用以及 Symbol 拷贝的情况
+
+```js
+function deepClone(obj, hash = new WeakMap()) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  if (hash.has(obj)) {
+    return hash.get(obj);
+  }
+
+  const result = Array.isArray(obj) ? [] : {};
+  hash.set(obj, result);
+
+  const symKeys = Object.getOwnPropertySymbols(obj);
+  if (symKeys.length) {
+    symKeys.forEach(symKey => {
+      result[symKey] = typeof obj[symKey] === 'object' ? deepClone(obj[symKey], hash) : obj[symKey];
+    });
+  }
+
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      result[key] = typeof obj[key] === 'object' ? deepClone(obj[key], hash) : obj[key];
+    }
+  }
+
+  return result;
+}
+```
