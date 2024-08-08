@@ -179,3 +179,71 @@ mutations: {
 * 将事件处理程序代理到父节点，减少内存占用率
 
 * 动态生成子节点时能自动绑定事件处理程序到父节点
+
+## React 和 Vue 的 diff 时间复杂度从 O(n^3) 优化到 O(n) ，那么 O(n^3) 和 O(n) 是如何计算出来的
+
+在讨论 React 和 Vue 的 diff 算法时，提到的时间复杂度 O(n³) 和 O(n) 的计算方式源自不同算法的工作原理。
+
+**O(n³) 复杂度的计算**
+
+最初的 diff 算法基于树的结构进行比较，它试图找到两个树之间的最优差异，即最小化更改所需的步骤。这个问题可以看作是一个带有约束的编辑距离问题，其复杂度主要体现在以下几点：
+
+* 树的深度：对于树的每一层，需要比较所有可能的子节点组合。
+* 广度的平方：在比较时，必须考虑所有可能的匹配方式，这就意味着每一层的比较次数是当前节点数的平方。
+* 递归遍历：由于每个节点的子树也需要进行类似的比较，因此整个过程会递归进行。
+因此，对于一个有 n 个节点的树，这个算法需要在每一层执行大量的计算，最终导致时间复杂度达到 O(n³)​ (Computer Science Stack Exchange)。
+
+```js
+function diffTrees(nodeA, nodeB) {
+  if (!nodeA && !nodeB) return 0;
+  if (!nodeA || !nodeB) return 1; // One node is missing, so it's a difference
+
+  let cost = nodeA.value === nodeB.value ? 0 : 1;
+
+  // Recursively calculate the cost for all children
+  let minCost = Infinity;
+  for (let i = 0; i < nodeA.children.length; i++) {
+    for (let j = 0; j < nodeB.children.length; j++) {
+      minCost = Math.min(minCost, diffTrees(nodeA.children[i], nodeB.children[j]));
+    }
+  }
+
+  return cost + minCost;
+}
+
+// Example usage with small trees (simplified for clarity)
+let treeA = { value: 'a', children: [{ value: 'b', children: [] }, { value: 'c', children: [] }] };
+let treeB = { value: 'a', children: [{ value: 'b', children: [] }, { value: 'd', children: [] }] };
+
+console.log(diffTrees(treeA, treeB)); // Output could be very high due to O(n³) complexity
+```
+
+**O(n) 复杂度的计算**
+
+为了提高效率，React 和 Vue 都引入了虚拟 DOM 的概念，并采用了一种基于启发式的 diff 算法。这种算法的核心思想是：
+
+* 假设大多数节点在更新时位置不会变化：算法只在同一级别的节点之间进行比较，而不需要遍历整个树的所有可能组合。
+* 线性遍历：通过对虚拟 DOM 的线性遍历，算法可以直接找到需要更新的节点，并跳过不需要比较的部分。这样，每个节点只需遍历一次，避免了深度的递归计算。
+* 唯一键的使用：在 React 中，通过 key 属性，算法可以快速定位哪些节点需要更新，哪些节点可以复用，从而进一步优化计算量。
+
+通过这些优化，diff 算法将复杂度降低到了 O(n)，即每次更新只需一次线性遍历即可完成，这使得在处理大型应用时性能显著提升
+
+```js
+function diffTreesOptimized(nodeA, nodeB) {
+  if (!nodeA && !nodeB) return 0;
+  if (!nodeA || !nodeB) return 1; // One node is missing, so it's a difference
+
+  let cost = nodeA.value === nodeB.value ? 0 : 1;
+
+  // Linear scan through children, assuming keys or order won't change drastically
+  let maxLength = Math.max(nodeA.children.length, nodeB.children.length);
+  for (let i = 0; i < maxLength; i++) {
+    cost += diffTreesOptimized(nodeA.children[i], nodeB.children[i]);
+  }
+
+  return cost;
+}
+
+// Example usage with the same trees
+console.log(diffTreesOptimized(treeA, treeB));
+```
