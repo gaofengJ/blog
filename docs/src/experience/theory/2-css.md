@@ -277,6 +277,8 @@ IFC主要用于水平和垂直居中对齐内容​。
   * `flex-shrink: 1;`子项可以缩小以适应容器空间
   * `flex-basis: auto;`子项的初始大小基于其内容或已定义的宽度/高度
 
+flex 默认值为 `flex: 0 1 auto`。
+
 ## line-height 如何继承
 
 在 CSS 中，line-height 是一个重要的属性，它用于控制文本行之间的垂直间距。其继承行为可以有些复杂，主要取决于你如何定义 line-height 的值。以下是一些关键点：
