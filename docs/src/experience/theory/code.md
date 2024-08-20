@@ -1012,3 +1012,48 @@ Foo.a();
 // 构建方法里已经替换了全局 Foo 上的 a 方法，所以
 // # 输出 1
 ```
+
+## EventMitter
+
+```js
+class EventEmitter {
+  constructor() {
+    this.events = {};
+  }
+
+  on(event, listener) {
+    if (typeof event !== 'string') {
+      throw new TypeError('Event name must be a string');
+    }
+    if (typeof listener !== 'function') {
+      throw new TypeError('Listener must be a function');
+    }
+    if (!this.events[event]) {
+      this.events[event] = [];
+    }
+    this.events[event].push(listener);
+  }
+
+  off(event, listener) {
+    if (!this.events[event]) return;
+    this.events[event] = this.events[event].filter(l => l !== listener);
+  }
+
+  emit(event, ...args) {
+    if (!this.events[event]) return;
+    this.events[event].forEach(listener => listener.apply(this, args));
+  }
+
+  once(event, listener) {
+    const wrapper = (...args) => {
+      listener.apply(this, args);
+      this.off(event, wrapper);
+    };
+    this.on(event, wrapper);
+  }
+
+  getListenerCount(event) {
+    return this.events[event] ? this.events[event].length : 0;
+  }
+}
+```

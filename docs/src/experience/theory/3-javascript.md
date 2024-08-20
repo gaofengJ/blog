@@ -256,6 +256,63 @@ console.log(counter()); // 输出: 3
 
 在这个示例中，createCounter 函数返回一个匿名函数，该匿名函数就是一个闭包。闭包可以访问 createCounter 中的局部变量 count，并通过保持对 count 的引用来累加计数器的值。
 
+## call、apply、bind实现
+
+在JavaScript中，call、apply 和 bind 是用于控制函数内 this 指向的重要方法。理解它们的使用场景和区别对于掌握 JavaScript 的闭包和执行上下文至关重要。
+
+* **call** 和 **apply**
+这两个方法都用于立即调用函数，并将 this 绑定到指定的对象。它们的主要区别在于传递参数的方式：
+
+* call：参数是逐个传递的，例如 func.call(thisArg, arg1, arg2)。
+* apply：参数作为数组传递，例如 func.apply(thisArg, [arg1, arg2])。
+这两个方法常用于借用其他对象的方法或者在不同的上下文中执行函数。
+
+* **bind**
+bind 不会立即调用函数，而是返回一个新的函数，并永久性地将 this 绑定到指定的对象。这个新函数可以在稍后调用，并且还可以预先传递部分参数。
+
+实现：
+
+```js
+// call
+Function.prototype.myCall = function(context, ...args) {
+  const fnSymbol = Symbol(); // 生成唯一的属性名
+  context[fnSymbol] = this; // 将当前函数作为context的一个方法
+  const result = context[fnSymbol](...args); // 执行函数
+  delete context[fnSymbol]; // 删除临时属性
+  return result;
+};
+
+// apply
+Function.prototype.myApply = function(context, args) {
+  const fnSymbol = Symbol();
+  context[fnSymbol] = this;
+  const result = context[fnSymbol](...args);
+  delete context[fnSymbol];
+  return result;
+};
+
+// bind
+Function.prototype.myBind = function(context, ...args) {
+  const fn = this;
+  return function(...newArgs) {
+    return fn.apply(context, [...args, ...newArgs]);
+  };
+};
+```
+
+## 实现 new
+
+```js
+function _new (fn, ...args) {
+  // 创建一个新对象，将原型指向构造函数的原型
+  const obj = Object.create(fn.prototype);
+  // 调用构造函数，将this绑定到新创建的对象上
+  const ret = fn.apply(obj, args);
+  // 如果构造函数返回了一个对象，那么返回这个对象，否则返回新创建的对象
+  return ret instanceof Objet ? ret : obj;
+}
+```
+
 ## `['1', '2', '3'].map(parseInt)`的输出值是什么？
 
 输出结果为：`[1, NaN, NaN]`。
