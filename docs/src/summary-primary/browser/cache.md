@@ -176,3 +176,87 @@ Last-Modified的时间单位是秒，如果某个文件在1秒内改变了多次
 * 打开网页，地址栏输入地址： 查找 disk cache 中是否有匹配。如有则使用；如没有则发送网络请求。
 * 普通刷新 (F5)：因为 TAB 并没有关闭，因此 memory cache 是可用的，会被优先使用(如果匹配的话)。其次才是 disk cache。
 * 强制刷新 (Ctrl + F5)：浏览器不使用缓存，因此发送的请求头部均带有 Cache-control: no-cache(为了兼容，还带了 Pragma: no-cache),服务器直接返回 200 和最新内容。
+
+## HTTP/2 有哪些改进
+
+HTTP/2 在多个方面相较于 HTTP/1.1 进行了显著改进：
+
+* 多路复用：HTTP/2 允许多个请求和响应通过单一的 TCP 连接并行进行，减少了连接建立的开销，并且避免了 HTTP/1.1 中的队头阻塞问题。
+
+* 头部压缩：HTTP/2 引入了 HPACK 算法，对 HTTP 头部进行高效压缩。这大大减少了在多次请求中传输相同头部数据的带宽占用，提升了传输效率。
+
+* 服务器推送：HTTP/2 支持服务器在客户端请求之前主动推送资源。这意味着服务器可以在响应页面时，提前推送所需的 CSS、JavaScript 文件，从而减少延迟。
+
+* 二进制分帧：HTTP/2 使用二进制格式传输数据，而不是文本格式。二进制格式更高效，容易解析和处理，同时也更适合多路复用的需求。
+
+* 流量控制：HTTP/2 允许客户端和服务器对数据流进行优先级排序和流量控制，从而更好地管理资源和带宽，避免资源竞争导致的性能下降。
+
+这些改进使得 HTTP/2 在处理高延迟、高带宽网络环境时，性能提升尤为明显，特别是在移动网络和 CDN 环境下。HTTP/2 的设计目的就是为了适应现代网络应用的需求，提供更快、更可靠的网页加载体验
+
+## 跨域
+
+跨域问题是指浏览器出于安全原因限制一个网页上的脚本与另一个域上的资源进行交互。例如，当一个网页尝试从不同的域名、协议或端口的服务器获取数据时，就会遇到跨域问题。
+
+**跨域问题的解决方法：**
+
+* 1、**CORS（跨域资源共享）**： 这是最常用的方法。CORS 是一种机制，允许服务器在响应头中指定允许哪些源（域名、协议或端口）访问资源。服务器在响应头中添加 Access-Control-Allow-Origin 来指定允许的来源。可以通过以下方式设置 CORS：
+
+```js
+// Node.js Express 示例
+const express = require('express');
+const app = express();
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // 允许所有域名访问
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+```
+
+* 2、**JSONP（JSON with Padding）**： JSONP 是一种旧的解决跨域问题的方法，通过在客户端创建一个 `<script>` 标签，并将其 src 属性指向跨域的资源URL，利用 `<script>` 标签不受同源策略限制的特性来实现跨域请求。由于安全性和功能性原因，JSONP 不再推荐使用。
+
+* 3、服务器代理： 在同源的服务器上设置一个代理，通过这个代理将请求转发到不同的服务器。这样，客户端只需向同源服务器发起请求，从而避开了跨域限制。
+
+```js
+// Node.js Express 示例
+const express = require('express');
+const request = require('request');
+const app = express();
+
+app.get('/api/*', (req, res) => {
+  const url = 'http://other-domain.com' + req.url;
+  req.pipe(request(url)).pipe(res);
+});
+```
+
+* 4、**CSP（内容安全策略）**： 内容安全策略是一种防止跨站点脚本攻击的安全机制，它允许开发者定义哪些资源可以被加载。虽然 CSP 不是直接解决跨域问题的工具，但它可以增强应用的安全性。
+
+## OPTIONS请求的作用
+
+OPTIONS 请求是一种 HTTP 方法，通常用于在发起实际请求之前获取服务器支持的请求方法和其他信息。它用于预检请求（preflight request），在进行跨域请求时，浏览器会先发送一个 OPTIONS 请求来询问服务器是否允许实际的跨域请求。
+
+预检请求的主要作用包括：
+
+* 检查服务器支持的方法： 确认服务器是否允许使用特定的 HTTP 方法（如 POST、PUT 等）。
+
+* 检查请求头： 确认服务器是否允许特定的请求头字段（如 X-Custom-Header）。
+
+& 检查请求源： 确认服务器是否允许指定源的跨域请求。
+
+预检请求通过设置 Access-Control-Allow-Methods 和 Access-Control-Allow-Headers 等响应头来告知浏览器服务器所支持的请求方法和请求头字段。
+
+```shell
+# OPTIONS 请求
+OPTIONS /api/resource HTTP/1.1
+Host: example.com
+Origin: http://another-domain.com
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: X-Custom-Header
+
+# 服务器响应
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, POST, PUT
+Access-Control-Allow-Headers: X-Custom-Header
+```

@@ -9,6 +9,58 @@ description: 浏览器
 
 详见[浏览器缓存](../../summary-primary/browser/cache.md)
 
+## Cookie、Session、Token
+
+**Cookie：**
+
+* 定义：Cookie 是存储在用户浏览器中的小数据片段，通常用于保存用户的会话信息、用户偏好或跟踪用户行为。
+
+* 特点：
+  * Cookie 会随每个请求发送到服务器，因此可能带来性能开销。
+  * 可以设置过期时间，持久化存储。
+  * 安全性较低，如果不设置为 HttpOnly 和 Secure，容易被脚本攻击或在不安全连接中泄露。
+
+**Session：**
+
+* 定义：Session 是服务器端保存的用户会话数据，用于跟踪用户状态。客户端通常只保存一个Session ID（通过Cookie或URL传递）。
+
+* 特点：
+  * Session 数据存储在服务器端，相对更安全，但增加了服务器的存储和处理负担。
+  * 通过 Session ID 可以在服务器端检索到对应的会话数据。
+  * 适用于需要短期存储用户状态的情况。
+
+**Token：**
+
+* 定义：Token 是一种更现代的身份验证机制，通常用于无状态认证。Token 包含所有认证信息（如 JWT），由服务器签名并发给客户端。
+
+* 特点：
+  * 无需在服务器端保存用户状态，适合分布式系统。
+  * 通常使用 Access Token（短期）和 Refresh Token（长期）组合来进行认证。
+  * 客户端可以将 Token 存储在 localStorage、sessionStorage 或 cookie 中，但安全性要求较高，特别是在浏览器环境中，建议使用 HttpOnly 的 Cookie 存储 Token。
+
+## localStorage 和 sessionStorage
+
+localStorage 和 sessionStorage 都是 HTML5 提供的 Web 存储 API，用于在客户端保存数据。它们的主要区别在于数据的生命周期和作用域：
+
+* 1、数据存储期限：
+
+* localStorage: 数据会一直保存在浏览器中，直到被手动删除，即使浏览器关闭后数据也会保留。适合保存长期有效的数据。
+* sessionStorage: 数据仅在当前会话（浏览器窗口或标签页）期间有效。一旦关闭窗口或标签页，数据就会被清除。适合保存仅在当前会话有效的数据。
+
+* 2、作用域：
+
+* localStorage: 在同一域名下的所有页面之间共享数据，即使是不同的窗口或标签页也可以访问相同的数据。
+* sessionStorage: 仅在同一窗口或标签页的不同页面之间共享数据，不同窗口或标签页之间的数据互不影响。
+
+* 3、数据容量：
+
+localStorage 和 sessionStorage 的容量通常都为 5MB，但具体大小可能会因浏览器而异。
+
+* 4、用法场景：
+
+* localStorage: 适用于需要持久保存的用户设置、用户数据等。
+* sessionStorage: 适用于保存临时数据，如表单输入、用户操作的暂存数据等。
+
 ## 浏览器垃圾回收机制
 
 浏览器的垃圾回收机制是管理内存的重要功能，负责自动清理不再需要的对象以释放内存资源。大多数现代浏览器使用的是“标记-清除”（Mark-and-Sweep）算法。
