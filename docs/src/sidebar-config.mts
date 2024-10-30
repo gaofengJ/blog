@@ -243,6 +243,10 @@ export default {
       'text': '框架',
       'items': [
         {
+          'text': '微前端',
+          'link': '/summary-middle/frame/micro-front-end.md'
+        },
+        {
           'text': 'nuxt对Vue项目首页进行SEO优化',
           'link': '/summary-middle/frame/nuxt-seo.md'
         },
