@@ -1089,3 +1089,10 @@ console.log(webSite); // {name: 123, siteUrl: 'http://www.baidu.com'}
 
 // http://www.baidu.com
 ```
+
+## 实现一个动画有哪些方式
+
+* JavaScript：setTimeout 和 setInterval
+* Css3：transition 和 animation
+* Html：canvas 和 SVG
+* requestAnimationFrame API

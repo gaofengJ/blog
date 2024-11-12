@@ -345,6 +345,36 @@ function bubbleSort(arr) {
 }
 ```
 
+## 快速排序如何实现，时间复杂度是多少， 还可以如何改进
+
+```js
+function quickSort(arr) {
+  if (arr.length <= 1) return arr;
+
+  const pivot = arr[arr.length - 1];
+  const left = [];
+  const right = [];
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (arr[i] < pivot) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
+    }
+  }
+
+  return [...quickSort(left), pivot, ...quickSort(right)];
+}
+```
+
+快速排序的时间复杂度取决于基准选择的情况：
+
+* 最佳情况：每次基准将数组均匀分割，递归深度为 O(log n)，每一层的比较操作是 O(n)，所以整体时间复杂度为 O(n log n)。
+
+* 平均情况：通常假设基准每次都能将数组分为两个大致相等的部分，因此时间复杂度为 O(n log n)。
+
+* 最坏情况：当基准选取不均衡时，可能导致递归的深度达到 O(n)，比如每次选取的基准总是最大或最小的元素。此时时间复杂度为 O(n²)。
+
 ## 手写代码
 
 某公司 1 到 12 月份的销售额存在一个对象里面，如下：`{1:222, 2:123, 5:888}`，请把数据处理为如下结构：`[222, 123, null, null, 888, null, null, null, null, null, null, null]`
@@ -1054,6 +1084,129 @@ class EventEmitter {
 
   getListenerCount(event) {
     return this.events[event] ? this.events[event].length : 0;
+  }
+}
+```
+
+## 实现一个 instanceOf
+
+在 JavaScript 中，instanceof 运算符用于检测对象是否是某个构造函数的实例。要实现一个自定义版本的 instanceof，需要依赖于对象的原型链。具体实现原理是：检查构造函数的 prototype 是否在目标对象的原型链上。
+
+### instanceof 实现原理
+
+instanceof 会依次查找对象的原型链，直到找到 constructor 的原型为止。如果找到了，返回 true，否则返回 false。
+
+```js
+function myInstanceOf(obj, constructor) {
+  // 获取obj的原型
+  let prototype = Object.getPrototypeOf(obj);
+
+  // 一直向上查找原型链，直到找到构造函数的 prototype
+  while (prototype) {
+    if (prototype === constructor.prototype) {
+      return true;
+    }
+    prototype = Object.getPrototypeOf(prototype);
+  }
+
+  return false;
+}
+```
+
+### 解释
+
+* Object.getPrototypeOf(obj) 获取 obj 的原型。
+* 循环检查 obj 的原型链，直到找到匹配的构造函数的 prototype。
+* 如果没有找到，最终返回 false。
+
+### 使用
+
+```js
+function Person(name) {
+  this.name = name;
+}
+
+const john = new Person('John');
+
+console.log(myInstanceOf(john, Person)); // true
+console.log(myInstanceOf(john, Object)); // true
+console.log(myInstanceOf(john, Array)); // false
+```
+
+## 实现 flat
+
+```js
+function myFlat(arr, depth = 1) {
+  let result = [];
+
+  arr.forEach(item => {
+    if (Array.isArray(item) && depth > 0) {
+      // 递归展开，减少深度
+      result = result.concat(myFlat(item, depth - 1));
+    } else {
+      result.push(item);
+    }
+  });
+
+  return result;
+}
+```
+
+## 实现 reduce
+
+```js
+function myReduce(arr, callback, initialValue) {
+  let accumulator = initialValue;
+
+  // 如果没有提供 initialValue，则使用数组的第一个元素作为初始值
+  let startIndex = 0;
+  if (accumulator === undefined) {
+    accumulator = arr[0];
+    startIndex = 1;
+  }
+
+  // 从 startIndex 开始遍历数组，应用回调函数
+  for (let i = startIndex; i < arr.length; i++) {
+    accumulator = callback(accumulator, arr[i], i, arr);
+  }
+
+  return accumulator;
+}
+```
+
+## 带并发的异步调度器 Scheduler
+
+JS 实现一个带并发限制的异度调度器 Scheduler，保证同时运行的任务最多有两个。完善下面代码中的 Scheduler 类，使得以下程序能正确输出。
+
+```js
+class Scheduler {
+  constructor(limit) {
+    this.limit = limit;  // 并发任务的最大数量
+    this.queue = [];      // 任务队列
+    this.running = 0;     // 当前正在执行的任务数量
+  }
+
+  // 添加任务
+  addTask(promiseCreator) {
+    return new Promise((resolve, reject) => {
+      const task = () => {
+        promiseCreator().then(resolve).catch(reject).finally(() => {
+          this.running--;  // 当前任务执行完后减少计数
+          this._next();    // 执行下一个任务
+        });
+      };
+      this.queue.push(task);
+      this._next();  // 每添加一个任务，检查是否可以执行
+    });
+  }
+
+  // 执行任务
+  _next() {
+    if (this.running < this.limit && this.queue.length) {
+      const task = this.queue.shift();  // 从队列中取出一个任务
+      this.running++;  // 增加正在执行的任务数量
+      task();          // 执行任务
+    }
   }
 }
 ```
