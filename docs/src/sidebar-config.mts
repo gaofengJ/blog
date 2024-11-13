@@ -16,36 +16,44 @@ export default {
           'link': '/experience/theory/3-javascript.md'
         },
         {
+          'text': '浏览器',
+          'link': '/experience/theory/4-browser.md'
+        },
+        {
+          'text': '框架',
+          'link': '/experience/theory/5-frame.md'
+        },
+        {
           'text': 'Vue',
-          'link': '/experience/theory/4-vue.md'
+          'link': '/experience/theory/6-vue.md'
         },
         {
           'text': 'React',
-          'link': '/experience/theory/5-react.md'
-        },
-        {
-          'text': '算法与数据结构',
-          'link': '/experience/theory/8-algorithm.md'
-        },
-        {
-          'text': '浏览器',
-          'link': '/experience/theory/browser.md'
-        },
-        {
-          'text': '手写代码',
-          'link': '/experience/theory/code.md'
+          'link': '/experience/theory/7-react.md'
         },
         {
           'text': '工程化',
-          'link': '/experience/theory/engineer.md'
+          'link': '/experience/theory/8-engineer.md'
         },
         {
           'text': '网络协议',
-          'link': '/experience/theory/network.md'
+          'link': '/experience/theory/9-network.md'
         },
         {
           'text': '安全',
-          'link': '/experience/theory/safe.md'
+          'link': '/experience/theory/10-safe.md'
+        },
+        {
+          'text': 'Node',
+          'link': '/experience/theory/11-node.md'
+        },
+        {
+          'text': '手写代码',
+          'link': '/experience/theory/12-code.md'
+        },
+        {
+          'text': '场景',
+          'link': '/experience/theory/13-scenario.md'
         }
       ]
     }

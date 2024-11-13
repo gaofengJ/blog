@@ -498,6 +498,41 @@ const intersect = (nums1, nums2) => {
 }
 ```
 
+## 模拟实现一个 Promise.all
+
+```js
+function myPromiseAll(promises) {
+  return new Promise((resolve, reject) => {
+    let results = [];
+    let completed = 0;
+
+    promises.forEach((promise, index) => {
+      Promise.resolve(promise).then(value => {
+        results[index] = value;
+        completed += 1;
+        if (completed === promises.length) {
+          resolve(results);
+        }
+      }).catch(reject);
+    });
+  });
+}
+
+```
+
+## 模拟实现一个 Promise.race
+
+```js
+function myPromiseRace(promises) {
+  return new Promise((resolve, reject) => {
+    promises.forEach(promise => {
+      Promise.resolve(promise).then(resolve, reject);
+    });
+  });
+}
+
+```
+
 ## 模拟实现一个 Promise.finally
 
 ```js
@@ -1209,4 +1244,21 @@ class Scheduler {
     }
   }
 }
+```
+
+## 模拟 sleep 函数
+
+```js
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// 使用示例
+async function example() {
+  console.log('Start');
+  await sleep(2000);  // 等待 2 秒
+  console.log('End');
+}
+
+example();
 ```

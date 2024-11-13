@@ -4,5 +4,6 @@
   "line_length": false,
   "no-duplicate-header": false,
   "MD025": false,
-  "MD036": false
+  "MD036": false,
+  "MD029": false
 }
