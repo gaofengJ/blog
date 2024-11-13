@@ -9,8 +9,8 @@ description: JavaScript
 
 在 JS 中共有 8  种基础的数据类型，分别为： `Undefined` 、 `Null` 、 `Boolean` 、 `Number` 、 `String` 、 `Object` 、 `Symbol` 、 `BigInt`。
 
-* Symbol：代表独一无二的值，最大的用法是用来定义对象的唯一属性名
-* BigInt 可以表示任意大小的整数
+* **Symbol**：代表独一无二的值，最大的用法是用来定义对象的唯一属性名
+* **BigInt**： 可以表示任意大小的整数
 
 ## 基本类型和引用类型
 
@@ -26,11 +26,11 @@ description: JavaScript
 
 * typeof
 
-能判断所有**基本类型**，**函数**。不可对 **null**、**对象**、**数组**进行精确判断，因为都返回 object 。
+  能判断所有**基本类型**，**函数**。不可对 **null**、**对象**、**数组**进行精确判断，因为都返回 object 。
 
 * instanceof
 
-能判断对象类型，不能判断基本数据类型，其内部运行机制是判断在其原型链中能否找到该类型的原型。
+  能判断对象类型，不能判断基本数据类型，其内部运行机制是判断在其原型链中能否找到该类型的原型。
 
 * `Object.prototype.toString.call()`
 
@@ -38,65 +38,70 @@ description: JavaScript
 
 ## 有以下 3 个判断数组的方法，请分别介绍它们之间的区别和优劣
 
-> Object.prototype.toString.call() 、 instanceof 以及 Array.isArray()
+`Object.prototype.toString.call()` 、 `instanceof` 以及 `Array.isArray()`
 
-### `Object.prototype.toString.call()`
+* `Object.prototype.toString.call()`
 
-用法：
+  * 用法：
 
-```js
-Object.prototype.toString.call(val) === '[object Array]';
-```
+    ```js
+    Object.prototype.toString.call(val) === '[object Array]';
+    ```
 
-* 优点
-  * 可以准确判断所有数组，即使是在跨框架（cross-frame）或不同窗口环境中
-  * 适用于各种 JavaScript 对象类型的检查
+  * 优点
+    * 可以准确判断所有数组，即使是在跨框架（cross-frame）或不同窗口环境中
+    * 适用于各种 JavaScript 对象类型的检查
 
-* 缺点
-  * 语法较为冗长
-  * 在一些特定场景下（低版本浏览器），可能需要手动实现
+  * 缺点
+    * 语法较为冗长
+    * 在一些特定场景下（低版本浏览器），可能需要手动实现
 
-### `instanceof`
+* `instanceof`
 
-用法：
+  * 用法
 
-```js
-val instanceof Array
-```
+    ```js
+    val instanceof Array
+    ```
 
-* 优点
-  * 简洁明了，代码可读性高。
-  * 可以用于一般的数组判断。
+  * 优点
+    * 简洁明了，代码可读性高。
+    * 可以用于一般的数组判断。
 
-* 缺点
-  * 在跨框架（cross-frame）环境中失效。例如，当数组是从一个 iframe 中创建的，instanceof 检查会失败。
+  * 缺点
+    * 在跨框架（cross-frame）环境中失效。例如，当数组是从一个 iframe 中创建的，instanceof 检查会失败。
 
-### `Array.isArray()`
+* `Array.isArray()`
 
-用法：
+  * 用法
 
-```js
-Array.isArray(val)
-```
+    ```js
+    Array.isArray(val)
+    ```
 
-* 优点
-  * ES5 引入的方法，现代浏览器（IE9 及以上）和环境均支持。
-  * 专门用于判断数组，语法简洁，性能优越。
-  * 对跨框架的数组判断也能正确处理。
+  * 优点
+    * ES5 引入的方法，现代浏览器（IE9 及以上）和环境均支持。
+    * 专门用于判断数组，语法简洁，性能优越。
+    * 对跨框架的数组判断也能正确处理。
 
-* 缺点
-  * 在 IE8 及更早的浏览器中不支持，如果需要兼容这些浏览器，则需要使用 polyfill​。
+  * 缺点
+    * 在 IE8 及更早的浏览器中不支持，如果需要兼容这些浏览器，则需要使用 polyfill​。
 
-最佳选择： 对于现代浏览器和大多数应用场景，Array.isArray() 是最简洁和直接的方法。
+最佳选择：对于现代浏览器和大多数应用场景，Array.isArray() 是最简洁和直接的方法。
 
 ## 根据 0.1+0.2 ! == 0.3，讲讲 IEEE 754 ，如何让其相等
 
-原因总结：
+**原因总结 :**
 
-* **进制转换**：js 在做数字计算的时候，0.1 和 0.2 都会被转成二进制后无限循环 ，但是 js 采用的 IEEE 754 二进制浮点运算，最大可以存储 53 位有效数字，于是大于 53 位后面的会全部截掉，将导致精度丢失。
-* **对阶运算**：由于指数位数不相同，运算时需要对阶运算，阶小的尾数要根据阶差来右移（0舍1入），尾数位移时可能会发生数丢失的情况，影响精度。
+* **进制转换**
 
-解决办法：
+  js 在做数字计算的时候，0.1 和 0.2 都会被转成二进制后无限循环 ，但是 js 采用的 IEEE 754 二进制浮点运算，最大可以存储 53 位有效数字，于是大于 53 位后面的会全部截掉，将导致精度丢失。
+
+* **对阶运算**
+
+  由于指数位数不相同，运算时需要对阶运算，阶小的尾数要根据阶差来右移（0舍1入），尾数位移时可能会发生数丢失的情况，影响精度。
+
+**解决办法：**
 
 使用 `Number.EPSILON` 误差范围，`Number.EPSILON` 的实质是一个可以接受的最小误差范围，一般来说为 `Math.pow(2, -52)`。
 
@@ -114,16 +119,21 @@ console.log(isEqual(0.1 + 0.2, 0.3)); // true
 
 每个 JavaScript 对象都有一个内部属性 `[[Prototype]]`，它指向另一个对象，这个对象被称为原型。这个原型也可以有自己的原型，这样形成一个原型链。原型链是 JavaScript 对象继承的基础。
 
-* 构造函数的原型：每个函数都有一个 prototype 属性，它指向一个对象，这个对象被称为构造函数的原型。这个原型对象可以被用来定义共享属性和方法。
-* 实例对象的原型：当你创建一个对象时，它的 `[[Prototype]]` 指向其构造函数的 prototype 对象。
+* 构造函数的原型
+
+  每个函数都有一个 prototype 属性，它指向一个对象，这个对象被称为构造函数的原型。这个原型对象可以被用来定义共享属性和方法。
+
+* 实例对象的原型
+
+  当你创建一个对象时，它的 `[[Prototype]]` 指向其构造函数的 prototype 对象。
 
 **原型链（Prototype Chain）**
 
 原型链是对象查找属性的机制。一个对象访问属性时，JavaScript 会沿着对象的原型链查找该属性：
 
-* 对象自身：首先在对象自身上查找属性。
-* 原型对象：如果在对象自身上未找到属性，则在对象的原型对象上查找。
-* 原型的原型：如果在原型对象上也未找到，则继续查找原型对象的原型，直到找到属性或达到原型链的末端。
+* **对象自身**：首先在对象自身上查找属性。
+* **原型对象**：如果在对象自身上未找到属性，则在对象的原型对象上查找。
+* **原型的原型**：如果在原型对象上也未找到，则继续查找原型对象的原型，直到找到属性或达到原型链的末端。
 * 原型链的末端是 null，null 的原型是 null，这是原型链的终点。
 
 在 JavaScript 中，你可以通过 `Object.getPrototypeOf(obj)` 方法来获取对象的原型，通过 `Object.setPrototypeOf(obj, prototype)` 方法来设置对象的原型。你也可以使用 `__proto__` 属性来访问对象的原型，但这个属性已经不推荐使用。
@@ -134,19 +144,25 @@ console.log(isEqual(0.1 + 0.2, 0.3)); // true
 
 作用域是程序中定义变量的上下文环境。作用域决定了代码中变量的可访问性。JavaScript 中有三种主要的作用域：
 
-* 全局作用域：在代码中的任何地方都可以访问到的变量。默认情况下，最外层定义的变量属于全局作用域。
+* **全局作用域**
 
-* 函数作用域：在函数内部定义的变量只能在该函数内部访问。这些变量在函数执行完毕后会被销毁。
+  在代码中的任何地方都可以访问到的变量。默认情况下，最外层定义的变量属于全局作用域。
 
-* 块级作用域：由 let、const 等关键字定义的块级变量，只在块内部（如 if、for 块）可访问。var 定义的变量不具备块级作用域特性，只具备函数作用域。
+* **函数作用域**
+
+  在函数内部定义的变量只能在该函数内部访问。这些变量在函数执行完毕后会被销毁。
+
+* **块级作用域**
+
+  由 let、const 等关键字定义的块级变量，只在块内部（如 if、for 块）可访问。var 定义的变量不具备块级作用域特性，只具备函数作用域。
 
 **作用域链（Scope Chain）**
 
 作用域链是 JavaScript 解析器查找变量时使用的机制。每个函数都有自己的作用域，但在查找变量时，会沿着作用域链向上查找，直到找到变量或到达全局作用域。
 
-* 当前作用域：解析器首先查找当前作用域中的变量。
-* 外层作用域：如果当前作用域中找不到变量，解析器会继续在外层作用域中查找。
-* 全局作用域：解析器最终在全局作用域中查找。
+* **当前作用域**：解析器首先查找当前作用域中的变量。
+* **外层作用域**：如果当前作用域中找不到变量，解析器会继续在外层作用域中查找。
+* **全局作用域**：解析器最终在全局作用域中查找。
 
 ## 执行上下文
 
@@ -154,44 +170,44 @@ console.log(isEqual(0.1 + 0.2, 0.3)); // true
 
 执行上下文是 JavaScript 代码运行的环境，每当 JavaScript 代码执行时，都会创建一个执行上下文。执行上下文分为三种类型：
 
-* 1.全局执行上下文：
+* **全局执行上下文**
 
   * 这是默认的、最基础的执行上下文。一个程序只能有一个全局执行上下文。
   * 在全局上下文中，this 指向全局对象（如浏览器中的 window 对象）。
 
-* 2.函数执行上下文：
+* **函数执行上下文**
 
   * 每当一个函数被调用时，都会为该函数创建一个新的执行上下文。
   * 函数执行上下文会为函数的参数、变量和函数声明创建变量对象。
 
-* 3.Eval 执行上下文：
+* **Eval 执行上下文**
 
   * 在 eval() 函数中运行的代码会有自己的执行上下文。
 
 执行上下文在执行代码时会经历两个阶段：
 
-* 1.创建阶段：
+1. **创建阶段**
 
-  * 变量对象（Variable Object，VO）：创建变量对象，并初始化函数参数、内部变量和函数声明。
-  * 作用域链（Scope Chain）：创建作用域链，并将变量对象加入链中。
-  * 确定 this 的值：根据调用位置设置 this 的值。
+* 变量对象（Variable Object，VO）：创建变量对象，并初始化函数参数、内部变量和函数声明。
+* 作用域链（Scope Chain）：创建作用域链，并将变量对象加入链中。
+* 确定 this 的值：根据调用位置设置 this 的值。
 
-* 2.执行阶段：
+2. **执行阶段**
 
-  * 在此阶段，变量赋值、函数引用和代码执行都是在这个时候进行的。
+* 在此阶段，变量赋值、函数引用和代码执行都是在这个时候进行的。
 
 **变量对象（Variable Object）**
 
 变量对象是执行上下文中用于存储变量和函数声明的特殊对象。它在创建阶段完成初始化：
 
-* 全局上下文中的变量对象是全局对象（如浏览器中的 window）。
-* 函数上下文中的变量对象称为激活对象（Activation Object，AO），包含函数的参数、内部变量和函数声明。
+* 全局上下文中的变量对象是全局对象（如浏览器中的 window ）。
+* 函数上下文中的变量对象称为激活对象（ Activation Object，AO ），包含函数的参数、内部变量和函数声明。
 
 在函数执行上下文中，变量对象的初始化包括：
 
-* 函数参数：将参数名称和对应值作为属性添加到变量对象中。
-* 函数声明：将函数名称作为属性名，函数体作为值添加到变量对象中。
-* 变量声明：将变量名称作为属性名，值为 undefined。
+* **函数参数**：将参数名称和对应值作为属性添加到变量对象中。
+* **函数声明**：将函数名称作为属性名，函数体作为值添加到变量对象中。
+* **变量声明**：将变量名称作为属性名，值为 undefined。
 
 ```js
 var x = 10;
@@ -228,15 +244,15 @@ foo(5);
 
 **闭包的特性**
 
-* 函数嵌套：闭包通常是在一个函数内部定义另一个函数时创建的。
-* 访问外部变量：闭包可以访问其外部函数的变量，即使外部函数已经执行完毕。
-* 保持状态：由于闭包可以访问外部函数的变量，所以它可以用来保持状态。
+* **函数嵌套**：闭包通常是在一个函数内部定义另一个函数时创建的。
+* **访问外部变量**：闭包可以访问其外部函数的变量，即使外部函数已经执行完毕。
+* **保持状态**：由于闭包可以访问外部函数的变量，所以它可以用来保持状态。
 
 **闭包的作用**
 
-* 数据隐藏：闭包可以创建私有变量，防止外部访问。
-* 模拟块级作用域：在 ES6 之前，JavaScript 没有块级作用域，闭包可用于模拟块级作用域。
-* 回调和事件处理：闭包常用于处理异步操作，如回调函数和事件处理器。
+* **数据隐藏**：闭包可以创建私有变量，防止外部访问。
+* **模拟块级作用域**：在 ES6 之前，JavaScript 没有块级作用域，闭包可用于模拟块级作用域。
+* **回调和事件处理**：闭包常用于处理异步操作，如回调函数和事件处理器。
 
 ```js
 function createCounter() {
@@ -263,12 +279,11 @@ console.log(counter()); // 输出: 3
 * **call** 和 **apply**
 这两个方法都用于立即调用函数，并将 this 绑定到指定的对象。它们的主要区别在于传递参数的方式：
 
-* call：参数是逐个传递的，例如 func.call(thisArg, arg1, arg2)。
-* apply：参数作为数组传递，例如 func.apply(thisArg, [arg1, arg2])。
+* **call**：参数是逐个传递的，例如 `func.call(thisArg, arg1, arg2)`。
+* **apply**：参数作为数组传递，例如 `func.apply(thisArg, [arg1, arg2])`。
 这两个方法常用于借用其他对象的方法或者在不同的上下文中执行函数。
 
-* **bind**
-bind 不会立即调用函数，而是返回一个新的函数，并永久性地将 this 绑定到指定的对象。这个新函数可以在稍后调用，并且还可以预先传递部分参数。
+* **bind**：不会立即调用函数，而是返回一个新的函数，并永久性地将 this 绑定到指定的对象。这个新函数可以在稍后调用，并且还可以预先传递部分参数。
 
 实现：
 
@@ -323,30 +338,31 @@ function _new (fn, ...args) {
 
 map 传递给 parseInt 的参数包括当前元素的值，当前元素的索引和数组本身。
 
-* 第一次调用：`parseInt('1', 0, arr)` 会将字符串 '1' 解析为整数 1（在 radix 为 undefined 或者 radix 为 0 且 字符串不是以 '0x' 或者 '0X' 开头的情况下，基数为 10）
+* **第一次调用**：`parseInt('1', 0, arr)` 会将字符串 '1' 解析为整数 1（在 radix 为 undefined 或者 radix 为 0 且 字符串不是以 '0x' 或者 '0X' 开头的情况下，基数为 10）。
 
-* 第二次调用：`parseInt('1', 1, arr)` 中基数 1 是无效的，因为基数应该在 2~36之间，所以返回 NaN
+* **第二次调用**：`parseInt('1', 1, arr)` 中基数 1 是无效的，因为基数应该在 2~36之间，所以返回 NaN。
 
-* 第三次调用：`parseInt('1', 2, arr)` 中基数 2 也是无效的，同样返回 NaN
+* **第三次调用**：`parseInt('1', 2, arr)` 中基数 2 也是无效的，同样返回 NaN。
 
 **扩展：**
 
 * `['10','10','10','10','10'].map(parseInt)` 返回值为 `[10, NaN, 2, 3, 4]`
 
 * `parseInt('10', 2)` 中的基数为 2 的解释：
-在这种情况下，字符串 '10' 是一个有效的二进制数。在二进制中，10 表示十进制中的数字 2。因此，parseInt('10', 2) 会成功地将二进制字符串 '10' 解析为整数 2。
+
+  在这种情况下，字符串 '10' 是一个有效的二进制数。在二进制中，10 表示十进制中的数字 2。因此，parseInt('10', 2) 会成功地将二进制字符串 '10' 解析为整数 2。
 
 ## 防抖和节流的区别？如何实现？
 
 防抖（Debounce）和节流（Throttle）是用来控制函数调用频率的两种常见技术，特别在处理频繁触发的事件（比如滚动、resize、输入框输入等）时很有用。
 
-* 防抖（Debounce）：
+* **防抖（Debounce）**
 
   * 当事件触发后，等待一定的时间间隔，如果在这个时间间隔内再次触发了相同事件，则重新计时。直到事件触发的间隔超过设定的时间间隔后，才真正执行该事件的处理函数。
 
   * **适合场景**：如搜索框输入联想，用户输入停顿后再进行搜索
 
-* 节流（Throttle）：
+* **节流（Throttle）**
 
   * 当事件触发后，首先执行事件处理函数，然后在指定的时间间隔内不响应新的事件触发。只有间隔超过设定的时间间隔后，才会再次触发执行事件处理函数。
 
@@ -356,77 +372,77 @@ map 传递给 parseInt 的参数包括当前元素的值，当前元素的索引
 
   * **执行时间点不同**：防抖是在事件停止触发后等待一段时间后执行最后一次触发的事件处理函数；节流是在指定时间间隔内执行事件处理函数，并且该时间间隔内不响应新的事件触发。
 
-  * 适用场景不同：防抖适合减少频繁事件的触发，如输入框搜索建议；节流适合控制事件的频率，如滚动事件加载数据。
+  * **适用场景不同**：防抖适合减少频繁事件的触发，如输入框搜索建议；节流适合控制事件的频率，如滚动事件加载数据。
 
 ## Set、Map、WeakSet 和 WeakMap 的区别
 
-* Set
+* **Set**
 
-存储唯一值的集合，无重复元素。
-可以包含任何类型的值，无论是原始值还是对象引用。
-方法包括 `add(value)、delete(value)、has(value)、clear() 和 size`。
+  * 存储唯一值的集合，无重复元素。
+  * 可以包含任何类型的值，无论是原始值还是对象引用。
+  * 方法包括 `add(value)、delete(value)、has(value)、clear() 和 size`。
 
-* WeakSet:
+* **WeakSet**
 
-存储对象引用的集合，不能包含原始值（例如 `int、boolean、string`）。
-对象引用是弱引用，即如果没有其他引用指向该对象，则对象可以被垃圾回收。
-没有 `clear()` 方法，也没有 `size` 属性，因为对象可能随时被回收。
+  * 存储对象引用的集合，不能包含原始值（例如 `int、boolean、string`）。
+  * 对象引用是弱引用，即如果没有其他引用指向该对象，则对象可以被垃圾回收。
+  * 没有 `clear()` 方法，也没有 `size` 属性，因为对象可能随时被回收。
 
-* Map:
+* **Map**
 
-存储键值对的集合，键和值可以是任何类型。
-保持键的插入顺序。
-方法包括 `set(key, value)、get(key)、delete(key)、has(key) 和 size`。
+  * 存储键值对的集合，键和值可以是任何类型。
+  * 保持键的插入顺序。
+  * 方法包括 `set(key, value)、get(key)、delete(key)、has(key) 和 size`。
 
-* WeakMap:
+* **WeakMap**
 
-类似于 Map，但键必须是对象，而不是原始值。
-键是弱引用，如果没有其他引用指向该对象，则键和值可以被垃圾回收。
-没有 `clear()` 方法，也没有 `size` 属性，因为键值对可能随时被回收。
+  * 类似于 Map，但键必须是对象，而不是原始值。
+  * 键是弱引用，如果没有其他引用指向该对象，则键和值可以被垃圾回收。
+  * 没有 `clear()` 方法，也没有 `size` 属性，因为键值对可能随时被回收。
 
 ## ES5/ES6中继承的区别
 
-* 语法糖
+* **语法糖**
 
-ES6中的类(class)语法主要是对ES5原型继承(prototype-based inheritance)的一种语法糖。尽管两者在底层实现上是相同的，但类语法提供了一种更简洁和直观的方式来定义继承。
+  ES6中的类( class )语法主要是对ES5原型继承( prototype-based inheritance )的一种语法糖。尽管两者在底层实现上是相同的，但类语法提供了一种更简洁和直观的方式来定义继承。
 
-* 严格模式
+* **严格模式**
 
-ES6类中的所有代码都在严格模式下运行，即使你没有显式地启用严格模式。这样可以避免一些常见的错误，如意外创建全局变量​。
+  ES6类中的所有代码都在严格模式下运行，即使你没有显式地启用严格模式。这样可以避免一些常见的错误，如意外创建全局变量​。
 
-* 构造函数强制使用 `new` 关键字
+* **构造函数强制使用 `new` 关键字**
 
-在ES6中，类的构造函数必须使用new关键字调用，否则会抛出错误。在ES5中，构造函数可以不使用new关键字，这可能会导致意外的结果。
+  在ES6中，类的构造函数必须使用new关键字调用，否则会抛出错误。在ES5中，构造函数可以不使用 new 关键字，这可能会导致意外的结果。
 
-* 方法的不可枚举性
+* **方法的不可枚举性**
 
-ES6类中的方法是不可枚举的，这意味着它们不会出现在for...in循环中。这与ES5不同，在ES5中，必须手动设置方法的不可枚举性。
+  ES6类中的方法是不可枚举的，这意味着它们不会出现在for...in循环中。这与ES5不同，在ES5中，必须手动设置方法的不可枚举性。
 
-* 静态方法和实例方法的定义
+* **静态方法和实例方法的定义**
 
-在ES6中，可以很方便地在类中定义静态方法和实例方法，并且静态方法会绑定在类的构造函数上，而不是实例上。这在ES5中需要更多的代码来实现。
+  在 ES6 中，可以很方便地在类中定义静态方法和实例方法，并且静态方法会绑定在类的构造函数上，而不是实例上。这在ES5中需要更多的代码来实现。
 
-* `super`关键字
+* **`super`关键字**
 
-ES6引入了super关键字，用于调用父类的构造函数和方法，这使得继承关系中的方法调用变得更加直观和简单。在ES5中，需要通过`Function.call`或`Function.apply`来实现类似的功能。
+  ES6 引入了 super 关键字，用于调用父类的构造函数和方法，这使得继承关系中的方法调用变得更加直观和简单。在ES5中，需要通过 `Function.call` 或 `Function.apply` 来实现类似的功能。
 
 ## setTimeout、Promise、Async/Await 的区别
 
-* setTimeout
+* **setTimeout**
   * 作用：用于延迟执行代码
   * 特性：
     * 创建一个任务，在执行时间后执行
     * 不会阻塞后续代码执行
     * 属于宏任务（Macrotask）
 
-* Promise
+* **Promise**
   * 作用：用于处理异步操作
   * 特性：
     * 不依赖于具体的时间延迟
     * 用于链式调用，避免回调地狱
     * 创建微任务（Microtask），优先级高于宏任务
 
-* async/await
+* **async/await**
   * 作用：用于简化基于Promise的代码，使其看起来像同步代码
   * 特性：
     * async函数会返回一个Promise
@@ -437,25 +453,25 @@ ES6引入了super关键字，用于调用父类的构造函数和方法，这使
 
 async/await 使异步代码看起来像同步代码，但它实际上并不会使代码变得同步。它只是通过暂停函数的执行来等待异步操作的完成，然后继续执行。这种机制让你能够写出类似于同步代码的异步代码，而不需要回调地狱或复杂的 Promise 链。
 
-在实际操作中，await在遇到一个Promise时会暂停函数的执行，直到该Promise解决为止。这种暂停并不会阻塞事件循环或阻止其他代码的执行。例如，当你在一个循环中使用await时，函数会一个接一个地等待每个Promise的解决，而不是同时发送多个请求。
+在实际操作中，await 在遇到一个 Promise 时会暂停函数的执行，直到该 Promise 解决为止。这种暂停并不会阻塞事件循环或阻止其他代码的执行。例如，当你在一个循环中使用 await 时，函数会一个接一个地等待每个 Promise 的解决，而不是同时发送多个请求。
 
 ## JS 异步解决方案的发展历程以及优缺点
 
-* 回调函数（callback）
+* **回调函数（callback）**
   * 优点：
     * 简单且易于理解
     * 直接且无须额外的库支持
   * 缺点：
     * 回调地狱（callback hell），复杂嵌套导致代码难以维护和阅读
 
-* Promise
+* **Promise**
   * 优点：
     * 解决了回调地狱的问题，使得代码更具可读性
     * 支持链式调用，使得异步操作序列化
   * 缺点：
     * 仍然需要手动处理错误和边界情况
 
-* Async/Await
+* **Async/Await**
   * 优点：
     * 基于 Promise，使异步代码看起来更像同步代码，从而提高可读性
     * 更容易进行调试和错误处理
@@ -464,168 +480,168 @@ async/await 使异步代码看起来像同步代码，但它实际上并不会�
 
 ## Promise 构造函数是同步执行还是异步执行，那么 then 方法呢
 
-promise构造函数是同步执行的，then方法是异步执行的。
+promise 构造函数是同步执行的，then 方法是异步执行的。
 
 ## 介绍下观察者模式和发布-订阅模式的区别，各自适用于什么场景
 
-### 观察者模式（Observer Pattern）
+* **观察者模式（Observer Pattern）**
 
-* 耦合性: 在观察者模式中，观察者和被观察者（主题）之间存在直接的依赖关系。被观察者知道有哪些观察者，并且直接通知它们变化。
+  * 耦合性: 在观察者模式中，观察者和被观察者（主题）之间存在直接的依赖关系。被观察者知道有哪些观察者，并且直接通知它们变化。
 
-* 应用范围: 通常用于同一进程内的事件处理。当一个对象状态改变时，所有依赖于它的对象都收到通知并自动更新。例如，在GUI应用程序中，一个按钮的点击事件可以通知多个处理器。
+  * 应用范围: 通常用于同一进程内的事件处理。当一个对象状态改变时，所有依赖于它的对象都收到通知并自动更新。例如，在GUI应用程序中，一个按钮的点击事件可以通知多个处理器。
 
-* 实现方式: 观察者模式通常由两个主要部分组成：主题（Subject）和观察者（Observer）。主题维护观察者列表，当其状态改变时通知所有观察者。
+  * 实现方式: 观察者模式通常由两个主要部分组成：主题（Subject）和观察者（Observer）。主题维护观察者列表，当其状态改变时通知所有观察者。
 
-代码示例：
+  代码示例：
 
-```js
-interface Observer {
-  update: (message: string) => void;
-}
-
-class Subject {
-  private observers: Observer[] = [];
-
-  registerObserver(observer: Observer): void {
-    this.observers.push(observer);
+  ```js
+  interface Observer {
+    update: (message: string) => void;
   }
 
-  removeObserver(observer: Observer): void {
-    this.observers = this.observers.filter(obs => obs !== observer);
-  }
+  class Subject {
+    private observers: Observer[] = [];
 
-  notifyObservers(message: string): void {
-    this.observers.forEach(observer => observer.update(message));
-  }
-}
-```
-
-### 发布-订阅模式（Publish-Subscribe Pattern）
-
-* 解耦性: 订阅者和发布者之间没有直接的联系。消息通过中介（消息代理）传递，发布者发送消息到特定的主题，订阅者订阅这些主题以接收消息。这种模式解耦了发布者和订阅者，使得它们可以独立演化。
-
-* 应用范围: 适用于跨进程、跨网络的消息传递。例如，微服务架构中，服务之间可以通过消息队列系统（如Kafka、RabbitMQ）进行通信。
-
-* 实现方式: 包含发布者（Publisher）、订阅者（Subscriber）和消息代理（Broker）等组件。发布者将消息发送到代理，代理根据订阅者的订阅信息分发消息。
-
-代码示例：
-
-```js
-class Publisher {
-  private broker: Broker;
-
-  constructor(broker: Broker) {
-    this.broker = broker;
-  }
-
-  publish(topic: string, message: string): void {
-    this.broker.publish(topic, message);
-  }
-}
-
-class Broker {
-  private topics: { [key: string]: Function[] } = {};
-
-  subscribe(topic: string, subscriber: Function): void {
-    if (!this.topics[topic]) {
-      this.topics[topic] = [];
+    registerObserver(observer: Observer): void {
+      this.observers.push(observer);
     }
-    this.topics[topic].push(subscriber);
-  }
 
-  publish(topic: string, message: string): void {
-    if (this.topics[topic]) {
-      this.topics[topic].forEach(subscriber => subscriber(message));
+    removeObserver(observer: Observer): void {
+      this.observers = this.observers.filter(obs => obs !== observer);
+    }
+
+    notifyObservers(message: string): void {
+      this.observers.forEach(observer => observer.update(message));
     }
   }
-}
+  ```
 
-class Subscriber {
-  constructor(broker: Broker, topic: string) {
-    broker.subscribe(topic, this.receive);
+* **发布-订阅模式（Publish-Subscribe Pattern）**
+
+  * 解耦性: 订阅者和发布者之间没有直接的联系。消息通过中介（消息代理）传递，发布者发送消息到特定的主题，订阅者订阅这些主题以接收消息。这种模式解耦了发布者和订阅者，使得它们可以独立演化。
+
+  * 应用范围: 适用于跨进程、跨网络的消息传递。例如，微服务架构中，服务之间可以通过消息队列系统（如Kafka、RabbitMQ）进行通信。
+
+  * 实现方式: 包含发布者（Publisher）、订阅者（Subscriber）和消息代理（Broker）等组件。发布者将消息发送到代理，代理根据订阅者的订阅信息分发消息。
+
+  代码示例：
+
+  ```js
+  class Publisher {
+    private broker: Broker;
+
+    constructor(broker: Broker) {
+      this.broker = broker;
+    }
+
+    publish(topic: string, message: string): void {
+      this.broker.publish(topic, message);
+    }
   }
 
-  receive(message: string): void {
-    console.log(`Received message: ${message}`);
+  class Broker {
+    private topics: { [key: string]: Function[] } = {};
+
+    subscribe(topic: string, subscriber: Function): void {
+      if (!this.topics[topic]) {
+        this.topics[topic] = [];
+      }
+      this.topics[topic].push(subscriber);
+    }
+
+    publish(topic: string, message: string): void {
+      if (this.topics[topic]) {
+        this.topics[topic].forEach(subscriber => subscriber(message));
+      }
+    }
   }
-}
-```
 
-### 使用场景
+  class Subscriber {
+    constructor(broker: Broker, topic: string) {
+      broker.subscribe(topic, this.receive);
+    }
 
-* 观察者模式: 适用于需要紧密耦合的场景，例如GUI组件之间的交互。
-* 订阅-发布模式: 适用于需要解耦的场景，特别是分布式系统和跨网络通信。
+    receive(message: string): void {
+      console.log(`Received message: ${message}`);
+    }
+  }
+  ```
+
+* **使用场景**
+
+  * 观察者模式: 适用于需要紧密耦合的场景，例如GUI组件之间的交互。
+  * 订阅-发布模式: 适用于需要解耦的场景，特别是分布式系统和跨网络通信。
 
 ## 浏览器和 Node 事件循环的区别
 
-### 浏览器
+* **浏览器**
 
-关于微任务和宏任务在浏览器的执行顺序是这样的：
+  关于微任务和宏任务在浏览器的执行顺序是这样的：
 
-* 执行一个macro-task（宏任务）
-* 执行完micro-task队列（微任务）
+  * 执行一个macro-task（宏任务）
+  * 执行完micro-task队列（微任务）
 
-### Node
+* **Node**
 
-Node的事件循环是libuv实现的。
+  Node的事件循环是libuv实现的。
 
-大体的task（宏任务）执行顺序是这样的：
+  大体的task（宏任务）执行顺序是这样的：
 
-* timers定时器：本阶段执行已经安排的 setTimeout() 和 setInterval() 的回调函数。
+  * timers定时器：本阶段执行已经安排的 setTimeout() 和 setInterval() 的回调函数。
 
-* pending callbacks待定回调：执行延迟到下一个循环迭代的 I/O 回调。
+  * pending callbacks待定回调：执行延迟到下一个循环迭代的 I/O 回调。
 
-* idle, prepare：仅系统内部使用。
+  * idle, prepare：仅系统内部使用。
 
-* poll 轮询：检索新的 I/O 事件;执行与 I/O 相关的回调（几乎所有情况下，除了关闭的回调函数，它们由计时器和 setImmediate() 排定的之外），其余情况 node 将在此处阻塞。
+  * poll 轮询：检索新的 I/O 事件;执行与 I/O 相关的回调（几乎所有情况下，除了关闭的回调函数，它们由计时器和 setImmediate() 排定的之外），其余情况 node 将在此处阻塞。
 
-* check 检测：setImmediate() 回调函数在这里执行。
+  * check 检测：setImmediate() 回调函数在这里执行。
 
-* close callbacks 关闭的回调函数：一些准备关闭的回调函数，如：socket.on('close', ...)。
+  * close callbacks 关闭的回调函数：一些准备关闭的回调函数，如：socket.on('close', ...)。
 
-Node 10以前：
+  Node 10 以前：
 
-* 执行完一个阶段的所有任务
-* 执行完nextTick队列里面的内容
-* 然后执行完微任务队列的内容
+  * 执行完一个阶段的所有任务
+  * 执行完 nextTick 队列里面的内容
+  * 然后执行完微任务队列的内容
 
-Node 11以后和浏览器的行为统一了，都是每执行一个宏任务就执行完微任务队列。
+  Node 11 以后和浏览器的行为统一了，都是每执行一个宏任务就执行完微任务队列。
 
 ## 介绍模块化发展历史
 
 JavaScript 模块化的演变经历了多个重要阶段，每个阶段都有其独特的解决方案和使用场景。以下是对主要模块化方案的概述：
 
-### 1、IIFE（立即调用的函数表达式）
+1. **IIFE（立即调用的函数表达式）**
 
-IIFE是一种早期的模块化模式，通过立即调用一个匿名函数来创建一个私有作用域，避免全局变量污染。这在模块化方案尚未成熟时非常流行。
+  IIFE是一种早期的模块化模式，通过立即调用一个匿名函数来创建一个私有作用域，避免全局变量污染。这在模块化方案尚未成熟时非常流行。
 
-### 2、AMD（异步模块定义）
+2. **AMD（异步模块定义）**
 
-AMD主要用于浏览器环境，强调异步加载模块。它通过define函数定义模块，并通过require函数加载模块。RequireJS是其代表性实现。
+  AMD主要用于浏览器环境，强调异步加载模块。它通过define函数定义模块，并通过require函数加载模块。RequireJS是其代表性实现。
 
-### 3、CMD（通用模块定义）
+3. **CMD（通用模块定义）**
 
-CMD和AMD类似，但更强调依赖的延迟执行。SeaJS是CMD的典型实现。CMD在定义模块时通过define函数，将依赖项放在模块体内。
+  CMD和AMD类似，但更强调依赖的延迟执行。SeaJS是CMD的典型实现。CMD在定义模块时通过define函数，将依赖项放在模块体内。
 
-### 4、CommonJS
+4. **CommonJS**
 
-CommonJS是Node.js采用的模块规范，通过require函数引入模块，通过module.exports导出模块。它在服务器端广泛使用，并且支持同步加载。
+  CommonJS是 Node.js 采用的模块规范，通过 require 函数引入模块，通过 module.exports 导出模块。它在服务器端广泛使用，并且支持同步加载。
 
-### 5、UMD（通用模块定义）
+5. **UMD（通用模块定义）**
 
-UMD试图兼容AMD和CommonJS，同时也支持全局变量模式。UMD模式用于创建可在多种环境下运行的模块
+  UMD试图兼容AMD和CommonJS，同时也支持全局变量模式。UMD模式用于创建可在多种环境下运行的模块
 
-### 6、Webpack（require.ensure）
+6. **Webpack（require.ensure）**
 
-Webpack是一个流行的打包工具，它支持动态导入（通过require.ensure实现）和代码拆分，能够高效管理依赖关系并生成优化的包。
+  Webpack是一个流行的打包工具，它支持动态导入（通过require.ensure实现）和代码拆分，能够高效管理依赖关系并生成优化的包。
 
-### 7、ESModule
+7. **ESModule**
 
-ES6引入了原生的模块系统，支持import和export语法。ES模块在编译时静态解析，具有更好的优化潜力和性能。它已经成为现代前端开发的标准。
+  ES6引入了原生的模块系统，支持import和export语法。ES模块在编译时静态解析，具有更好的优化潜力和性能。它已经成为现代前端开发的标准。
 
-### 8、`<script type="module">`
+8. `<script type="module">`
 
-HTML中可以通过`<script type="module">`标签直接加载ES模块。浏览器支持ES模块的原生导入和导出，使前端开发更加简洁和高效。
+  HTML中可以通过 `<script type="module">` 标签直接加载ES模块。浏览器支持ES模块的原生导入和导出，使前端开发更加简洁和高效。
 
 ## 全局作用域中，用 const 和 let 声明的变量不在 window 上，那到底在哪里？如何去获取？
 
@@ -639,7 +655,7 @@ console.log(window.a); // 12
 console.log(window.f); // f(){}
 ```
 
-但ES6规定，var 命令和 function 命令声明的全局变量，依旧是顶层对象的属性，但 let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性。
+但ES6规定，var 命令和 function 命令声明的全局变量，依旧是顶层对象的属性，但 let 命令、const 命令、class 命令声明的全局变量，不属于顶层对象的属性。
 
 ```js
 let aa = 1;
@@ -649,7 +665,7 @@ console.log(window.aa); // undefined
 console.log(window.bb); // undefined
 ```
 
-在全局作用域中，用 let 和 const 声明的全局变量并没有在全局对象中，只是一个块级作用域（Script）中。
+在全局作用域中，用 let 和 const 声明的全局变量并没有在全局对象中，只是一个块级作用域（ Script ）中。
 
 ## 下面代码中 a 在什么情况下会打印 1
 
@@ -659,6 +675,8 @@ if(a == 1 && a == 2 && a == 3){
   console.log(1);
 }
 ```
+
+**Answer：**
 
 ```js
 var a = {
@@ -687,6 +705,8 @@ obj.push(1)
 obj.push(2)
 console.log(obj)
 ```
+
+**Answer：**
 
 ```js
 {2: 1, 3: 2, length: 4, splice: ƒ, push: ƒ}
@@ -721,7 +741,7 @@ call 和 apply 都是 JavaScript 中用于函数调用的两种方法，主要�
 
 ## `a.b.c.d` 和 `a['b']['c']['d']`，哪个性能更高
 
-在讨论 `a.b.c.d` 和 `a['b']['c']['d']` 两种对象属性访问方式的性能时，最高赞的回答指出，`a.b.c.d` 通常比 `a['b']['c']['d']` 更快。这主要是因为在 JavaScript 中，使用点符号 (.) 进行属性访问时，编译器能够更好地优化这类操作。点符号访问更直接，不需要进行字符串查找和转换，因而执行速度更快。
+在讨论 `a.b.c.d` 和 `a['b']['c']['d']` 两种对象属性访问方式的性能时，`a.b.c.d` 通常比 `a['b']['c']['d']` 更快。这主要是因为在 JavaScript 中，使用点符号 (.) 进行属性访问时，编译器能够更好地优化这类操作。点符号访问更直接，不需要进行字符串查找和转换，因而执行速度更快。
 
 另一方面，方括号 ([]) 语法允许访问属性名为变量或表达式结果的情况，因此在某些动态属性访问场景中很有用。然而，这种灵活性带来了一定的性能开销，因为每次访问时需要解析字符串或计算表达式的结果。
 
@@ -735,22 +755,27 @@ call 和 apply 都是 JavaScript 中用于函数调用的两种方法，主要�
 
 Babel的实现思路涉及将现代JavaScript代码（如ES6及更高版本）转译为向后兼容的ES5代码。以下是Babel如何实现这一过程的核心步骤：
 
-* **解析（Parsing）：**
-首先，Babel使用解析器（如Babylon）将JavaScript源代码解析成抽象语法树（AST）。AST是一种中间表示，用于描述代码结构和语法元素。
+* **解析（Parsing）**
 
-* **转换（Transforming）：**
-解析后的AST会经过一系列的转换插件（Transform Plugins）。这些插件可以添加、删除或修改AST节点，从而实现语法转换。例如，箭头函数会被转换为普通的函数表达式，模板字符串会被转换为字符串连接等。
+  首先，Babel 使用解析器（如 Babylon ）将 JavaScript 源代码解析成抽象语法树（AST）。AST是一种中间表示，用于描述代码结构和语法元素。
 
-* **生成（Generating）：**
-最后，经过转换的AST会被生成器（如Babel Generator）重新生成JavaScript代码。这个阶段会将修改后的AST转换回普通的JavaScript代码字符串，并输出最终的ES5代码。
+* **转换（Transforming）**
 
-具体步骤：
+  解析后的AST会经过一系列的转换插件（ Transform Plugins ）。这些插件可以添加、删除或修改AST节点，从而实现语法转换。例如，箭头函数会被转换为普通的函数表达式，模板字符串会被转换为字符串连接等。
 
-* **解析（Parsing）：**
+* **生成（Generating）**
+
+  最后，经过转换的AST会被生成器（如 Babel Generator ）重新生成 JavaScript 代码。这个阶段会将修改后的AST转换回普通的 JavaScript 代码字符串，并输出最终的ES5代码。
+
+**具体步骤：**
+
+* **解析（Parsing）**
+
   * Babel解析器会读取源代码并生成一个对应的AST。
   * 例如，`let x = () => 2;` 会被解析为一个包含变量声明和箭头函数的AST。
 
-* **转换（Transforming）：**
+* **转换（Transforming）**
+
   * Babel插件会遍历AST并对其进行修改。
   * 例如，一个箭头函数插件会将AST中的箭头函数节点转换为普通函数表达式节点：
 
@@ -784,9 +809,10 @@ Babel的实现思路涉及将现代JavaScript代码（如ES6及更高版本）�
 }
 ```
 
-* **生成（Generating）：**
+* **生成（Generating）**
+
   * 生成器会将修改后的AST重新转换为JavaScript代码字符串。
-  * 最终的代码可能是`var x = function() { return 2; };`。
+  * 最终的代码可能是 `var x = function() { return 2; };`。
 
 ## 为什么 for 循环的性能远高于 forEach？
 
@@ -842,7 +868,7 @@ console.log(a[b]);
 
 ```
 
-输出如下：
+**Answer：**
 
 ```js
 // example 1
@@ -883,11 +909,11 @@ Promise.all([promise1, promise2, promise3]).then((values) => {
 });
 ```
 
-**原理**
+**原理：**
 
 `Promise.all` 内部会遍历传入的可迭代对象，将每个元素转为 Promise（如果它不是 Promise），然后等待所有 Promise 完成。如果所有 Promise 成功，Promise.all 返回的 Promise 会解析为包含所有结果的数组。如果有任何一个 Promise 被拒绝，Promise.all 返回的 Promise 会立即拒绝，并返回第一个被拒绝的 Promise 的原因
 
-**错误处理**
+**错误处理：**
 
 `Promise.all` 的一个特点是“全有或全无”。如果任何一个 Promise 被拒绝，整个 Promise.all 调用都会被拒绝。可以通过 .catch 方法处理错误
 
@@ -925,77 +951,21 @@ Promise.allSettled([promise1, promise2, promise3]).then((results) => {
 
 * **作用域（Scope）**
 
-* var 声明的变量是函数作用域或全局作用域。如果在函数内部声明变量，它在整个函数中都可以访问；如果在函数外部声明，则在全局范围内可用。
+  * var 声明的变量是函数作用域或全局作用域。如果在函数内部声明变量，它在整个函数中都可以访问；如果在函数外部声明，则在全局范围内可用。
 
-* let 和 const 声明的变量是块级作用域（block scope）。这意味着它们只在声明它们的代码块内有效。
+  * let 和 const 声明的变量是块级作用域（block scope）。这意味着它们只在声明它们的代码块内有效。
 
 * **提升（Hoisting）**
 
-* var 声明的变量会被提升到其作用域的顶部，这意味着变量声明会被提升到函数或全局的顶部，但是初始化仍然留在原来的位置，因此在提升前访问会得到 `undefined`。
+  * var 声明的变量会被提升到其作用域的顶部，这意味着变量声明会被提升到函数或全局的顶部，但是初始化仍然留在原来的位置，因此在提升前访问会得到 `undefined`。
 
-* let 和 const 也会被提升，但它们会保持在“暂时性死区”（Temporal Dead Zone，TDZ）内，直到声明语句被执行。访问 TDZ 内的 let 或 const 变量会导致 `ReferenceError`。
+  * let 和 const 也会被提升，但它们会保持在“暂时性死区”（Temporal Dead Zone，TDZ）内，直到声明语句被执行。访问 TDZ 内的 let 或 const 变量会导致 `ReferenceError`。
 
 * **变量重新赋值（Reassignment）**
 
-* var 变量可以重新赋值和重新声明。
-* let 变量可以重新赋值，但不能重新声明。
-* const 变量一旦声明后，不能重新赋值，且必须立即初始化。不过，如果 const 变量引用的是对象或数组，可以修改对象的属性或数组的元素。
-
-## 在输入框中如何判断输入的是一个正确的网址
-
-```js
-const isUrl = (url) => {
-  try {
-    new URL(url);
-    return true;
-  } catch (err) {
-    return false;
-  }
-}
-```
-
-## 设计并实现 `Promise.race()`
-
-```js
-const race = (promises) => {
-  return Promise((resolve, reject) => {
-    promises.forEach((p) => Promise.resolve(p).then(resolve, reject));
-  })
-}
-```
-
-## 写出如下代码的打印结果
-
-```js
-function changeObjProperty(o) {
-  o.siteUrl = "http://www.baidu.com"
-  o = new Object()
-  o.siteUrl = "http://www.google.com"
-} 
-let webSite = new Object();
-changeObjProperty(webSite);
-console.log(webSite.siteUrl);
-
-```
-
-```js
-// 这里把o改成a
-// webSite引用地址的值copy给a了
-function changeObjProperty(a) {
-  // 改变对应地址内的对象属性值
-  a.siteUrl = "http://www.baidu.com"
-  // 变量a指向新的地址 以后的变动和旧地址无关
-  a = new Object()
-  a.siteUrl = "http://www.google.com"
-  a.name = 456
-} 
-var webSite = new Object();
-webSite.name = '123'
-changeObjProperty(webSite);
-console.log(webSite); // {name: 123, siteUrl: 'http://www.baidu.com'}
-
-// http://www.baidu.com
-```
+  * var 变量可以重新赋值和重新声明。
+  * let 变量可以重新赋值，但不能重新声明。
+  * const 变量一旦声明后，不能重新赋值，且必须立即初始化。不过，如果 const 变量引用的是对象或数组，可以修改对象的属性或数组的元素。
 
 ## 实现一个动画有哪些方式
 
@@ -1006,25 +976,34 @@ console.log(webSite); // {name: 123, siteUrl: 'http://www.baidu.com'}
 
 ## 前端常见的设计模式
 
-1. 单例模式：
+* **单例模式**
 
-用于限制类的实例化次数，并确保全局只有一个实例。在前端应用中，如全局状态管理器、日志系统等，使用单例模式来实现全局唯一性。
-2. 观察者模式：
+  用于限制类的实例化次数，并确保全局只有一个实例。在前端应用中，如全局状态管理器、日志系统等，使用单例模式来实现全局唯一性。
 
-用于处理多对多的事件通信和数据变化通知。常见的应用如 Vue、React 中的响应式数据系统，或者实现发布/订阅模式。
-3. 工厂模式：
+* **观察者模式**
 
-提供一个创建对象的接口，通过不同的条件返回不同的对象实例，常见于组件库、插件等模块化的系统中。
-4. 命令模式：
+  用于处理多对多的事件通信和数据变化通知。常见的应用如 Vue、React 中的响应式数据系统，或者实现发布/订阅模式。
 
-用于将请求封装为对象，支持更复杂的请求操作，如撤销操作等。命令模式在前端框架中的 UI 操作和功能模块解耦中有广泛应用。
+* **工厂模式**
 
-5. 装饰模式：
-装饰器的使用
+  提供一个创建对象的接口，通过不同的条件返回不同的对象实例，常见于组件库、插件等模块化的系统中。
+
+* **命令模式**
+
+  用于将请求封装为对象，支持更复杂的请求操作，如撤销操作等。命令模式在前端框架中的 UI 操作和功能模块解耦中有广泛应用。
+
+* **装饰模式**
+
+  装饰器的使用
 
 ## TypeScript 相较于 JavaScript 的优势和劣势
 
 TypeScript 相比于 JavaScript 的优势和劣势：
 
-优势：类型安全、增强的开发体验、更好的代码可维护性、支持现代 JavaScript 特性。
-劣势：学习曲线、编译步骤、类型系统的复杂性、与第三方库的兼容性问题、增加项目复杂度。
+* 优势
+
+  类型安全、增强的开发体验、更好的代码可维护性、支持现代 JavaScript 特性。
+
+* 劣势
+
+  学习曲线、编译步骤、类型系统的复杂性、与第三方库的兼容性问题、增加项目复杂度。

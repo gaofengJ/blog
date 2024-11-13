@@ -1262,3 +1262,59 @@ async function example() {
 
 example();
 ```
+
+## 在输入框中如何判断输入的是一个正确的网址
+
+```js
+const isUrl = (url) => {
+  try {
+    new URL(url);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+```
+
+## 设计并实现 `Promise.race()`
+
+```js
+const race = (promises) => {
+  return Promise((resolve, reject) => {
+    promises.forEach((p) => Promise.resolve(p).then(resolve, reject));
+  })
+}
+```
+
+## 写出如下代码的打印结果
+
+```js
+function changeObjProperty(o) {
+  o.siteUrl = "http://www.baidu.com"
+  o = new Object()
+  o.siteUrl = "http://www.google.com"
+} 
+let webSite = new Object();
+changeObjProperty(webSite);
+console.log(webSite.siteUrl);
+
+```
+
+```js
+// 这里把o改成a
+// webSite引用地址的值copy给a了
+function changeObjProperty(a) {
+  // 改变对应地址内的对象属性值
+  a.siteUrl = "http://www.baidu.com"
+  // 变量a指向新的地址 以后的变动和旧地址无关
+  a = new Object()
+  a.siteUrl = "http://www.google.com"
+  a.name = 456
+} 
+var webSite = new Object();
+webSite.name = '123'
+changeObjProperty(webSite);
+console.log(webSite); // {name: 123, siteUrl: 'http://www.baidu.com'}
+
+// http://www.baidu.com
+```

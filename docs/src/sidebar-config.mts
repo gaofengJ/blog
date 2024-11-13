@@ -1,7 +1,7 @@
 export default {
   '/experience/': [
     {
-      'text': '面经',
+      'text': '八股文',
       'items': [
         {
           'text': 'HTML',
