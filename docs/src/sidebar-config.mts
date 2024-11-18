@@ -205,6 +205,10 @@ export default {
           'link': '/summary-middle/engineering/docker.md'
         },
         {
+          'text': 'Git',
+          'link': '/summary-middle/engineering/git.md'
+        },
+        {
           'text': 'Monorepo + Nest + React 搭建前后端一体化项目',
           'link': '/summary-middle/engineering/monorepo+nest+react.md'
         },

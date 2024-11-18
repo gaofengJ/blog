@@ -5,6 +5,10 @@ description: 工程化
 
 # 工程化 面试题
 
+## git
+
+[git](../../summary-middle/engineering/git.md)
+
 ## 介绍下 npm 模块安装机制
 
 npm（Node Package Manager）是一个用于管理JavaScript代码库的工具，广泛用于Node.js应用程序的开发。npm模块安装机制主要包括以下几个方面：
