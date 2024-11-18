@@ -1,6 +1,15 @@
 export default {
   '/experience/': [
     {
+      'text': '公司面经',
+      'items': [
+        {
+          'text': 'B站面经',
+          'link': '/experience/company/bilibili.md'
+        }
+      ]
+    },
+    {
       'text': '八股文',
       'items': [
         {
@@ -52,8 +61,12 @@ export default {
           'link': '/experience/theory/12-code.md'
         },
         {
+          'text': '算法题',
+          'link': '/experience/theory/13-algorithm.md'
+        },
+        {
           'text': '场景',
-          'link': '/experience/theory/13-scenario.md'
+          'link': '/experience/theory/14-scenario.md'
         }
       ]
     }

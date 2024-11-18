@@ -21,7 +21,7 @@ export default [
   },
   {
     'text': '面经',
-    'link': '/experience/theory/1-html.md',
+    'link': '/experience/company/bilibili.md',
     'activeMatch': '/experience/'
   }
 ]

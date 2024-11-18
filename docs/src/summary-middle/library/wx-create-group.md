@@ -106,6 +106,6 @@ export const openExistedChatWithMsg = async (chatId: string) => {
 
 ## 注意事项
 
-* **目前一键拉群的调试必须在线上域名中进行，可参考[企微JS-SDK调试方案](../engineering/wx-js-sdk-local-debugging.md)**
+* **目前一键拉群的调试必须在线上域名中进行，可参考[企微JS-SDK调试方案](./wx-js-sdk-local-debugging.md)**
 * **调用openExistedChatWithMsg前必须先调用wx.agentConfig**
 * **在调用后端接口生成群聊与跳转群聊的过程中，如果衔接比较生硬，建议添加loading效果**
