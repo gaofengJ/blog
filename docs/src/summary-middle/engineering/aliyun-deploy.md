@@ -1,6 +1,6 @@
 ---
 title: 阿里云ECS服务器项目部署
-description: 前端基础
+description: 工程化
 ---
 
 # 阿里云ECS服务器项目部署

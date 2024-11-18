@@ -229,12 +229,16 @@ export default {
           'link': '/summary-middle/engineering/project-specification.md'
         },
         {
+          'text': '生产发布 checklist',
+          'link': '/summary-middle/engineering/release-checklist.md'
+        },
+        {
           'text': 'Semver（语义化版本号）',
           'link': '/summary-middle/engineering/semver.md'
         },
         {
-          'text': '企微JS-SDK调试、验证',
-          'link': '/summary-middle/engineering/wx-js-sdk-local-debugging.md'
+          'text': '前端技术方案',
+          'link': '/summary-middle/engineering/technical-solution.md'
         }
       ]
     },
@@ -278,6 +282,10 @@ export default {
         {
           'text': '企微一键拉群方案',
           'link': '/summary-middle/library/wx-create-group.md'
+        },
+        {
+          'text': '企微JS-SDK调试、验证',
+          'link': '/summary-middle/library/wx-js-sdk-local-debugging.md'
         }
       ]
     },
@@ -291,11 +299,11 @@ export default {
       ]
     },
     {
-      'text': '工作原理',
+      'text': '踩坑指南',
       'items': [
         {
-          'text': '工作原理',
-          'link': '/summary-middle/principle/principle.md'
+          'text': '踩坑指南',
+          'link': '/summary-middle/principle/pitfalls-guide.md'
         }
       ]
     }
