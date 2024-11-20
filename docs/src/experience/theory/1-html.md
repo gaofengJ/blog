@@ -435,15 +435,51 @@ setTimeout
 
 3. script 任务继续往下，执行了 async1 函数，async 函数之前的代码是立即执行的，所以会立即输出 `async1 start`。
 
-4. 遇到 await 时，会将 await 后面的表达式执行一遍，所以紧接着输出`async2`,然后将 await 后面的代码也就是 `console.log(async1 end)`加入到microtask 中的 Promise 队列中，接着跳出 async1 函数来执行后面的代码。
+4. setTimeout 的回调是宏任务，会被加入到宏任务队列中去。
 
-5. script 任务继续往下执行，遇到了 Promise 实例。由于 Promise 中的函数是立即执行的，而后续的 `.then` 则会被分发到 microtask 中的 Promise 队列中去。所以会先输出 promise1，然后执行 resolve，将 promise2 分配到对应队列。
+5. 遇到 await 时，会将 await 后面的表达式执行一遍，所以紧接着输出`async2`,然后将 await 后面的代码也就是 `console.log(async1 end)`加入到microtask 中的 Promise 队列中，接着跳出 async1 函数来执行后面的代码。
 
-6. script 任务继续往下，最后输出了 `script end`，至此全局任务就执行完毕了。
+6. script 任务继续往下执行，遇到了 Promise 实例。由于 Promise 中的函数是立即执行的，而后续的 `.then` 则会被分发到 microtask 中的 Promise 队列中去。所以会先输出 promise1，然后执行 resolve，将 promise2 分配到对应队列。
 
-7. 执行完一个宏任务后，回去检查是否存在微任务。如果有，则执行微任务直至清空 Microtask queue。所以在 script 任务执行完毕后，开始查找清空微任务队列。此时，微任务中 Promise 队列有两个任务 async1 end 和 promise2，因此按照先后顺序输出`async1 end` 和 `promise2`。当所有 Microtasks 执行完毕后，表示第一轮的循环就结束了。
+7. script 任务继续往下，最后输出了 `script end`，至此全局任务就执行完毕了。
 
-8. 第二轮循环依旧从宏任务队列开始。此时宏任务重只有一个 setTimeout，取出直接输出即可，至此整个流程结束。
+8. 执行完一个宏任务后，回去检查是否存在微任务。如果有，则执行微任务直至清空 Microtask queue。所以在 script 任务执行完毕后，开始查找清空微任务队列。此时，微任务中 Promise 队列有两个任务 async1 end 和 promise2，因此按照先后顺序输出`async1 end` 和 `promise2`。当所有 Microtasks 执行完毕后，表示第一轮的循环就结束了。
+
+9. 第二轮循环依旧从宏任务队列开始。此时宏任务重只有一个 setTimeout，取出直接输出即可，至此整个流程结束。
+
+## 浏览器和 Node 事件循环的区别
+
+* **浏览器**
+
+  关于微任务和宏任务在浏览器的执行顺序是这样的：
+
+  * 执行一个macro-task（宏任务）
+  * 执行完micro-task队列（微任务）
+
+* **Node**
+
+  Node的事件循环是libuv实现的。
+
+  大体的task（宏任务）执行顺序是这样的：
+
+    1. Timers 阶段：执行 setTimeout 和 setInterval 的回调函数。
+    2. I/O 回调阶段：执行 I/O 相关的回调函数。
+    3. Idle, Prepare 阶段：系统内部使用，几乎没有用户代码。
+    4. Poll 阶段：执行新的 I/O 事件，或等待新的 I/O。
+    5. Check 阶段：执行 setImmediate 的回调。
+    6. Close 阶段：执行关闭事件的回调，比如 socket.on('close')。
+
+  Node 10 以前：
+
+  * 执行完一个阶段的所有任务
+    * 在每个事件循环阶段（如 Timers 阶段、Poll 阶段等），会先执行该阶段的所有回调函数。
+  * 执行完 nextTick 队列里面的内容
+    * 在当前阶段的任务全部完成后，先清空 process.nextTick 队列。
+    * 这会在任何微任务队列之前执行。
+  * 然后执行完微任务队列的内容
+    * 在清空 process.nextTick 队列后，执行微任务队列中的所有任务（比如 Promise 的 .then 回调）
+
+  Node 11 以后和浏览器的行为统一了，都是每执行一个宏任务就执行完微任务队列。
 
 ## 白屏时间和首屏时间
 
