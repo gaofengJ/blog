@@ -214,6 +214,21 @@ defer 和 async 都是用于控制 JavaScript 文件加载和执行方式的 `<s
 
 这种方法被广泛用于网页访问统计、广告效果监测以及电子邮件阅读率统计等场景。尽管现代浏览器和邮件客户端开始默认阻止图片加载以防止这种跟踪，但它仍然是一个常见且有效的解决方案。
 
+> [!TIP]
+>
+> Beacon API
+> 利用 navigator.sendBeacon 发送小型异步请求，将数据发送到服务器
+> 优势：
+>
+> * 异步且不会阻塞页面卸载。
+> * 高效适合用户退出页面时的埋点。
+> * 支持 POST 请求，可发送较大的数据量。
+>
+> ```js
+> const data = { event: 'page_view', timestamp: Date.now() };
+> navigator.sendBeacon('/tracking', JSON.stringify(data));
+>```
+
 ## 已知如下代码，如何修改才能让图片宽度为 300px ？注意下面代码不可修改
 
 ```html
@@ -240,7 +255,7 @@ img {
 function debounce(fn, delay = 100) {
   // 通过闭包缓存一个定时器id
   let timer;
-  return (...args) => {
+  return (...args) => { // ...args 用来捕获传递给函数的所有参数，并将它们存储在一个数组中。
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       fn.apply(this, args);
@@ -330,16 +345,31 @@ ElementUI 是通过 `compositionstart` & `compositionend` 做的中文输入处�
 
 * js 分为同步任务和异步任务
 * 同步任务都在主线程上执行，形成一个执行栈
-* 主线程之外，事件触发线程管理着一个任务队列，只要异步任务有了运行结果，就会在任务队列中放置一个事件
+* 主线程之外，事件触发线程负责管理所有任务队列，只要异步任务有了运行结果，就会在任务队列中放置一个事件
 * 一旦执行栈中的所有同步任务执行完毕（此时 js 引擎空闲），系统就会读取任务队列，将可运行的异步任务添加到可执行栈中，开始执行。
 
-根据规范，事件循环是通过任务队列的机制来进行协调的。一个 Event Loop 中，可以有一个或多个任务队列（ task queue ），一个任务队列便是一系列有序任务（ task ）的集合；每个任务都有一个任务源（ task source ），源自同一个任务源的task必须放在同一个任务队列，从不同源来的则被添加到不同队列。setTimeout/Promise 等 API 便是任务源，而进入任务队列的是他们指定的具体执行任务。
+根据规范，事件循环是通过任务队列的机制来进行协调的。一个 Event Loop 中，可以有一个或多个任务队列（ task queue ），一个任务队列便是一系列有序任务（ task ）的集合；每个任务都有一个任务源（ task source ），源自同一个任务源的 task 必须放在同一个任务队列，从不同源来的则被添加到不同队列。setTimeout/Promise 等 API 便是任务源，而进入任务队列的是他们指定的具体执行任务。
+
+> [!TIP]
+>
+> 任务队列的划分
+>
+> * 定时器任务队列（Timer Task Queue）：
+> 由 setTimeout 和 setInterval 等定时器任务生成。
+> * UI 渲染任务队列（Rendering Task Queue）：
+> 浏览器用来执行与页面渲染相关的任务。
+> * 用户交互任务队列（User Interaction Task Queue）：
+> 包括点击、键盘事件等 DOM 事件任务。
+> * 网络请求任务队列（Network Task Queue）：
+> 例如 XMLHttpRequest 或 fetch 请求的回调。
+> * 微任务队列（Micro Task Queue）：
+> 专门存放微任务，比如 Promise.then、MutationObserver。
 
 ### 宏任务
 
 macrotask（又称之为宏任务），可以理解是每次执行栈执行的代码就是一个宏任务（包括每次从事件队列中获取一个事件回调并放到执行栈中执行）。
 
-浏览器为了能够使得JS内部 macrotask 与 DOM 任务能够有序的执行，会在一个 macrotask 执行结束后，在下一个 macrotask 执行开始前，对页面进行重新渲染。
+浏览器为了能够使得 JS 内部 macrotask 与 DOM 任务能够有序的执行，会在一个 macrotask 执行结束后，在下一个 macrotask 执行开始前，对页面进行重新渲染。
 
 macrotask 主要包含：script(整体代码)、setTimeout、setInterval、I/O、UI交互事件、postMessage、MessageChannel、setImmediate(Node.js 环境)
 
@@ -358,7 +388,7 @@ microtask主要包含：Promise.then、MutaionObserver、process.nextTick(Node.j
 * 执行一个宏任务（栈中没有就从事件队列中获取）
 * 执行过程中如果遇到微任务，就将它添加到微任务的任务队列中
 * 宏任务执行完毕后，立即执行当前微任务队列中的所有微任务（依次执行）
-* 当前宏任务执行完毕，开始检查渲染，然后GUI线程接管渲染
+* 当前所有微任务执行完毕，开始检查渲染，然后GUI线程接管渲染
 * 渲染完毕后，JS线程继续接管，开始下一个宏任务（从事件队列中获取）
 
 ## 写出下面代码的运行结果
