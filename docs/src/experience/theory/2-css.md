@@ -338,6 +338,12 @@ IFC主要用于水平和垂直居中对齐内容​。
   * `flex-shrink: 1;`子项可以缩小以适应容器空间
   * `flex-basis: auto;`子项的初始大小基于其内容或已定义的宽度/高度
 
+* `flex: none;`
+
+  * `flex-grow: 0;`子项不会增长，即便有多余的空间也不参与分配
+  * `flex-shrink: 0;`子项不可以缩小
+  * `flex-basis: auto;`子项的初始大小基于其内容或已定义的宽度/高度
+
 flex 默认值为 `flex: 0 1 auto`。
 
 ## line-height 如何继承
