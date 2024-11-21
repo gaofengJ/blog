@@ -6,6 +6,14 @@ export default {
         {
           'text': 'B站面经',
           'link': '/experience/company/bilibili.md'
+        },
+        {
+          'text': '拼多多',
+          'link': '/experience/company/pinduoduo.md'
+        },
+        {
+          'text': '鹰角',
+          'link': '/experience/company/yingjiao.md'
         }
       ]
     },
