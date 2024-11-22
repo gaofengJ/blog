@@ -9,8 +9,15 @@ description: JavaScript
 
 在 JS 中共有 8  种基础的数据类型，分别为： `Undefined` 、 `Null` 、 `Boolean` 、 `Number` 、 `String` 、 `Object` 、 `Symbol` 、 `BigInt`。
 
-* **Symbol**：代表独一无二的值，最大的用法是用来定义对象的唯一属性名
-* **BigInt**： 可以表示任意大小的整数
+* **Symbol**
+
+  * 代表独一无二的值，最大的用法是用来定义对象的唯一属性名。
+  * Symbol 的唯一标识符部分存储在栈中，但其元数据可能涉及堆。
+
+* **BigInt**
+
+  * 可以表示任意大小的整数。
+  * BigInt 的存储依赖于其值的大小，小值可能在栈中，大值则在堆中。
 
 ## 基本类型和引用类型
 
@@ -113,6 +120,18 @@ function isEqual(a, b) {
 console.log(isEqual(0.1 + 0.2, 0.3)); // true
 ```
 
+`Decimal.js` 是一个用于处理任意精度的十进制数计算的 JavaScript 库，它通过模拟十进制数的精确运算来解决 JavaScript 原生数字类型中的浮点数精度问题。
+
+```js
+const Decimal = require('decimal.js');
+
+// 精确运算
+let a = new Decimal('0.1');
+let b = new Decimal('0.2');
+let sum = a.plus(b); // 加法
+console.log(sum.toString()); // 0.3
+```
+
 ## 原型和原型链
 
 **原型（Prototype）**
@@ -121,11 +140,11 @@ console.log(isEqual(0.1 + 0.2, 0.3)); // true
 
 * 构造函数的原型
 
-  每个函数都有一个 prototype 属性，它指向一个对象，这个对象被称为构造函数的原型。这个原型对象可以被用来定义共享属性和方法。
+  每个函数(除箭头函数外)都有一个 prototype 属性，它指向一个对象，这个对象被称为构造函数的原型。供该构造函数的实例共享属性和方法。
 
 * 实例对象的原型
 
-  当你创建一个对象时，它的 `[[Prototype]]` 指向其构造函数的 prototype 对象。
+  当你创建一个对象时，它的 `[[Prototype]]` 内部属性会指向该构造函数的 prototype 属性所指的对象。
 
 **原型链（Prototype Chain）**
 
@@ -271,6 +290,18 @@ console.log(counter()); // 输出: 3
 ```
 
 在这个示例中，createCounter 函数返回一个匿名函数，该匿名函数就是一个闭包。闭包可以访问 createCounter 中的局部变量 count，并通过保持对 count 的引用来累加计数器的值。
+
+## call 和 apply 的区别是什么，哪个性能更好一些
+
+call 和 apply 都是 JavaScript 中用于函数调用的两种方法，主要区别在于参数的传递方式：
+
+* call 方法接受一个参数列表，格式为 fn.call(thisArg, arg1, arg2, ...)。
+
+* apply 方法接受一个包含参数的数组，格式为 fn.apply(thisArg, [arg1, arg2, ...])。
+
+在性能方面，通常 call 比 apply 更快。这主要是因为 apply 需要进行额外的参数处理，将数组转换为参数列表。apply 方法需要执行更多的步骤，包括参数类型检查和循环处理所有参数，从而导致了额外的开销​。
+
+因此，在性能敏感的场景中，若已知参数数量且可以明确列出参数，推荐使用 call 方法。此外，如果参数已经存在于一个数组中且数组大小不确定，apply 会更方便一些。
 
 ## call、apply、bind实现
 
@@ -425,6 +456,37 @@ map 传递给 parseInt 的参数包括当前元素的值，当前元素的索引
 * **`super`关键字**
 
   ES6 引入了 super 关键字，用于调用父类的构造函数和方法，这使得继承关系中的方法调用变得更加直观和简单。在ES5中，需要通过 `Function.call` 或 `Function.apply` 来实现类似的功能。
+
+  ```js
+  class Animal {
+    constructor(name) {
+      this.name = name;
+    }
+
+    speak() {
+      console.log(`${this.name} makes a sound.`);
+    }
+
+  }
+
+  class Dog extends Animal {
+    constructor(name, breed) {
+      super(name); // 调用父类的构造函数
+      this.breed = breed;
+    }
+
+    speak() {
+      super.speak(); // 调用父类的 speak 方法
+      console.log(`${this.name} barks.`);
+    }
+  }
+
+  const dog = new Dog('Buddy', 'Golden Retriever');
+  dog.speak();
+  // 输出：
+  // Buddy makes a sound.
+  // Buddy barks.
+  ```
 
 ## setTimeout、Promise、Async/Await 的区别
 
@@ -676,18 +738,6 @@ console.log(obj)
 ```js
 {2: 1, 3: 2, length: 4, splice: ƒ, push: ƒ}
 ```
-
-## call 和 apply 的区别是什么，哪个性能更好一些
-
-call 和 apply 都是 JavaScript 中用于函数调用的两种方法，主要区别在于参数的传递方式：
-
-* call 方法接受一个参数列表，格式为 fn.call(thisArg, arg1, arg2, ...)。
-
-* apply 方法接受一个包含参数的数组，格式为 fn.apply(thisArg, [arg1, arg2, ...])。
-
-在性能方面，通常 call 比 apply 更快。这主要是因为 apply 需要进行额外的参数处理，将数组转换为参数列表。apply 方法需要执行更多的步骤，包括参数类型检查和循环处理所有参数，从而导致了额外的开销​。
-
-因此，在性能敏感的场景中，若已知参数数量且可以明确列出参数，推荐使用 call 方法。此外，如果参数已经存在于一个数组中且数组大小不确定，apply 会更方便一些。
 
 ## 箭头函数与普通函数（function）的区别是什么？构造函数（function）可以使用 new 生成实例，那么箭头函数可以吗？为什么？
 
