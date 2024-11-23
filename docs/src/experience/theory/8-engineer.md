@@ -11,7 +11,7 @@ description: 工程化
 
 ## 介绍下 npm 模块安装机制
 
-npm（Node Package Manager）是一个用于管理JavaScript代码库的工具，广泛用于Node.js应用程序的开发。npm模块安装机制主要包括以下几个方面：
+npm（Node Package Manager）是一个用于管理 JavaScript 代码库的工具，广泛用于Node.js应用程序的开发。npm模块安装机制主要包括以下几个方面：
 
 * **本地安装**
   * 位置：默认情况下，npm会将模块安装在当前项目的 node_modules 目录下。
@@ -32,6 +32,8 @@ npm（Node Package Manager）是一个用于管理JavaScript代码库的工具�
 
   * 自定义路径：可以通过.npmrc文件来配置自定义安装路径。例如，设置prefix参数可以改变全局模块的安装路径。
   * 命令配置：使用`npm config set <key> <value>`命令可以设置配置选项，使用`npm config get <key>`命令可以获取配置选项。
+
+## pnpm
 
 ## CommonJS、AMD、CMD、ESM 区别
 
@@ -141,9 +143,9 @@ CommonJS、AMD、CMD 和 ESM 都是 JavaScript 的模块化规范，它们之间
 
 这些模块化规范解决了不同平台和使用场景下的模块化问题，各有优缺点。在实际应用中，选择合适的模块化标准可以提高性能和开发效率。
 
-## CommonJs 和 ESM 区别
+## CommonJS 和 ESM 区别
 
-CommonJS和ESM（ES6 Modules）是JavaScript模块化的两种主要方式，它们在语法、加载方式、使用场景等方面存在一些区别。
+CommonJS 和 ESM（ES6 Modules）是 JavaScript 模块化的两种主要方式，它们在语法、加载方式、使用场景等方面存在一些区别。
 
 * **语法差异**
 
@@ -186,6 +188,45 @@ CommonJS和ESM（ES6 Modules）是JavaScript模块化的两种主要方式，它
   * ESM 使用 import() 可以实现动态导入，但它是基于静态分析的，意味着ESM模块能在编译时就确定依赖关系。
 
 总结来说，CommonJS 是传统的模块化方案，适合 Node.js，而 ESM 是现代JavaScript标准，适合浏览器和新的Node.js版本。两者有一些交集，但它们的使用方式和环境有所不同。
+
+* **导出内容**
+
+  * ESM 导入的是对导出内容的动态引用，因此导入的值会随导出模块的值变化而变化。
+
+  ```js
+  // module.js
+  export let count = 1;
+  export const increment = () => count++;
+
+  // main.js
+  import { count, increment } from './module.js';
+
+  console.log(count); // 输出 1
+  increment();
+  console.log(count); // 输出 2（因为是引用）
+  ```
+
+  * CJS 导入的是导出内容的浅拷贝引用，但对导出的对象本身进行操作（如修改其属性）是共享的。
+
+  ```js
+  // module.js
+  let count = 1;
+  const increment = () => count++;
+  module.exports = { count, increment };
+
+  // main.js
+  const { count, increment } = require('./module');
+
+  console.log(count); // 输出 1
+  increment();
+  console.log(count); // 仍然输出 1（因为是拷贝，不会感知变化）
+
+  // 但如果直接引用对象，则是引用：
+  const module = require('./module');
+  console.log(module.count); // 输出 1
+  module.increment();
+  console.log(module.count); // 输出 2
+  ```
 
 ## 常见的 Loader
 
@@ -355,7 +396,7 @@ CommonJS和ESM（ES6 Modules）是JavaScript模块化的两种主要方式，它
 
 ## 是否写过Loader？简单描述一下编写loader的思路？
 
-Webpack最后打包出来的成果是一份Javascript代码，实际上在Webpack内部默认也只能够处理JS模块代码，在打包过程中，会默认把所有遇到的文件都当作 JavaScript代码进行解析，因此当项目存在非JS类型文件时，我们需要先对其进行必要的转换，才能继续执行打包任务，这也是Loader机制存在的意义。
+Webpack 最后打包出来的成果是一份 Javascript 代码，实际上在 Webpack 内部默认也只能够处理 JS 模块代码，在打包过程中，会默认把所有遇到的文件都当作 JavaScript 代码进行解析，因此当项目存在非 JS 类型文件时，我们需要先对其进行必要的转换，才能继续执行打包任务，这也是 Loader 机制存在的意义。
 
 Loader的配置使用我们应该已经非常的熟悉：
 
@@ -382,7 +423,7 @@ module.exports = {
 
 ```
 
-通过配置可以看出，针对每个文件类型，loader是支持以数组的形式配置多个的，因此当 Webpack 在转换该文件类型的时候，会按顺序链式调用每一个 loader ，前一个 loader 返回的内容会作为下一个 loader 的入参。因此 loader 的开发需要遵循一些规范，比如返回值必须是标准的JS代码字符串，以保证下一个 loader 能够正常工作，同时在开发上需要严格遵循“单一职责”，只关心 loader 的输出以及对应的输出。
+通过配置可以看出，针对每个文件类型，loader 是支持以数组的形式配置多个的，因此当 Webpack 在转换该文件类型的时候，会按顺序链式调用每一个 loader ，前一个 loader 返回的内容会作为下一个 loader 的入参。因此 loader 的开发需要遵循一些规范，比如返回值必须是标准的JS代码字符串，以保证下一个 loader 能够正常工作，同时在开发上需要严格遵循“单一职责”，只关心 loader 的输出以及对应的输出。
 
 loader 函数中的 this 上下文由 webpack 提供，可以通过this对象提供的相关属性，获取当前loader 需要的各种信息数据，事实上，这个this指向了一个叫 loaderContext 的 loader-runner 特有对象。有兴趣的小伙伴可以自行阅读源码。
 
@@ -411,11 +452,11 @@ module.exports = function(source) {
 
 ## 是否写过Plugin？简单描述一下编写plugin的思路？
 
-如果说Loader负责文件转换，那么Plugin便是负责功能扩展。Loader和Plugin作为Webpack的两个重要组成部分，承担着两部分不同的职责。
+如果说 Loader 负责文件转换，那么 Plugin 便是负责功能扩展。Loader 和 Plugin 作为 Webpack 的两个重要组成部分，承担着两部分不同的职责。
 
-上文已经说过，webpack基于发布订阅模式，在运行的生命周期中会广播出许多事件，插件通过监听这些事件，就可以在特定的阶段执行自己的插件任务，从而实现自己想要的功能。
+上文已经说过，webpack 基于发布订阅模式，在运行的生命周期中会广播出许多事件，插件通过监听这些事件，就可以在特定的阶段执行自己的插件任务，从而实现自己想要的功能。
 
-既然基于发布订阅模式，那么知道Webpack到底提供了哪些事件钩子供插件开发者使用是非常重要的，上文提到过compiler和compilation是Webpack两个非常核心的对象，其中compiler暴露了和 Webpack整个生命周期相关的钩子（compiler-hooks），而compilation则暴露了与模块和依赖有关的粒度更小的事件钩子（Compilation Hooks）
+既然基于发布订阅模式，那么知道 Webpack 到底提供了哪些事件钩子供插件开发者使用是非常重要的，上文提到过 compiler 和 compilation 是 Webpack 两个非常核心的对象，其中 compiler 暴露了和  Webpack 整个生命周期相关的钩子（compiler-hooks），而 compilation 则暴露了与模块和依赖有关的粒度更小的事件钩子（Compilation Hooks）
 
 Webpack的事件机制基于webpack自己实现的一套Tapable事件流方案。
 
@@ -508,7 +549,7 @@ class MyPlugin {
 
 ## webpack 构建打包结果
 
-最终Webpack打包出来的bundle文件是一个IIFE的执行函数。
+最终 Webpack 打包出来的 bundle 文件是一个 IIFE 的立即执行函数。
 
 ```js
 // webpack 5 打包的bundle文件内容
@@ -892,3 +933,13 @@ Babel 通过插件系统实现了代码转换的高度可定制性。开发者�
   在 Webpack 中，当一个模块或其依赖的模块内容改变时，需要重新编译这些模块。
 
   而在 Vite 中，当某个模块内容改变时，只需要让浏览器重新请求该模块即可，这大大减少了热更新的时间。
+
+## Vite 本地开发和生产环境打包的区别
+
+| 环境 | 打包工具 | 主要优点 | 使用场景 |
+| --- | --- | --- | --- |
+| 本地开发 | `esbuild` | 快速构建和模块热更新 | 开发阶段快速调试 |
+| 生产环境 | `Rollup` | 深度优化和兼容性处理 | 生成最终代码 |
+
+* 本地和生产环境代码逻辑是相同的，差异仅体现在打包策略和优化程度。
+* 通过正确配置和调试工具，可以确保代码在开发和生产环境中的一致性和可维护性。

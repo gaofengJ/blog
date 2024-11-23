@@ -11,7 +11,7 @@ description: React
 
 * **异步情况**
 
-  * 在生命周期方法（如`componentDidMout`或`compoentDidUpdate`）或事件处理函数（如`onClick`）中调用 setState时，React 可能会出于性能优化的目的，将多个 setState 调用合并为一次更新。这使得 setState 的执行变得异步。
+  * 在生命周期方法（如`componentDidMount`或`compoentDidUpdate`）或事件处理函数（如`onClick`）中调用 setState时，React 可能会出于性能优化的目的，将多个 setState 调用合并为一次更新。这使得 setState 的执行变得异步。
 
   * 这意味着在这些方法中多次调用 setState时， React会将这些更新合并在一起，然后在一个批处理中更新状态。因此，不能依赖 `this.state`的值来计算下一个状态，因为它可能还没有更新。
 

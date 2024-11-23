@@ -209,6 +209,10 @@ description: 工程化
 * `git fetch` 仅从远程仓库获取更新数据，更新本地仓库中的远程追踪分支，但不会自动合并这些更新到你的当前分支。你需要手动执行 git merge 来将远程分支的更改合并到你的工作分支。
 * `git pull` 是 `git fetch` 和 `git merge` 的组合。它会先从远程仓库获取更新数据（就像 `git fetch` 一样），然后自动将这些更新合并到你当前的工作分支。
 
+> [!TIP]
+>
+> 合并远程分支到本地：`git merge origin/feature-branch`
+
 ## `git merge` 和 `git rebase` 的区别
 
 在 git 中，`git merge` 和 `git rebase` 是两种用于整合分支历史的工具，但它们的工作方式和结果有所不同：
