@@ -8,30 +8,100 @@ description: 手写代码
 ```js
 function throttle(fn, delay) {
   let activeTime = 0;
-  return (...args) => {
+  // 箭头函数版本：this 绑定到定义时的上下文，可能导致意外的上下文问题。
+  // 普通函数版本：this 动态绑定到调用者，更通用且符合多数使用场景。
+  return function (...args) {
     const curTime = Date.now();
     if (curTime - activeTime > delay) {
-      fn.apply(this, args); // 使用箭头函数时，this 的值从它定义的位置继承，而不是调用它的位置。如果不使用 apply 或 call，this 的值可能会变得不一致，从而导致意外行为
+      fn.apply(this, args); // this 是调用时上下文
       activeTime = curTime;
     }
   };
 }
+
+const throttleFn = (msg) => {
+  console.log(msg);
+};
+
+const throttledFn = throttle(throttleFn, 500);
 ```
 
 ## 防抖
 
 ```js
-function debounce(fn, delay = 100) {
-  // 通过闭包缓存一个定时器id
-  let timer;
-  return (...args) => {
+function debounce(fn, delay) {
+  let timer = null; // 通过闭包缓存一个定时器id
+  return function (...args) {
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       fn.apply(this, args);
     }, delay);
   };
 }
+
+const debounceFn = (msg) => {
+  console.log(msg);
+};
+
+const debouncedFn = debounce(debounceFn, 500);
 ```
+
+## 模拟实现一个 Promise.all
+
+```js
+function myPromiseAll(promises) {
+  return new Promise((resolve, reject) => {
+    let results = [];
+    let completed = 0;
+
+    promises.forEach((promise, index) => {
+      // Promise.resolve 确保传入的 promise 是一个 Promise 对象，即使传入的是非 Promise 对象，也会被转化为 Promise。
+      Promise.resolve(promise).then(value => {
+        results[index] = value;
+        completed += 1;
+        if (completed === promises.length) {
+          resolve(results);
+        }
+      }).catch(reject);
+    });
+  });
+}
+
+```
+
+## 模拟实现一个 Promise.race
+
+```js
+function myPromiseRace(promises) {
+  return new Promise((resolve, reject) => {
+    promises.forEach(promise => {
+      // Promise.resolve 确保传入的 promise 是一个 Promise 对象，即使传入的是非 Promise 对象，也会被转化为 Promise。
+      Promise.resolve(promise).then(resolve, reject);
+    });
+  });
+}
+
+```
+
+## 模拟实现一个 Promise.finally
+
+```js
+Promise.prototype.finally = function(callback) {
+  const constructor = this.constructor;
+  return this.then(
+    (value) => constructor.resolve(callback()).then(() => value),
+    (reason) => constructor.resolve(callback()).then(() => { throw reason; })
+  )
+}
+```
+
+解释：
+
+* finally 方法不论 Promise 是成功还是失败，都会执行回调 callback。
+
+* 通过 then 方法，在 Promise 成功时返回原始值，在失败时抛出原始错误。
+
+* 使用 constructor.resolve 确保 callback 可以返回一个 Promise 或简单值。
 
 ## 对象深拷贝
 
@@ -45,9 +115,9 @@ function deepCopyDFS(obj, map = new Map()) {
   map.set(obj, copy);
 
   for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-          copy[key] = deepCopyDFS(obj[key], map);
-      }
+    if (obj.hasOwnProperty(key)) {
+      copy[key] = deepCopyDFS(obj[key], map);
+    }
   }
   return copy;
 }
@@ -84,16 +154,15 @@ function deepCopyBFS(obj) {
 }
 ```
 
-## 算法手写题
+## 数组扁平化去并除其中重复部分数据
 
 已知如下数组：
-var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];
-编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
+`var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];`
+
+编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组。
 
 ```js
-const fn = (arr) => {
-  return Array.from(new Set(arr.flat(Infinity))).sort((a, b) => a - b);
-}
+const flatenUniqueSortFn = (arr) => Array.from(new Set(arr.flat(Infinity))).sort((a, b) => a - b);
 ```
 
 ## 实现 new
@@ -114,11 +183,15 @@ function _new (fn, ...args) {
 把两个数组 ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2'] 和 ['A', 'B', 'C', 'D']，合并为 ['A1', 'A2', 'A', 'B1', 'B2', 'B', 'C1', 'C2', 'C', 'D1', 'D2', 'D']
 
 ```js
-const arr1 = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2'];
-const arr2 = ['A', 'B', 'C', 'D'];
-const result = [];
-for (let i = 0; i < arr2.length; i++) {
-  result.push(...arr1.slice(i * 2, i * 2 + 2), arr2[i]);
+function combineArray() {
+  const arr1 = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2'];
+  const arr2 = ['A', 'B', 'C', 'D'];
+  const ret = [];
+  for (let i = 0; i < arr2.length; i++) {
+    ret.push(...arr1.slice(2 * i, 2 * (i + 1)));
+    ret.push(arr2[i]);
+  }
+  return ret;
 }
 ```
 
@@ -129,8 +202,10 @@ for (let i = 0; i < arr2.length; i++) {
 for (var i = 0; i < 10; i++) {
   setTimeout(() => {
     console.log(i);
-  }, 1000)
+  }, 1000);
 }
+
+// output: 10 10 10 10 10 10 10 10 10 10 
 ```
 
 ```js
@@ -138,8 +213,10 @@ for (var i = 0; i < 10; i++) {
 for (let i = 0; i < 10; i++) {
   setTimeout(() => {
     console.log(i);
-  }, 1000)
+  }, 1000);
 }
+
+// output: 0 1 2 3 4 5 6 7 8 9
 ```
 
 ## 下面的代码打印什么内容
@@ -175,21 +252,23 @@ var b = 10;
 ```
 
 ```js
-// 打印10
 var b = 10;
 (function (){
   console.log(b);
   b = 20;
 })();
+
+// 打印10
 ```
 
 ```js
-// 打印20
 var b = 10;
 (function (){
   b = 20;
   console.log(b);
 })();
+
+// 打印20
 ```
 
 ## 使用迭代的方式实现 flatten 函数
@@ -205,6 +284,8 @@ const flatten = (arr, ret = []) => {
   }
   return ret;
 }
+
+flatten([1,[2,3], [4,5,[6,7,8]]]); // output: [1, 2, 3, 4, 5, 6, 7, 8]
 ```
 
 ## 以下代码输出内容？
@@ -306,7 +387,7 @@ console.log(a.x); // undefined，因为新的对象 `{n: 2}` 没有 `x` 属性�
 console.log(b.x); // {n: 2}，因为 `b` 仍然指向最初的对象 `{n: 1}`，且该对象具有 `x` 属性，其值为 `{n: 2}`。
 ```
 
-## 手写代码
+## 月度销售额对象转数组
 
 某公司 1 到 12 月份的销售额存在一个对象里面，如下：`{1:222, 2:123, 5:888}`，请把数据处理为如下结构：`[222, 123, null, null, 888, null, null, null, null, null, null, null]`
 
@@ -320,7 +401,7 @@ const fn = (obj) => {
 }
 ```
 
-## 设计 LazyMan 类，实现以下功能
+## 设计 LazyMan 类，实现以下功能(略过)
 
 ```js
 LazyMan('Tony');
@@ -427,64 +508,13 @@ const intersect = (nums1, nums2) => {
   }
   return ret;
 }
+
+const nums1 = [1, 2, 2, 1];
+const nums2 = [2, 2];
+console.log(intersect(nums1, nums2)); // 输出: [2, 2]
 ```
 
-## 模拟实现一个 Promise.all
-
-```js
-function myPromiseAll(promises) {
-  return new Promise((resolve, reject) => {
-    let results = [];
-    let completed = 0;
-
-    promises.forEach((promise, index) => {
-      Promise.resolve(promise).then(value => {
-        results[index] = value;
-        completed += 1;
-        if (completed === promises.length) {
-          resolve(results);
-        }
-      }).catch(reject);
-    });
-  });
-}
-
-```
-
-## 模拟实现一个 Promise.race
-
-```js
-function myPromiseRace(promises) {
-  return new Promise((resolve, reject) => {
-    promises.forEach(promise => {
-      Promise.resolve(promise).then(resolve, reject);
-    });
-  });
-}
-
-```
-
-## 模拟实现一个 Promise.finally
-
-```js
-Promise.prototype.finally = function(callback) {
-  const constructor = this.constructor;
-  return this.then(
-    (value) => constructor.resolve(callback()).then(() => value),
-    (reason) => constructor.resolve(callback()).then(() => { throw reason; })
-  )
-}
-```
-
-解释：
-
-* finally 方法不论 Promise 是成功还是失败，都会执行回调 callback。
-
-* 通过 then 方法，在 Promise 成功时返回原始值，在失败时抛出原始错误。
-
-* 使用 constructor.resolve 确保 callback 可以返回一个 Promise 或简单值。
-
-## 数组编程题
+## 数组变形(略过)
 
 随机生成一个长度为 10 的整数类型的数组，例如 `[2, 10, 3, 4, 5, 11, 10, 11, 20]`，将其排列成一个新数组，要求新数组形式如下，例如 `[[2, 3, 4, 5], [10, 11], [20]]`。
 
@@ -518,7 +548,7 @@ console.log(resArr);
 ## 如何把一个字符串的大小写取反（大写变小写小写变大写），例如 'AbC' 变成 'aBc'
 
 ```js
-const fn = (str) => {
+const invertCase = (str) => {
   let ret = '';
   for (let i = 0; i < str.length; i++) {
     if ('a' <= str[i] && 'z' >= str[i]) {
@@ -804,38 +834,6 @@ const findMedianSortedArrays = (nums1, nums2) => {
   return ((nums[midIndex - 1]) + nums[midIndex]) / 2;
 ```
 
-## 模拟实现一个深拷贝，并考虑对象相互引用以及 Symbol 拷贝的情况
-
-```js
-function deepClone(obj, hash = new WeakMap()) {
-  if (obj === null || typeof obj !== 'object') {
-    return obj;
-  }
-
-  if (hash.has(obj)) {
-    return hash.get(obj);
-  }
-
-  const result = Array.isArray(obj) ? [] : {};
-  hash.set(obj, result);
-
-  const symKeys = Object.getOwnPropertySymbols(obj);
-  if (symKeys.length) {
-    symKeys.forEach(symKey => {
-      result[symKey] = typeof obj[symKey] === 'object' ? deepClone(obj[symKey], hash) : obj[symKey];
-    });
-  }
-
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      result[key] = typeof obj[key] === 'object' ? deepClone(obj[key], hash) : obj[key];
-    }
-  }
-
-  return result;
-}
-```
-
 ## 算法题
 
 > [!TIP]
@@ -1023,25 +1021,6 @@ console.log(myInstanceOf(john, Object)); // true
 console.log(myInstanceOf(john, Array)); // false
 ```
 
-## 实现 flat
-
-```js
-function myFlat(arr, depth = 1) {
-  let result = [];
-
-  arr.forEach(item => {
-    if (Array.isArray(item) && depth > 0) {
-      // 递归展开，减少深度
-      result = result.concat(myFlat(item, depth - 1));
-    } else {
-      result.push(item);
-    }
-  });
-
-  return result;
-}
-```
-
 ## 实现 reduce
 
 ```js
@@ -1099,23 +1078,6 @@ class Scheduler {
     }
   }
 }
-```
-
-## 模拟 sleep 函数
-
-```js
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// 使用示例
-async function example() {
-  console.log('Start');
-  await sleep(2000);  // 等待 2 秒
-  console.log('End');
-}
-
-example();
 ```
 
 ## 在输入框中如何判断输入的是一个正确的网址
