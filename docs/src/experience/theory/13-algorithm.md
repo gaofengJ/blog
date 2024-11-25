@@ -149,3 +149,48 @@ var twoSum = function(nums, target) {
   }
 };
 ```
+
+## 给定两个数组，写一个方法来计算它们的交集
+
+```js
+const intersect = (nums1, nums2) => {
+  const obj = {};
+  for (let i = 0; i < nums1.length; i++) {
+    obj[nums1[i]] = (obj[nums1[i]] || 0) + 1;
+  }
+  const ret = [];
+  for (let i = 0; i < nums2.length; i++) {
+    if (obj[nums2[i]]) {
+      ret.push(nums2[i]);
+      obj[nums2[i]]--;
+    }
+  }
+  return ret;
+}
+
+const nums1 = [1, 2, 2, 1];
+const nums2 = [2, 2];
+console.log(intersect(nums1, nums2)); // 输出: [2, 2]
+```
+
+## 给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。请找出这两个有序数组的中位数。要求算法的时间复杂度为 O(log(m+n))
+
+> [!TIP]
+>
+> nums1 = [1, 3]
+> nums2 = [2]
+> 输出 2
+
+```js
+const findMedianSortedArrays = (nums1, nums2) => {
+  const arr = [...nums1, ...nums2];
+  const sortedArr = arr.sort((a, b) => a - b);
+  const midIndex = Math.floor(sortedArr.length / 2);
+  if (sortedArr.length % 2) {
+    return sortedArr[midIndex];
+  }
+  return (sortedArr[midIndex - 1] + sortedArr[midIndex]) / 2;
+};
+
+findMedianSortedArrays([1,3], [2]); // 2
+```
