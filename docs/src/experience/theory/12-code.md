@@ -560,24 +560,26 @@ const invertCase = (str) => {
   }
   return ret;
 }
+
+invertCase('AbC'); // 'aBc'
 ```
 
 ## 实现一个字符串匹配算法，从长度为 n 的字符串 s 中，查找是否存在字符串 t，t 的长度是 m，若存在返回所在位置
 
 ```js
-const findIndex = (s, t) => {
-  if (s.length < t.length) return -1;
-  for (let i = 0; i < s.length - t.length; i++) {
+const myIndexOf = (s, t) => {
+  if (t.length > s.length) return -1;
+  for (let i = 0; i <= s.length - t.length; i++) {
     if (s.slice(i, i + t.length) === t) return i;
   }
   return -1;
-}
+};
 ```
 
 ## 使用 JavaScript Proxy 实现简单的数据绑定
 
 ```html
-<!DOCTPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -596,7 +598,7 @@ const findIndex = (s, t) => {
     set(target, key, value) {
       target[key] = value;
       docoment.getElementById('output').textContent = value;
-      return true;
+      return true; // 在 Proxy 的 handler.set 方法中，返回值是一个布尔值，用于指示是否成功设置属性
     }
   };
 
@@ -616,22 +618,22 @@ const findIndex = (s, t) => {
 > 例如：121、1331 等
 
 ```js
-const isSymmetric = (num) => {
-  const str = `${num}`;
-  let reversedStr = str.split('').reverse().join('');
+const isPalindrome = (number) => {
+  const str = `${number}`;
+  const reversedStr = str.split('').reverse().join('');
   return str === reversedStr;
-}
+};
 
-const printSymmetricNumbers = () => {
-  for (let i = 1; i <= 10000; i++) {
-    if (isSymmetric(i)) {
+const printPalindromeNumbers = () => {
+  for (let i = 0; i <= 10000; i++) {
+    if (isPalindrome(i)) {
       console.log(i);
     }
   }
-}
+};
 ```
 
-## 请实现一个 add 函数，满足以下功能
+## 请实现一个 add 函数，满足以下功能(略过)
 
 ```js
 add(1); // 1
@@ -713,42 +715,43 @@ let result = [
 ```
 
 ```js
-const convert = (list) => {
-  const map = {};
-  const result = [];
+const convertListToTree = (list) => {
+  const map = new Map();
+  const ret = [];
 
-  list.forEach(item => {
-    map[item.id] = { ...item, children: [] };
-  });
+  for (let i = 0; i < list.length; i++) {
+    map.set(list[i].id, {
+      ...list[i],
+      children: [],
+    });
+  }
 
-  list.forEach(item => {
-    if (item.parentId === 0) {
-      result.push(map[item.id]);
-    } else {
-      if (map[item.parentId]) {
-        map[item.parentId].children.push(map[item.id]);
-      }
+  for (let i = 0; i < list.length; i++) {
+    const node = map.get(list[i].id);
+    if (node.parentId === 0) {
+      ret.push(node);
+    } else if (map.has(node.parentId)) {
+      map.get(list[i].parentId).children.push(node);
     }
-  });
+  }
 
-  return result;
-}
+  return ret;
+};
 ```
 
 ## 实现模糊搜索结果的关键词高亮显示
 
 ```js
-const fn = () => {
-  const keyword = '关键字';
-  const panter = new RegExp(keyword, 'g')
-  return str.replace(panter, '<b style="color: #2D7BFF">' + keyword + '</b>')
-}
+const highlight = (str, keyword) => {
+  const pattern = new RegExp(keyword, 'g');
+  return str.replace(pattern, `<b style=color: #FF0000;>${keyword}</b>`);
+};
 ```
 
 ## 已知数据格式，实现一个函数 fn 找出链条中所有的父级 id
 
 ```js
-[
+const tree = [
   {
     id: '1',
     name: '广东省',
@@ -771,32 +774,32 @@ const fn = () => {
   }
 ]
 
-const value = '112'
-const fn = (value) => {
+const value = '112';
+const fn = (tree, value) => {
 ...
 }
-fn(value) // 输出 [1， 11， 112]
+fn(tree, value) // 输出 [1， 11， 112]
 ```
 
 ```js
-const fn = (arr, value) => { 
-  const findPath = (nodes, target, path = []) => {
+const findPathInTree = (tree, value) => {
+  const path = [];
+
+  const dfs = (nodes, target) => {
     for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i];
-      const newPath = [...path, node.id];
-      if (node.id === target) {
-        return newPath;
+      path.push(nodes[i].id);
+      if (nodes[i].id === target) return path;
+      if (nodes[i].children) {
+        const result = dfs(nodes[i].children, target);
+        if (result.length > 0) return result;
       }
-      if (node.children) {
-        const result = findPath(node.children, target, newPath);
-        if (result) return result;
-      }
+      path.pop();
     }
     return [];
-  }
+  };
 
-  return findPath(arr, value);
-}
+  return dfs(tree, value);
+};
 ```
 
 ## 给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。请找出这两个有序数组的中位数。要求算法的时间复杂度为 O(log(m+n))
@@ -808,50 +811,31 @@ const fn = (arr, value) => {
 > 输出 2
 
 ```js
-function qSort(arr) {
-  if (arr.length <= 1) return arr;
-  const left = [];
-  const right = [];
-  const pivot = arr[0];
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i] < pivot) {
-      left.push(arr[i]);
-    } else {
-      right.push(arr[i]);
-    }
-  }
-  return qSort(left).concat(pivot, qSort(right));
-}
-
 const findMedianSortedArrays = (nums1, nums2) => {
-  let nums = nums1.concat(nums2);
-  nums = qSort(nums);
-  const len = nums.length;
-  const midIndex = Math.floor(len / 2);
-  if (len % 2) {
-    return nums[midIndex];
+  const arr = [...nums1, ...nums2];
+  const sortedArr = arr.sort((a, b) => a - b);
+  const midIndex = Math.floor(sortedArr.length / 2);
+  if (sortedArr.length % 2) {
+    return sortedArr[midIndex];
   }
-  return ((nums[midIndex - 1]) + nums[midIndex]) / 2;
+  return (sortedArr[midIndex - 1] + sortedArr[midIndex]) / 2;
+};
+
+findMedianSortedArrays([1,3], [2]); // 2
 ```
 
-## 算法题
+## 返回 Int 逆序后的字符串
 
 > [!TIP]
 >
-> 用 JavaScript 写一个函数，输入 int 型，返回整数逆序后的字符串。如：输入整型 1234，返回字符串“4321”。要求必须使用递归函数调用，不能用全局变量，输入函数必须只有一个参数传入，必须返回字符串。
+> 用 JavaScript 写一个函数，输入 int 型，返回整数逆序后的字符串。如：输入整型 1234，返回字符串“4321”。输入函数必须只有一个参数传入，必须返回字符串。
 
 ```js
 const reverseInt = (n) => {
   // 将整数转化为字符串
-  const str = n.toString();
+  const str = `${n}`;
   
-  // 基本情况：如果字符串长度为 1，则直接返回它
-  if (str.length === 1) {
-      return str;
-  }
-  
-  // 递归调用：取字符串的最后一个字符，加上剩余部分递归处理的结果
-  return str.slice(-1) + reverseInt(parseInt(str.slice(0, -1)));
+  return str.split('').reverse().join('');
 };
 
 // 示例调用
@@ -931,35 +915,30 @@ Foo.a();
 // # 输出 1
 ```
 
-## EventMitter
+## EventBus
 
 ```js
-class EventEmitter {
+class EventBus {
   constructor() {
-    this.events = {};
+    this.events = new Map();
   }
 
   on(event, listener) {
-    if (typeof event !== 'string') {
-      throw new TypeError('Event name must be a string');
+    if (this.events.has(event)) {
+      this.events.get(event).push(listener);
+    } else {
+      this.events.set(event, [listener]);
     }
-    if (typeof listener !== 'function') {
-      throw new TypeError('Listener must be a function');
-    }
-    if (!this.events[event]) {
-      this.events[event] = [];
-    }
-    this.events[event].push(listener);
   }
 
   off(event, listener) {
-    if (!this.events[event]) return;
-    this.events[event] = this.events[event].filter(l => l !== listener);
+    if (!this.events.has(event)) return;
+    this.events.set(event, this.events.get(event).filter((l) => l !== listener));
   }
 
   emit(event, ...args) {
-    if (!this.events[event]) return;
-    this.events[event].forEach(listener => listener.apply(this, args));
+    if (!this.events.has(event)) return;
+    this.events.get(event).forEach((l) => l.apply(this, args));
   }
 
   once(event, listener) {
@@ -968,10 +947,6 @@ class EventEmitter {
       this.off(event, wrapper);
     };
     this.on(event, wrapper);
-  }
-
-  getListenerCount(event) {
-    return this.events[event] ? this.events[event].length : 0;
   }
 }
 ```
@@ -991,9 +966,7 @@ function myInstanceOf(obj, constructor) {
 
   // 一直向上查找原型链，直到找到构造函数的 prototype
   while (prototype) {
-    if (prototype === constructor.prototype) {
-      return true;
-    }
+    if (prototype === constructor.prototype) return true;
     prototype = Object.getPrototypeOf(prototype);
   }
 
@@ -1024,23 +997,22 @@ console.log(myInstanceOf(john, Array)); // false
 ## 实现 reduce
 
 ```js
-function myReduce(arr, callback, initialValue) {
-  let accumulator = initialValue;
+Array.prototype.myReduce = (callback, initial) => {
+  let accu = initial;
 
-  // 如果没有提供 initialValue，则使用数组的第一个元素作为初始值
   let startIndex = 0;
-  if (accumulator === undefined) {
-    accumulator = arr[0];
+
+  if (accu === undefined) {
+    accu = this[0];
     startIndex = 1;
   }
 
-  // 从 startIndex 开始遍历数组，应用回调函数
-  for (let i = startIndex; i < arr.length; i++) {
-    accumulator = callback(accumulator, arr[i], i, arr);
+  for (let i = startIndex; i < this.length; i++) {
+    accu = callback(accu, this[i], i, this);
   }
 
-  return accumulator;
-}
+  return accu;
+};
 ```
 
 ## 带并发的异步调度器 Scheduler
@@ -1090,16 +1062,6 @@ const isUrl = (url) => {
   } catch (err) {
     return false;
   }
-}
-```
-
-## 设计并实现 `Promise.race()`
-
-```js
-const race = (promises) => {
-  return Promise((resolve, reject) => {
-    promises.forEach((p) => Promise.resolve(p).then(resolve, reject));
-  })
 }
 ```
 
