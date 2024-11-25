@@ -5,12 +5,12 @@ description: 算法题
 
 # 算法题
 
-## 冒泡排序如何实现，时间复杂度是多少， 还可以如何改进
+## 排序
 
-冒泡排序的时间复杂度为 log(n^2)
+### 冒泡
 
 ```js
-// 冒泡排序
+// 冒泡排序，时间复杂度(log(n^2))
 function bubbleSort(arr) {
   for (let i = 0; i < arr.length; i++) {
     for (let j = 0; j < arr.length - i - 1; j++) {
@@ -21,7 +21,7 @@ function bubbleSort(arr) {
       }
     }
   }
-  console.log(arr);
+  return arr;
 }
 
 // 改良版
@@ -40,11 +40,11 @@ function bubbleSort(arr) {
     n--; // 减少比较的范围
   }
 
-  console.log(arr);
+  return arr;
 }
 ```
 
-## 快速排序如何实现，时间复杂度是多少， 还可以如何改进
+### 快速排序
 
 ```js
 function quickSort(arr) {
@@ -68,11 +68,53 @@ function quickSort(arr) {
 
 快速排序的时间复杂度取决于基准选择的情况：
 
-* 最佳情况：每次基准将数组均匀分割，递归深度为 O(log n)，每一层的比较操作是 O(n)，所以整体时间复杂度为 O(n log n)。
+* **最佳情况**
 
-* 平均情况：通常假设基准每次都能将数组分为两个大致相等的部分，因此时间复杂度为 O(n log n)。
+  每次基准将数组均匀分割，递归深度为 O(log n)，每一层的比较操作是 O(n)，所以整体时间复杂度为 O(n log n)。
 
-* 最坏情况：当基准选取不均衡时，可能导致递归的深度达到 O(n)，比如每次选取的基准总是最大或最小的元素。此时时间复杂度为 O(n²)。
+* **平均情况**
+
+  通常假设基准每次都能将数组分为两个大致相等的部分，因此时间复杂度为 O(n log n)。
+
+* **最坏情况**
+
+  当基准选取不均衡时，可能导致递归的深度达到 O(n)，比如每次选取的基准总是最大或最小的元素。此时时间复杂度为 O(n²)。
+
+### 归并排序
+
+```js
+function merge(left, right) {
+  const ret = [];
+  let i = 0;
+  let j = 0;
+
+  while (i < left.length && j < right.length) {
+    if (left[i] < right[j]) {
+      ret.push(left[i]);
+      i++;
+    } else {
+      ret.push(right[j]);
+      j++;
+    }
+  }
+
+  return [...ret, ...left.slice(i), ...right.slice(j)];
+}
+
+// 归并排序，时间复杂度(O(nlogn))
+function mergeSort(arr) {
+  // 如果数组长度小于等于 1，则无需排序
+  if (arr.length <= 1) return arr;
+  // 找到中间位置
+  const mid = Math.floor(arr.length / 2);
+  // 分割数组，递归调用
+  const left = mergeSort(arr.slice(0, mid));
+  const right = mergeSort(arr.slice(mid));
+
+  // 合并两个有序数组
+  return merge(left, right);
+}
+```
 
 ## 轮转数组
 
