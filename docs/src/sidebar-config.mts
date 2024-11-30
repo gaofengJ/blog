@@ -21,6 +21,10 @@ export default {
       'text': '八股文',
       'items': [
         {
+          'text': '简历知识点梳理',
+          'link': '/experience/theory/0-resume-note.md'
+        },
+        {
           'text': 'HTML',
           'link': '/experience/theory/1-html.md'
         },

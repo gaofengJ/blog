@@ -399,3 +399,72 @@ Redux 的使用包括以下步骤：
 * 使用 Provider 将 store 提供给 React 应用。
 
 * 在组件中使用 connect 函数将 Redux store 的状态映射到组件的 props，并 dispatch actions 进行状态更新。
+
+## zustand 是什么，与 Redux 区别
+
+`Zustand` 是一个轻量级的状态管理库，适用于 `React` 应用。它的设计目标是简化状态管理，相比 Redux 更直观、更高效。以下是关于 `Zustand` 及其与 `Redux` 的主要区别：
+
+| 特性 | Zustand |Redux |
+| --- | --- | --- |
+| 复杂度 | 简单、轻量，易于上手，无需样板代码。| 需要定义 `action`、`reducer` 等，代码较繁琐。 |
+| API | 提供简单的 `set` 和 `get` 方法，直接管理状态。| 状态修改必须通过 `action` 和 `reducer`。 |
+| 状态管理模型 | 多个独立的 `store`，模块化管理更灵活。| 单一全局 `store`，所有状态集中管理。 |
+| 性能优化 | 订阅模型，组件只在依赖的状态变化时更新。| 组件通过 `useSelector` 订阅状态，仍可能导致不必要的渲染。 |
+| 中间件支持 | 内置支持异步操作，无需额外配置。| 通过中间件（如 `redux-thunk`、`redux-saga`）实现异步操作。 |
+| 学习曲线 | 非常低，与 `React` 原生 `API` 结合紧密。| 较高，需要理解 `action`、`reducer` 等核心概念。 |
+| 适用场景 | 小型到中型项目，或需要高效、简洁的状态管理。| 中大型项目，尤其是需要复杂状态管理和扩展性时。 |
+
+`Zustand示例：`
+
+```js
+import create from 'zustand';
+
+// 创建 store
+const useStore = create((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+}));
+
+// 使用 store
+function Counter() {
+  const { count, increment } = useStore();
+  return (
+    <div>
+      <span>{count}</span>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+```
+
+`Redux示例：`
+
+```js
+import { createStore } from 'redux';
+
+// 定义 reducer
+const counterReducer = (state = { count: 0 }, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + 1 };
+    default:
+      return state;
+  }
+};
+
+// 创建 store
+const store = createStore(counterReducer);
+
+// 组件使用
+function Counter() {
+  const count = useSelector((state) => state.count);
+  const dispatch = useDispatch();
+
+  return (
+    <div>
+      <span>{count}</span>
+      <button onClick={() => dispatch({ type: 'INCREMENT' })}>Increment</button>
+    </div>
+  );
+}
+```

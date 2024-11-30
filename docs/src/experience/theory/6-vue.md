@@ -408,3 +408,115 @@ keep-alive 是 Vue 提供的一个内置组件，用于 缓存组件的状态，
   * **解决方法：**
 
   可以在 activated 钩子中处理组件的数据更新，使得子组件能够响应父组件的变化。确保每次组件激活时都能根据父组件的数据重新初始化自身。
+
+## pinia 是什么？跟 vuex 区别在哪里
+
+`Pinia` 是 Vue.js 生态系统中的一个状态管理库，是 Vuex 的替代方案之一。它设计为 Vue 的官方状态管理库，提供了更简单、现代的 API 和更好的开发体验。
+
+**Pinia 的特点**
+
+* **轻量化设计**
+
+  * Pinia 更轻量化，减少了复杂的语法。
+  * 它的 API 更接近 JavaScript 的原生设计，学习成本低。
+
+* **模块化管理**
+
+  * Pinia 的 store 是模块化的，每个 store 独立管理自己的状态。
+  * 不需要像 Vuex 那样通过命名空间来处理模块化。
+
+* **支持 TypeScript 更友好**
+
+  * Pinia 原生支持 TypeScript，拥有更好的类型推断能力。
+  * 不需要额外的类型定义，代码更加清晰。
+
+* **直观的 API**
+
+  * 使用 state、getters 和 actions 直接定义 store 的状态、计算属性和方法。
+
+* **支持组合式 API**
+
+  * Pinia 兼容 Vue 3 的组合式 API，可以更自然地与 setup 一起使用。
+
+`Pinia` 与 `Vuex` 的区别
+
+| 特性 | Pinia | Vuex |
+| --- | --- | --- |
+| 语法设计 | 更现代化，API 简单清晰，与 Vue3 的组合式 API 无缝结合 | 语法较复杂，尤其是需要频繁使用 `mutations` 进行状态更新 |
+| TS 支持 | 原生支持，类型推断优秀，不需要额外定义类型 | 手动定义类型较多，使用 TypeScript较繁琐 |
+| 状态修改 | 直接通过 `this.state` 修改状态，无需 `mutations` | 必须通过 `mutations` 修改状态，间接性增加了代码复杂度 |
+| 模块化 | 独立的 `store` 文件，模块直接管理自己的状态，不需要命名空间 | 使用命名空间区分模块，管理稍显繁琐 |
+| API 设计 | 提供 `state`、`getters` 和 `actions`，没有 `mutations`，简化了API | 必须区分 `state`、`getters`、`mutations` 和 `action`，增加了学习曲线 |
+| 性能 | 使用 `Proxy` 监听状态，性能优秀 | 使用 `Vue` 的 `reactivity` 系统坚挺状态，性能上没有明显区别 |
+| 插件支持 | 插件系统比 `Vuex` 简单，例如可以直接使用 `Vue DevTools` 支持的时间旅行调试功能 | 插件支持丰富，但部分插件较重，需要额外配置 |
+| 调试工具支持 | `Vue DevTools` 原生支持状态变更追踪和调试，不需要 `mutations` 辅助 | 必须通过 `mutations` 才能记录和调试状态变更历史 |
+| Vue 版本兼容 | 设计为 Vue3 的官方状态管理库，但支持 Vue2 | 支持 Vue2 和 Vue3，Vuex4 是为 Vue3 设计的版本 |
+
+**Pinia示例**
+
+```js
+// 定义 store
+import { defineStore } from 'pinia';
+
+export const useCounterStore = defineStore('counter', {
+  state: () => ({
+    count: 0,
+  }),
+  getters: {
+    doubleCount: (state) => state.count * 2,
+  },
+  actions: {
+    increment() {
+      this.count++;
+    },
+  },
+});
+
+// 使用 store
+import { useCounterStore } from './stores/counter';
+
+const counterStore = useCounterStore();
+counterStore.increment();
+console.log(counterStore.doubleCount);
+```
+
+**Vuex示例**
+
+```js
+// 定义 store
+import { createStore } from 'vuex';
+
+export const store = createStore({
+  state: {
+    count: 0,
+  },
+  getters: {
+    doubleCount: (state) => state.count * 2,
+  },
+  mutations: {
+    increment(state) {
+      state.count++;
+    },
+  },
+  actions: {
+    increment({ commit }) {
+      commit('increment');
+    },
+  },
+});
+
+// 使用 store
+import { useStore } from 'vuex';
+
+const store = useStore();
+store.dispatch('increment');
+console.log(store.getters.doubleCount);
+
+```
+
+## Pinia 为什么不需要 `mutations`
+
+* Vue 3 的响应式系统可以直接追踪状态变化
+* 通过 actions 就能同时处理同步和异步状态修改，无需额外的 mutations 层级
+* 开发工具足够强大，不需要 mutations 来记录状态变化
+* 简化代码结构，减少样板代码，提高了开发体验
