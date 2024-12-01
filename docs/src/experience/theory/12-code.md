@@ -1052,3 +1052,93 @@ console.log(webSite); // {name: 123, siteUrl: 'http://www.baidu.com'}
 
 // http://www.baidu.com
 ```
+
+## 手写倒计时
+
+```html
+<template>
+  <div>
+    <h1>{{ time }}秒</h1>
+    <button @click="togglePause">{{ isPaused ? '继续' : '暂停' }}</button>
+  </div>
+</template>
+
+<script>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+
+export default {
+  setup() {
+    const time = ref(60);  // 初始倒计时 60秒
+    const isPaused = ref(false);  // 是否暂停
+    let timer = null;
+
+    // 启动倒计时
+    const startTimer = () => {
+      if (!isPaused.value && time.value > 0) {
+        timer = setInterval(() => {
+          time.value--;
+          if (time.value <= 0) {
+            clearInterval(timer);  // 倒计时结束时清除定时器
+          }
+        }, 1000);
+      }
+    };
+
+    // 切换暂停和继续
+    const togglePause = () => {
+      if (isPaused.value) {
+        // 恢复倒计时
+        isPaused.value = false;
+        startTimer();
+      } else {
+        // 暂停倒计时
+        isPaused.value = true;
+        clearInterval(timer); // 停止当前定时器
+      }
+    };
+
+    onMounted(() => {
+      startTimer();  // 组件加载时开始倒计时
+    });
+
+    onBeforeUnmount(() => {
+      clearInterval(timer);  // 清理定时器，避免组件卸载后依然运行
+    });
+
+    return {
+      time,
+      isPaused,
+      togglePause,
+    };
+  },
+};
+</script>
+
+```
+
+## 版本号排序
+
+```js
+const compareVersion = (version1, version2) => {
+  const v1 = version1.split('.').map(Number);  // 将版本号分割并转换为数字
+  const v2 = version2.split('.').map(Number);  // 同上
+
+  // 逐个比较版本号的各个部分
+  for (let i = 0; i < Math.max(v1.length, v2.length); i++) {
+    const num1 = v1[i] || 0;  // 如果没有该部分，默认值为0
+    const num2 = v2[i] || 0;  // 同上
+
+    if (num1 > num2) return 1;   // version1 更大
+    if (num1 < num2) return -1;  // version2 更大
+  }
+
+  return 0; // 版本号相等
+};
+
+const sortVersions = (versions) => versions.sort(compareVersion);
+
+// 测试用例
+const versions = ['0.0.1', '0.2.2', '1.0.0', '0.1.2'];
+const sortedVersions = sortVersions(versions);
+console.log(sortedVersions);  // ['0.0.1', '0.1.2', '0.2.2', '1.0.0']
+```

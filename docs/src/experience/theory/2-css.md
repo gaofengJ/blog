@@ -411,3 +411,28 @@ flex 默认值为 `flex: 0 1 auto`。
 * **使用 will-change 属性**
 
   will-change 属性告诉浏览器即将对某些属性进行修改，浏览器会提前优化这些属性。通常，使用 will-change: transform 来优化动画性能。
+
+## 一行截断和多行截断
+
+* 一行截断
+
+  ```css
+  .single-line {
+    white-space: nowrap;        /* 防止文本换行 */
+    overflow: hidden;           /* 隐藏超出容器的内容 */
+    text-overflow: ellipsis;    /* 显示省略号 */
+  }
+  ```
+
+* 多行截断
+
+  ```css
+  .multi-line {
+    display: -webkit-box;          /* 创建一个多行的伸缩容器 */
+    -webkit-box-orient: vertical;  /* 设置容器方向为垂直 */
+    -webkit-line-clamp: 3;         /* 限制显示三行 */
+    overflow: hidden;              /* 隐藏超出的内容 */
+    text-overflow: ellipsis;       /* 超出文本显示省略号 */
+  }
+
+  ```

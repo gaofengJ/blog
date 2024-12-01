@@ -285,3 +285,163 @@ Redux 和 Vuex 都是用于状态管理的库，但它们有不同的设计思�
   * Redux 更适合大型应用和需要复杂状态管理的场景，特别是在需要严格控制状态变更和调试的情况下。Redux 的不可变性和纯函数使得状态管理更加可靠和可预测。
 
   * Vuex 更适合 Vue.js 应用，尤其是中小型项目。Vuex 利用 Vue 的响应式特性，使得状态管理更加自然和简便，适合快速开发和迭代。
+
+## 如何将 template 转化为 虚拟 dom
+
+将 template 转化为虚拟 DOM 是 Vue 的核心工作之一，通常发生在 Vue 的 编译阶段。以下是该过程的核心流程，以及每一步的关键点：
+
+1. **解析模板**
+
+**过程：将模板解析为抽象语法树（AST）**
+
+* 解析器 会将 template 字符串解析成对应的 抽象语法树 (AST)，用于描述模板的结构和内容。
+
+* 步骤：
+  1. 词法分析： 将模板字符串分割为标签、属性、文本等语法单元（tokens）。
+  2. 语法分析： 根据 tokens 构建嵌套的树状结构，生成描述模板的 AST。
+
+示例：
+
+```html
+<template>
+  <div id="app">
+    <h1>Hello, {{ name }}</h1>
+    <p v-if="isVisible">This is a paragraph.</p>
+  </div>
+</template>
+```
+
+转为 AST：
+
+```json
+{
+  "type": "element",
+  "tag": "div",
+  "attributes": [{ "name": "id", "value": "app" }],
+  "children": [
+    {
+      "type": "element",
+      "tag": "h1",
+      "children": [
+        { "type": "text", "content": "Hello, " },
+        { "type": "expression", "content": "name" }
+      ]
+    },
+    {
+      "type": "element",
+      "tag": "p",
+      "directive": { "name": "if", "value": "isVisible" },
+      "children": [{ "type": "text", "content": "This is a paragraph." }]
+    }
+  ]
+}
+
+```
+
+2. **优化 AST**
+
+**过程：标记静态节点**
+
+* 在 Vue3 中，优化器会在编译阶段对 AST 进行静态分析，将不需要更新的静态节点标记为 静态，以便跳过这些节点的更新过程。
+
+* 步骤：
+  1. 深度遍历 AST。
+  2. 判断每个节点是否依赖响应式数据：
+  * 静态节点：不依赖响应式数据。
+  * 动态节点：依赖响应式数据（如 v-bind、v-if、插值表达式等）。
+
+* 优化的作用：
+  * 降低运行时 diff 的计算量，提升性能。
+
+3. **生成渲染函数**
+
+**过程：将 AST 转化为渲染函数代码**
+
+* 编译器会将 AST 转换为 渲染函数（render function） 的 JavaScript 代码。
+* 渲染函数 是一个返回虚拟 DOM 的函数。
+
+示例：
+
+对于上述模板，渲染函数可能生成如下代码：
+
+```js
+function render() {
+  return {
+    type: 'div',
+    props: { id: 'app' },
+    children: [
+      {
+        type: 'h1',
+        children: [
+          { type: 'text', content: 'Hello, ' },
+          { type: 'expression', content: this.name }
+        ]
+      },
+      this.isVisible
+        ? {
+            type: 'p',
+            children: [{ type: 'text', content: 'This is a paragraph.' }]
+          }
+        : null
+    ]
+  };
+}
+
+```
+
+4. 创建虚拟 DOM
+
+**过程：执行渲染函数生成虚拟 DOM 树**
+
+* 当组件挂载或更新时，Vue 调用渲染函数，返回虚拟 DOM 树。
+* 虚拟 DOM 是一个轻量化的 JavaScript 对象，描述了真实 DOM 的结构。
+
+```js
+const vdom = render.call({ name: 'World', isVisible: true });
+console.log(vdom);
+// 输出：
+{
+  type: 'div',
+  props: { id: 'app' },
+  children: [
+    {
+      type: 'h1',
+      children: [
+        { type: 'text', content: 'Hello, ' },
+        { type: 'expression', content: 'World' }
+      ]
+    },
+    {
+      type: 'p',
+      children: [{ type: 'text', content: 'This is a paragraph.' }]
+    }
+  ]
+}
+
+```
+
+5. 虚拟 DOM 渲染到真实 DOM
+
+虚拟 DOM 树通过 diff 算法 和 patch 过程 被映射为真实 DOM 或更新已有 DOM。
+
+核心流程总结
+
+1. **解析模板**：
+
+将模板字符串解析为抽象语法树（AST）。
+
+2. **优化 AST**：
+
+静态分析，标记静态节点，提升性能。
+
+3. **生成渲染函数**：
+
+将 AST 转化为返回虚拟 DOM 的渲染函数。
+
+4. **生成虚拟 DOM**：
+
+执行渲染函数，生成轻量化的虚拟 DOM 树。
+
+5. **渲染或更新**：
+
+根据虚拟 DOM 树生成或更新真实 DOM。

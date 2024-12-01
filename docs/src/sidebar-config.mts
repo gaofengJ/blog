@@ -8,12 +8,44 @@ export default {
           'link': '/experience/company/bilibili.md'
         },
         {
+          'text': '叠纸面经',
+          'link': '/experience/company/diezhi.md'
+        },
+        {
+          'text': '哈啰面经',
+          'link': '/experience/company/haluo.md'
+        },
+        {
+          'text': '极兔面经',
+          'link': '/experience/company/jitu.md'
+        },
+        {
+          'text': '美团面经',
+          'link': '/experience/company/meituan.md'
+        },
+        {
           'text': '拼多多',
           'link': '/experience/company/pinduoduo.md'
         },
         {
+          'text': '希音面经',
+          'link': '/experience/company/shein.md'
+        },
+        {
+          'text': 'B站面经',
+          'link': '/experience/company/shentong.md'
+        },
+        {
+          'text': 'xtransfer面经',
+          'link': '/experience/company/xtransfer.md'
+        },
+        {
           'text': '鹰角',
           'link': '/experience/company/yingjiao.md'
+        },
+        {
+          'text': '阅文面经',
+          'link': '/experience/company/yuewen.md'
         }
       ]
     },

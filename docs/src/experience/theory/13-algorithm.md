@@ -236,3 +236,59 @@ const findMedianSortedArrays = (nums1, nums2) => {
 
 findMedianSortedArrays([1,3], [2]); // 2
 ```
+
+## 判断回文字符串，三种方式
+
+* **字符串反转法(时间复杂度：O(n))**
+
+```js
+function isPalindrome(str) {
+  const reversed = str.split('').reverse().join('');
+  return str === reversed;
+}
+
+console.log(isPalindrome("racecar")); // true
+console.log(isPalindrome("javascript")); // false
+```
+
+* **双指针(时间复杂度：O(n))**
+
+```js
+function isPalindrome(str) {
+  let left = 0;
+  let right = str.length - 1;
+
+  while (left < right) {
+    if (str[left] !== str[right]) {
+      return false;
+    }
+    left++;
+    right--;
+  }
+  return true;
+}
+
+console.log(isPalindrome("abba")); // true
+console.log(isPalindrome("hello")); // false
+
+```
+
+* **递归(时间复杂度：O(n))**
+
+```js
+function isPalindrome(str) {
+  if (str.length <= 1) {
+    return true;
+  }
+
+  if (str[0] !== str[str.length - 1]) {
+    return false;
+  }
+
+  return isPalindrome(str.slice(1, -1));
+}
+
+console.log(isPalindrome("level")); // true
+console.log(isPalindrome("coding")); // false
+
+```
