@@ -5,7 +5,7 @@ description: 框架
 
 # 框架面试题
 
-## 单页面应用和多页面应用的区别
+## 单页面应用和多页面应用的区别 <span style="padding: 2px 8px; background: #7EC699; color: #FFF; border-radius: 4px;">低频</span>
 
 | 特性 | 单页面应用（SPA） | 多页面应用（MPA） |
 | --- | --- | --- |
@@ -16,7 +16,7 @@ description: 框架
 | 开发复杂度 | 前后端分离，开发复杂 | 传统后端渲染，开发相对简单 |
 | 适用场景 | 高交互、高性能应用 | 内容型、SEO 需求较高的站点 |
 
-## Vue / React 项目中为什么要在列表组件中写 key，作用是什么?
+## Vue / React 项目中为什么要在列表组件中写 key，作用是什么? <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 在 Vue 和 React 项目中，为列表组件的每个元素编写 key 属性非常重要，起作用如下：
 
@@ -32,7 +32,7 @@ description: 框架
 
   当列表中的元素位置发生变化时，使用 key 属性可以确保 React 和 Vue 只更新必要的元素，避免因缺少唯一标识而引起的不一致行为。
 
-## Hash 和 History
+## Hash 和 History <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 * **History 路由**
 
@@ -286,7 +286,7 @@ Redux 和 Vuex 都是用于状态管理的库，但它们有不同的设计思�
 
   * Vuex 更适合 Vue.js 应用，尤其是中小型项目。Vuex 利用 Vue 的响应式特性，使得状态管理更加自然和简便，适合快速开发和迭代。
 
-## 如何将 template 转化为 虚拟 dom
+## 如何将 template 转化为 虚拟 dom <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 将 template 转化为虚拟 DOM 是 Vue 的核心工作之一，通常发生在 Vue 的 编译阶段。以下是该过程的核心流程，以及每一步的关键点：
 

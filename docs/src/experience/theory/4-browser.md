@@ -5,7 +5,7 @@ description: 浏览器
 
 # 浏览器 面试题
 
-## 从浏览器地址栏输入 url 到请求返回发生了什么
+## 从浏览器地址栏输入 url 到请求返回发生了什么 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 1. **URL 解析**
 
@@ -84,7 +84,7 @@ TCP 四次挥手用于终止连接。具体步骤如下：
 
 页面加载完成后，浏览器继续监视用户与页面的交互，如点击、滚动和输入事件，并根据需要发送新的请求以获取更多数据（如通过 AJAX 或 Fetch API）
 
-## 介绍下重绘和回流（`Repaint` & `Reflow`），以及如何进行优化
+## 介绍下重绘和回流（`Repaint` & `Reflow`），以及如何进行优化 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 **重绘(Repaint)** 和 **回流(Reflow)** 是浏览器在渲染页面时的两个重要概念：
 
@@ -173,7 +173,7 @@ TCP 四次挥手用于终止连接。具体步骤如下：
 
 通过遵循最佳实践，确保及时清理事件监听器、关闭定时器并避免不必要的全局变量引用，可以有效减少内存泄漏的风险。
 
-## JavaScript的事件循环机制( EventLoop )
+## JavaScript的事件循环机制( EventLoop ) <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 首先明确几个概念：
 
@@ -393,7 +393,7 @@ setTimeout
 
 7. 如果缓存服务器有浏览器需要的资源，就将资源发回给浏览器。如果没有，就向源服务器请求资源，再发给浏览器并缓存在本地。
 
-## 浏览器缓存读取规则
+## 浏览器缓存读取规则 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 详见 [浏览器缓存](../../summary-primary/browser/cache.md)
 

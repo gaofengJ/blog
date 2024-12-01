@@ -80,7 +80,7 @@ function quickSort(arr) {
 
   当基准选取不均衡时，可能导致递归的深度达到 O(n)，比如每次选取的基准总是最大或最小的元素。此时时间复杂度为 O(n²)。
 
-### 归并排序
+### 归并排序 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 ```js
 function merge(left, right) {
@@ -237,7 +237,7 @@ const findMedianSortedArrays = (nums1, nums2) => {
 findMedianSortedArrays([1,3], [2]); // 2
 ```
 
-## 判断回文字符串，三种方式
+## 判断回文字符串，三种方式 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 * **字符串反转法(时间复杂度：O(n))**
 

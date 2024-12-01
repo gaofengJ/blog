@@ -132,7 +132,7 @@ let sum = a.plus(b); // 加法
 console.log(sum.toString()); // 0.3
 ```
 
-## 原型和原型链
+## 原型和原型链 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 **原型（Prototype）**
 
@@ -157,7 +157,7 @@ console.log(sum.toString()); // 0.3
 
 在 JavaScript 中，你可以通过 `Object.getPrototypeOf(obj)` 方法来获取对象的原型，通过 `Object.setPrototypeOf(obj, prototype)` 方法来设置对象的原型。你也可以使用 `__proto__` 属性来访问对象的原型，但这个属性已经不推荐使用。
 
-## 作用域和作用域链
+## 作用域和作用域链 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 **作用域（Scope）**
 
@@ -253,7 +253,7 @@ foo(5);
 * 在执行阶段：
   * 变量 b 赋值为 20。
 
-## 闭包
+## 闭包 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 **闭包（Closure）**
 
@@ -303,7 +303,7 @@ call 和 apply 都是 JavaScript 中用于函数调用的两种方法，主要�
 
 因此，在性能敏感的场景中，若已知参数数量且可以明确列出参数，推荐使用 call 方法。此外，如果参数已经存在于一个数组中且数组大小不确定，apply 会更方便一些。
 
-## call、apply、bind实现
+## call、apply、bind实现 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 在JavaScript中，call、apply 和 bind 是用于控制函数内 this 指向的重要方法。理解它们的使用场景和区别对于掌握 JavaScript 的闭包和执行上下文至关重要。
 
@@ -383,7 +383,7 @@ map 传递给 parseInt 的参数包括当前元素的值，当前元素的索引
 
   在这种情况下，字符串 '10' 是一个有效的二进制数。在二进制中，10 表示十进制中的数字 2。因此，parseInt('10', 2) 会成功地将二进制字符串 '10' 解析为整数 2。
 
-## 防抖和节流的区别？如何实现？
+## 防抖和节流的区别？如何实现？ <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 防抖（Debounce）和节流（Throttle）是用来控制函数调用频率的两种常见技术，特别在处理频繁触发的事件（比如滚动、resize、输入框输入等）时很有用。
 
@@ -739,7 +739,7 @@ console.log(obj)
 {2: 1, 3: 2, length: 4, splice: ƒ, push: ƒ}
 ```
 
-## 箭头函数与普通函数（function）的区别是什么？构造函数（function）可以使用 new 生成实例，那么箭头函数可以吗？为什么？
+## 箭头函数与普通函数（function）的区别是什么？构造函数（function）可以使用 new 生成实例，那么箭头函数可以吗？为什么？ <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 箭头函数是普通函数的简写，可以更优雅的定义一个函数，和普通函数相比，有以下几点差异：
 
@@ -1024,7 +1024,7 @@ TypeScript 相比于 JavaScript 的优势和劣势：
 
   学习曲线、编译步骤、类型系统的复杂性、与第三方库的兼容性问题、增加项目复杂度
 
-## TS 中 type 和 interface 的区别
+## TS 中 type 和 interface 的区别 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 * 相同点：
 

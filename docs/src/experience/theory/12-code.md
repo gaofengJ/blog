@@ -3,7 +3,7 @@ title: 手写代码
 description: 手写代码
 ---
 
-## 节流
+## 节流 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 ```js
 function throttle(fn, delay) {
@@ -26,7 +26,7 @@ const throttleFn = (msg) => {
 const throttledFn = throttle(throttleFn, 500);
 ```
 
-## 防抖
+## 防抖 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 ```js
 function debounce(fn, delay) {
@@ -46,7 +46,7 @@ const debounceFn = (msg) => {
 const debouncedFn = debounce(debounceFn, 500);
 ```
 
-## 模拟实现一个 Promise.all
+## 模拟实现一个 Promise.all <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 ```js
 function myPromiseAll(promises) {
@@ -69,7 +69,7 @@ function myPromiseAll(promises) {
 
 ```
 
-## 模拟实现一个 Promise.race
+## 模拟实现一个 Promise.race <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 ```js
 function myPromiseRace(promises) {
@@ -83,7 +83,7 @@ function myPromiseRace(promises) {
 
 ```
 
-## 模拟实现一个 Promise.finally
+## 模拟实现一个 Promise.finally <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 ```js
 Promise.prototype.finally = function(callback) {
@@ -401,7 +401,7 @@ const fn = (obj) => {
 }
 ```
 
-## 设计 LazyMan 类，实现以下功能(略过)
+## 设计 LazyMan 类，实现以下功能
 
 ```js
 LazyMan('Tony');
@@ -491,7 +491,7 @@ function LazyMan(name) {
 LazyMan('Tony').eat('lunch').eat('dinner').sleepFirst(5).sleep(10).eat('junk food');
 ```
 
-## 数组变形(略过)
+## 数组变形
 
 随机生成一个长度为 10 的整数类型的数组，例如 `[2, 10, 3, 4, 5, 11, 10, 11, 20]`，将其排列成一个新数组，要求新数组形式如下，例如 `[[2, 3, 4, 5], [10, 11], [20]]`。
 
@@ -610,7 +610,7 @@ const printPalindromeNumbers = () => {
 };
 ```
 
-## 请实现一个 add 函数，满足以下功能(略过)
+## 请实现一个 add 函数，满足以下功能
 
 ```js
 add(1); // 1
@@ -870,7 +870,7 @@ Foo.a();
 // # 输出 1
 ```
 
-## EventBus
+## EventBus <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 ```js
 class EventBus {
@@ -970,7 +970,7 @@ Array.prototype.myReduce = (callback, initial) => {
 };
 ```
 
-## 带并发的异步调度器 Scheduler
+## 带并发的异步调度器 Scheduler <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 JS 实现一个带并发限制的异度调度器 Scheduler，保证同时运行的任务最多有两个。完善下面代码中的 Scheduler 类，使得以下程序能正确输出。
 
@@ -1053,7 +1053,7 @@ console.log(webSite); // {name: 123, siteUrl: 'http://www.baidu.com'}
 // http://www.baidu.com
 ```
 
-## 手写倒计时
+## 手写倒计时 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 ```html
 <template>

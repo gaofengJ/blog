@@ -13,7 +13,7 @@ description: Node
 
 * 前端基建，SSR/构建工具等
 
-## 浏览器和 Node 事件循环的区别
+## 浏览器和 Node 事件循环的区别 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 * **浏览器**
 
@@ -102,7 +102,7 @@ I/O 指的是计算机的输入/输出操作，是系统与外部环境（如用
   * **特点**：基于Koa封装的框架，整合了数据库、路由、安全防护、日志记录、异常处理等中间件
   * **适用场景**：适合企业级复杂应用、后端服务和多场景应用，比如 RESTful API 和电商平台。
 
-## Node中间件作用
+## Node中间件作用 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 在 Node.js 的不同框架中，中间件的原理基本上是相同的，虽然框架的实现方式和 API 可能有所不同，但核心思想是一样的。以下是 Node.js 中间件的基本原理：
 
@@ -143,7 +143,7 @@ I/O 指的是计算机的输入/输出操作，是系统与外部环境（如用
 * Koa：是基于 async/await 的，它使用 app.use() 注册中间件，但中间件函数是 async 函数，需要 await next() 来实现传递控制。
 * Egg.js：在 Koa 的基础上构建，添加了更多企业级功能，插件机制是其中间件系统的一个亮点。
 
-## 为什么要有中间件
+## 为什么要有中间件 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 * 请求处理的模块化
 

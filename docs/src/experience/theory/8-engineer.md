@@ -33,9 +33,7 @@ npm（Node Package Manager）是一个用于管理 JavaScript 代码库的工具
   * 自定义路径：可以通过.npmrc文件来配置自定义安装路径。例如，设置prefix参数可以改变全局模块的安装路径。
   * 命令配置：使用`npm config set <key> <value>`命令可以设置配置选项，使用`npm config get <key>`命令可以获取配置选项。
 
-## pnpm
-
-## CommonJS、AMD、CMD、ESM 区别
+## CommonJS、AMD、CMD、ESM 区别 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 CommonJS、AMD、CMD 和 ESM 都是 JavaScript 的模块化规范，它们之间的主要区别在于加载方式、模块解析和依赖处理的不同。以下是它们的简要区别和使用场景：
 
@@ -143,7 +141,7 @@ CommonJS、AMD、CMD 和 ESM 都是 JavaScript 的模块化规范，它们之间
 
 这些模块化规范解决了不同平台和使用场景下的模块化问题，各有优缺点。在实际应用中，选择合适的模块化标准可以提高性能和开发效率。
 
-## CommonJS 和 ESM 区别
+## CommonJS 和 ESM 区别 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 CommonJS 和 ESM（ES6 Modules）是 JavaScript 模块化的两种主要方式，它们在语法、加载方式、使用场景等方面存在一些区别。
 
@@ -521,7 +519,7 @@ class MyPlugin {
 
   通过webpack的Plugin机制，我们在实现模块化打包和编译兼容的基础上，可以进一步实现诸如按需加载，代码压缩等一系列功能，帮助我们进一步提高自动化程度，工程效率以及打包输出的质量。
 
-## Webpack构建流程
+## Webpack构建流程 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 * **初始化阶段**
 
@@ -904,7 +902,7 @@ Babel 通过插件系统实现了代码转换的高度可定制性。开发者�
 
 通过上述步骤，Babel 使得开发者能够编写现代 JavaScript 代码并确保它可以在各种不同的浏览器和环境中运行，特别是在那些不支持最新 JavaScript 特性的旧版本环境中。
 
-## vite 为什么比 webpack 快
+## vite 为什么比 webpack 快 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 * **开发模式的差异**
 

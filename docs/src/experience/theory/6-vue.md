@@ -235,7 +235,7 @@ Vue 会根据不同的环境（浏览器、Node.js）选择不同的微任务执
 >
 > Vue 的 nextTick 做了更多工作，确保其语义是与渲染完成绑定的，而非简单的微任务队列执行。
 
-## Vue diff 算法原理
+## Vue diff 算法原理 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 Vue 的 diff 算法是用于高效更新 DOM 的核心算法，它通过对比新旧虚拟 DOM 树的差异，找出最小的修改量来更新真实 DOM，从而实现高效的视图更新。Vue 采用的是一种优化版的 “深度优先搜索” 算法，它通过以下策略来提升性能：
 
@@ -259,7 +259,7 @@ Vue 的 diff 算法是用于高效更新 DOM 的核心算法，它通过对比�
 
   Vue 遵循单向数据流原则，即从父组件到子组件的数据流动，这使得 Vue 可以优化数据变化时的 DOM 更新策略，减少不必要的更新。
 
-## vue2 和 vue3 dom diff的区别
+## vue2 和 vue3 dom diff的区别 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 | 特性 | Vue 2 | Vue 3 |
 | --- | --- | --- |
@@ -326,7 +326,7 @@ mutations: {
 }
 ```
 
-## 为什么 Vue3 采用了 Proxy，抛弃了 Object.defineProperty
+## 为什么 Vue3 采用了 Proxy，抛弃了 Object.defineProperty <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 * **全面的拦截能力**
 

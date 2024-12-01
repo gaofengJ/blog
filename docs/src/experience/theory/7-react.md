@@ -336,7 +336,7 @@ React 的调和算法会将每次渲染生成的虚拟 DOM（Virtual DOM）与�
 
 React 的这种 DOM Diff 算法通过减少直接操作 DOM 的频率，显著提升了复杂应用的性能，特别是在频繁更新的场景下。
 
-## 对 React Fiber 的理解
+## 对 React Fiber 的理解 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 `React Fiber` 是 React 的一个重要更新，它是 React 的渲染引擎，用于优化和改进组件的渲染流程。Fiber 的主要目的是解决 React 之前版本在处理高优先级更新时遇到的问题，使得 UI 更新更加流畅和可控。
 

@@ -31,7 +31,7 @@ description: 网络协议
 
   4. **ACK**：客户端收到服务器的 FIN 包后，发送一个 ACK 包，确认已收到服务器的终止请求。此时，连接正式关闭。
 
-## HTTP/2 有哪些改进
+## HTTP/2 有哪些改进 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 HTTP/2 在多个方面相较于 HTTP/1.1 进行了显著改进：
 
@@ -125,7 +125,7 @@ HTTP/3 是基于 QUIC（Quick UDP Internet Connections）协议的全新 HTTP �
 
   当看到连接状态为 `ESTABLISHED`，开发者可以确信两端已经建立了可靠的连接，并可以开始数据传输。
 
-## 介绍 HTTPS 握手过程
+## 介绍 HTTPS 握手过程 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 1. 客户端使用 https 的 url 访问 web 服务器,要求与服务器建立 ssl 连接
 2. web 服务器收到客户端请求后, 会将网站的证书(包含公钥)传送一份给客户端
@@ -135,7 +135,7 @@ HTTP/3 是基于 QUIC（Quick UDP Internet Connections）协议的全新 HTTP �
 
 至此整个握手阶段结束。接下来，客户端与服务器进入加密通信。
 
-## HTTPS 握手过程中，客户端如何验证证书的合法性
+## HTTPS 握手过程中，客户端如何验证证书的合法性 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 1. **接收证书**
 

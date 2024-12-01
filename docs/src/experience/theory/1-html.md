@@ -11,7 +11,7 @@ HTML语义化是指在HTML中使用具有特定含义的标签，以便更好地
 
 语义化标签有助于清晰地表达网页的结构和内容。例如，`<header>`标签用于定义页面的头部，`<nav>` 用于导航菜单，`<article>` 用于独立的文章内容。使用这些标签可以使得网页更具可读性和维护性，并有助于搜索引擎优化（SEO）和辅助技术如屏幕阅读器更好地理解页面内容。
 
-## script 标签中 defer 和 async 的区别
+## script 标签中 defer 和 async 的区别 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 defer 和 async 都是用于控制 JavaScript 文件加载和执行方式的 `<script>` 标签属性，但它们的工作原理有所不同：
 

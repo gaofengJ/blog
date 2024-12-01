@@ -95,7 +95,7 @@ CSS选择器的优先级（ specificity ）决定了哪些样式会应用于元�
   top: <length>; // top/bottom/left/right：定义元素触发固定的边界（常用 top）。如 top: 0 表示当元素距离视口顶部为 0 时开始固定
   ```
 
-## 介绍下 BFC 及其应用
+## 介绍下 BFC 及其应用 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 BFC（块格式化上下文）是一种在CSS中用于处理元素布局和浮动的机制。它在页面布局中起到了“隔离”的作用，使元素内部和外部不相互影响。具体来说，BFC具有以下特点和应用：
 
@@ -285,7 +285,7 @@ if (window.devicePixelRatio && devicePixelRatio >= 2) {
 }
 ```
 
-## 介绍下 BFC、IFC、GFC 和 FFC
+## 介绍下 BFC、IFC、GFC 和 FFC <span style="padding: 2px 8px; background: #7EC699; color: #FFF; border-radius: 4px;">低频</span>
 
 **BFC（Block Formatting Context）**
 
@@ -318,7 +318,7 @@ IFC主要用于水平和垂直居中对齐内容​。
 
 弹性格式化上下文（FFC）是通过 `display: flex;` 或 `display: inline-flex`创建的。FFC用于实现一维的弹性布局，支持水平和垂直方向上的灵活分配和对齐。与块级布局不同，弹性容器中的浮动、清除和列属性无效。
 
-## flex
+## flex <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 * `flex: 0;`
 
