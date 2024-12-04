@@ -40,6 +40,10 @@ export default {
           'link': '/experience/company/xtransfer.md'
         },
         {
+          'text': '益盟面经',
+          'link': '/experience/company/yimeng.md'
+        },
+        {
           'text': '鹰角',
           'link': '/experience/company/yingjiao.md'
         },
