@@ -1116,6 +1116,83 @@ export default {
 
 ```
 
+## 图片懒加载
+
+```html
+<template>
+  <div>
+    <h1>Vue 图片懒加载示例</h1>
+    <div v-for="n in 10" :key="n" style="margin-bottom: 20px;">
+      <img
+        ref="lazyImages"
+        :data-src="`https://via.placeholder.com/600x400?text=Image+${n}`"
+        alt="Lazy Image"
+        style="width: 100%; height: auto; background: #f0f0f0;"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      observer: null, // IntersectionObserver 实例
+    };
+  },
+  mounted() {
+    // 获取所有的图片元素
+    const images = this.$refs.lazyImages;
+
+    // 初始化 IntersectionObserver
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          const src = img.dataset.src; // 获取 data-src 属性中的真实图片 URL
+          if (src) {
+            img.src = src; // 设置图片 src
+            this.observer.unobserve(img); // 加载后停止观察
+          }
+        }
+      });
+    });
+
+    // 对每个图片元素进行观察
+    images.forEach((img) => this.observer.observe(img));
+  },
+  beforeUnmount() {
+    // 组件销毁时，清理 observer
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  },
+};
+</script>
+
+```
+
+核心逻辑解析：
+
+1. **ref 获取图片元素：**
+
+* 使用 ref="lazyImages" 获取所有的图片 DOM 元素。
+
+2. **data-src 保存真实图片 URL：**
+
+* 避免页面初始加载时直接加载所有图片。
+
+3. **使用 IntersectionObserver：**
+
+IntersectionObserver 是一种浏览器 API，用于异步观察目标元素与祖先元素（或视口）交集的变化。
+
+* 观察图片是否进入视口。
+* 如果进入视口，则将 data-src 的值赋给 src。
+
+4. **销毁组件时清理资源：**
+
+* 在 beforeUnmount 中调用 disconnect() 方法释放 IntersectionObserver。
+
 ## 版本号排序
 
 ```js
