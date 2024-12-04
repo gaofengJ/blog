@@ -266,6 +266,28 @@ const paginationConfig = reactive({
 
 在用户输入表单时，为了避免频繁触发保存操作和接口调用，采用 防抖机制，在用户停止输入一定时间后再触发保存事件。保存成功后，通过接口获取最新的 `version code` 并与前端保存的版本进行比对，如果发现版本不一致，提示用户数据已更新，用户点击确认后自动刷新页面以加载最新数据。
 
+## vite 模板做了哪些改造
+
+* **base**：基路径
+* **resolve.alias**：别名
+* **resolve.extensions**：要省略的扩展名
+* **server.proxyt**：反向代理
+* **assetsInlineLimit: 4096**： 图片转 base64 编码的阈值
+* **Vue Components AutoImport**：自动导入 Vue 组件和生成 TypeScript 类型声明文件
+* **AutoImport**：AutoImport 是一个用于自动导入模块和生成 TypeScript 类型声明文件的工具
+
+## Nest项目中做了哪些事情
+
+* 引入 ClsModule上下文
+* env 变量的获取
+* swagger 文档配置
+* 返回结果 model 封装
+* 装饰器 idParam 获取
+* 公共 entity 封装
+* 公共 dto 封装
+* 分页封装
+* 自定义拦截器
+
 ## charles代理实现
 
 [企微 JS-SDK 验证、验证](../../summary-middle/library/wx-js-sdk-local-debugging.md)

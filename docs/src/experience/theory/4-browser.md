@@ -426,6 +426,14 @@ setTimeout
     * 通常使用 Access Token（短期）和 Refresh Token（长期）组合来进行认证。
     * 客户端可以将 Token 存储在 localStorage、sessionStorage 或 cookie 中，但安全性要求较高，特别是在浏览器环境中，建议使用 HttpOnly 的 Cookie 存储 Token。
 
+| 特性 | Access Token | Refresh Token |
+| --- | --- | --- |
+| 用途 | 访问受保护资源 | 刷新 Access Token |
+| 有效期 | 短期（几分钟到几小时） | 长期（几天到几周） |
+| 泄露后果 | 攻击者可访问资源，但时效有限 | 攻击者可长期刷新 Access Token |
+| 存储方式 | 浏览器内存/前端存储 | HttpOnly Cookie 更安全 |
+| 安全性 | 较高 | 高，需要严格保护 |
+
 ## JWT 是什么
 
 JWT (JSON Web Token) 是一种开放标准（RFC 7519），用于在各方之间作为 JSON 对象安全地传输信息。它的常见用途是身份验证和信息交换。以下是它的主要特点和工作原理：

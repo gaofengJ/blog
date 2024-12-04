@@ -16,6 +16,10 @@ export default {
           'link': '/experience/company/haluo.md'
         },
         {
+          'text': '京东面经',
+          'link': '/experience/company/jingdong.md'
+        },
+        {
           'text': '极兔面经',
           'link': '/experience/company/jitu.md'
         },

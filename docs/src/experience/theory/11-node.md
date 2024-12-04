@@ -246,3 +246,69 @@ Redis 是一个开源的内存数据结构存储系统，它通常被用作数�
 * **定期维护**
 
   定期进行数据库的碎片整理、统计信息更新等维护操作，以保证数据库的最佳性能​
+
+## 什么是 NestJS，他的核心特征是什么？
+
+`NestJS` 是一个基于 `TypeScript` 构建的渐进式框架，用于构建高效且可扩展的服务器端应用程序。它以 **模块化架构** 和 **依赖注入（DI）** 为核心
+
+## NestJS 中的模块是什么？如何定义一个模块？
+
+NestJS 中的模块是用于组织和管理应用程序功能的基本构建块。每个模块都是一个类，并使用 @Module() 装饰器进行装饰。
+
+## 什么是依赖注入？在 NestJS 中如何实现？
+
+依赖注入（Dependency Injection, DI）是一种设计模式，用于将对象的依赖项从代码中分离，并通过外部注入方式提供依赖。
+
+在 NestJS 中，通过 服务（Service） 和 装饰器 实现依赖注入：
+
+* 使用 @Injectable() 装饰器定义一个服务。
+* 在其他类中通过构造函数注入服务。
+
+```js
+@Injectable()
+export class UserService {
+  getUser() {
+    return 'User Info';
+  }
+}
+
+@Controller('user')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
+
+  @Get()
+  getUser() {
+    return this.userService.getUser();
+  }
+}
+
+```
+
+## 装饰器是什么？如何实现一个简单的装饰器？
+
+装饰器 是一种特殊的语法，允许在类、方法、属性或参数上添加元数据或逻辑，从而扩展或修改其行为。它本质上是一个 **函数**，可以通过 @ 语法应用于目标。
+
+根据作用对象的不同，装饰器可以分为以下几类：
+
+* 类装饰器：应用于类本身。
+* 方法装饰器：应用于类的方法。
+* 属性装饰器：应用于类的属性。
+* 参数装饰器：应用于类方法的参数。
+
+举例：
+
+```js
+function Logger(target: Function) {
+  console.log('Logging class:', target.name);
+}
+
+@Logger
+class UserService {
+  getUser() {
+    return 'User data';
+  }
+}
+
+Logging class: UserService
+
+```
