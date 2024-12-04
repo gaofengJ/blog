@@ -21,4 +21,6 @@ description: 益盟面经
 
 ### eventLoop
 
+### vite做了哪些配置
+
 ### 介绍项目
