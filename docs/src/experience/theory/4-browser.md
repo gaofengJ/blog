@@ -393,6 +393,10 @@ setTimeout
 
 7. 如果缓存服务器有浏览器需要的资源，就将资源发回给浏览器。如果没有，就向源服务器请求资源，再发给浏览器并缓存在本地。
 
+## 回源
+
+**回源** 是在内容分发网络（CDN）或缓存系统中常见的概念，指的是当请求的资源在 CDN 节点或缓存中未命中（即缓存中没有目标资源），需要向原始服务器（源站）请求资源的过程。
+
 ## 浏览器缓存读取规则 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 详见 [浏览器缓存](../../summary-primary/browser/cache.md)
