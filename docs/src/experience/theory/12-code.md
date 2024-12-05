@@ -190,6 +190,49 @@ function deepCopyBFS(obj) {
 const flatenUniqueSortFn = (arr) => Array.from(new Set(arr.flat(Infinity))).sort((a, b) => a - b);
 ```
 
+## call、apply、bind实现 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
+
+在JavaScript中，call、apply 和 bind 是用于控制函数内 this 指向的重要方法。理解它们的使用场景和区别对于掌握 JavaScript 的闭包和执行上下文至关重要。
+
+* **call** 和 **apply**
+这两个方法都用于立即调用函数，并将 this 绑定到指定的对象。它们的主要区别在于传递参数的方式：
+
+* **call**：参数是逐个传递的，例如 `func.call(thisArg, arg1, arg2)`。
+* **apply**：参数作为数组传递，例如 `func.apply(thisArg, [arg1, arg2])`。
+这两个方法常用于借用其他对象的方法或者在不同的上下文中执行函数。
+
+* **bind**：不会立即调用函数，而是返回一个新的函数，并永久性地将 this 绑定到指定的对象。这个新函数可以在稍后调用，并且还可以预先传递部分参数。
+
+实现：
+
+```js
+// call
+Function.prototype.myCall = function(context, ...args) {
+  const fnSymbol = Symbol(); // 生成唯一的属性名
+  context[fnSymbol] = this; // 将当前函数作为context的一个方法
+  const result = context[fnSymbol](...args); // 执行函数
+  delete context[fnSymbol]; // 删除临时属性
+  return result;
+};
+
+// apply
+Function.prototype.myApply = function(context, args) {
+  const fnSymbol = Symbol();
+  context[fnSymbol] = this;
+  const result = context[fnSymbol](...args);
+  delete context[fnSymbol];
+  return result;
+};
+
+// bind
+Function.prototype.myBind = function(context, ...args) {
+  const fn = this;
+  return function(...newArgs) {
+    return fn.apply(context, [...args, ...newArgs]);
+  };
+};
+```
+
 ## 实现 new
 
 ```js

@@ -126,3 +126,26 @@ function isPalindrome3(str) {
   if (str[0] !== str[str.length - 1]) return false;
   return isPalindrome3(str.slice(1, -1));
 }
+
+Function.prototype.call = function (context, ...args) {
+  const fnSymbol = Symbol();
+  context[fnSymbol] = this;
+  const result = context[fnSymbol](...args);
+  delete context[fnSymbol];
+  return result;
+};
+
+Function.prototype.apply = function (context, args) {
+  const fnSymbol = Symbol();
+  context[fnSymbol] = this;
+  const result = context[fnSymbol](...args);
+  delete context[fnSymbol];
+  return result;
+};
+
+Function.prototype.bind = function (context, ...args) {
+  const fn = this;
+  return function (...newArgs) {
+    return fn.apply(context, [...args, ...newArgs]);
+  };
+};
