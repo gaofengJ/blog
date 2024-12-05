@@ -67,6 +67,31 @@ function myPromiseAll(promises) {
   });
 }
 
+// 挂在到 Promise 上
+Promise.myAll = function (promises) {
+  return new Promise((resolve, reject) => {
+    const results = [];
+    let completed = 0;
+    promises.forEach((promise, index) => {
+      Promise.resolve(promise)
+        .then((value) => {
+          results[index] = value;
+          completed++;
+          if (completed === promises.length) resolve(results);
+        })
+        .catch(reject);
+    });
+  });
+};
+
+// 使用示例
+const p1 = Promise.resolve(1);
+const p2 = new Promise((resolve) => setTimeout(() => resolve(2), 1000));
+const p3 = Promise.resolve(3);
+
+Promise.myAll([p1, p2, p3]).then(console.log).catch(console.error);
+// 输出: [1, 2, 3]
+
 ```
 
 ## 模拟实现一个 Promise.race <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
@@ -174,8 +199,20 @@ function _new (fn, ...args) {
   // 调用构造函数，将this绑定到新创建的对象上
   const ret = fn.apply(obj, args);
   // 如果构造函数返回了一个对象，那么返回这个对象，否则返回新创建的对象
-  return ret instanceof Objet ? ret : obj;
+  return ret instanceof Object ? ret : obj;
 }
+
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+const person = myNew(Person, 'Alice', 30);
+
+console.log(person.name); // 输出: Alice
+console.log(person.age);  // 输出: 30
+console.log(person instanceof Person); // 输出: true
+
 ```
 
 ## 两个数组合并成一个数组

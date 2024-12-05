@@ -913,6 +913,17 @@ a[c]='c';
 'c'
 ```
 
+## 如何判断一个对象是否为 Promise 对象
+
+```js
+function isPromise(obj) {
+  return (
+    obj instanceof Promise ||
+    (obj !== null && typeof obj === 'object' && typeof obj.then === 'function')
+  );
+}
+```
+
 ## 介绍下 Promise.all 使用、原理实现及错误处理
 
 `Promise.all` 是一个 JavaScript 方法，用于处理多个异步操作。它接受一个可迭代对象（如数组），其中包含多个 Promise，并返回一个新的 Promise。当所有 Promise 都成功时，这个新的 Promise 会解析为一个包含所有结果的数组；如果任何一个 Promise 被拒绝，它将立即拒绝并返回第一个被拒绝的 Promise 的原因。

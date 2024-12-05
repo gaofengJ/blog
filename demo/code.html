@@ -25,3 +25,52 @@
     })
   </script>
 </html>
+
+
+<template>
+  <div>
+    <div>{{ time }}</div>
+    <button @click="togglePause">{{ isPaused ? '继续' : '暂停' }}</button>
+  </div>
+</template>
+<script setup>
+export default {
+  setup() {
+    const time = ref(60);
+    const timer = null;
+    const isPaused = ref(false);
+
+    const startTimer = () => {
+      if (isPaused.value || time.value <= 0) return;
+      timer = setInterval(() => {
+        if (time <= 0) clearInterval(timer);
+        time.value -= 1;
+      }, 1000);
+    }
+
+    const togglePause = () => {
+      if (isPaused.value) {
+        startTimer();
+        isPaused = false;
+      } else {
+        clearInterval(timer);
+        isPaused = true;
+      }
+    }
+
+    onMounted(() => {
+      startTimer();
+    });
+
+    onUnmounted(() => {
+      clearInterval(timer);
+    });
+
+    return {
+      time,
+      isPaused,
+      togglePause,
+    }
+  }
+}
+</script>
