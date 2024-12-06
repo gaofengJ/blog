@@ -28,7 +28,7 @@ export default {
           'link': '/experience/company/meituan.md'
         },
         {
-          'text': '拼多多',
+          'text': '拼多多面经',
           'link': '/experience/company/pinduoduo.md'
         },
         {

@@ -1,7 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head></head>
+  <head>
+    <style>
+      .triangle {
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 20px solid #000; /* 改变颜色可以调整三角形颜色 */
+      }
+    </style>
+  </head>
   <body>
+    <div class="triangle"></div>
     <input type="text" id="input">
     <div id="output"></div>
   </body>

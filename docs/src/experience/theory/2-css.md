@@ -472,3 +472,29 @@ padding 定义元素的内边距，用于调整内容与元素边框之间的距
 ## postcss-pxtorem
 
 将 px 单位自动转换为 rem 单位，适用于基于 rem 的布局（配合根元素字体大小）。
+
+## 写一个朝向为右的三角形
+
+```html
+<div class="triangle"></div>
+```
+
+```css
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 20px solid #000; /* 改变颜色可以调整三角形颜色 */
+}
+```
+
+```css
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 20px solid #000;
+}
+```

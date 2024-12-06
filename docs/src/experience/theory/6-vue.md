@@ -697,3 +697,62 @@ Vue 使用 虚拟 DOM 和 diff 算法 来高效更新视图。在 diff 比较过
 </div>
 
 ```
+
+## vue 中闭包的使用
+
+1. **computed**
+
+```js
+computed: {
+  fullName() {
+    const firstName = this.firstName; // 捕获 this.firstName
+    const lastName = this.lastName;   // 捕获 this.lastName
+    return `${firstName} ${lastName}`;
+  }
+}
+
+```
+
+2. 响应式系统中的闭包
+
+**示例：`reactive` 实现中的闭包**
+
+```js
+function createReactiveObject(target, isReadonly, baseHandlers) {
+  const proxy = new Proxy(target, baseHandlers);
+  return proxy;
+}
+
+function reactive(target) {
+  return createReactiveObject(target, false, mutableHandlers);
+}
+```
+
+3. watch
+
+```js
+export default {
+  data() {
+    return {
+      count: 0,
+    };
+  },
+  watch: {
+    count(newVal, oldVal) {
+      console.log(`Count changed from ${oldVal} to ${newVal}`); // 捕获新旧值
+    },
+  },
+};
+```
+
+4. provide 和 inject
+
+provide 和 inject 的机制依赖闭包，捕获父组件的依赖数据
+
+5. v-slot
+
+v-slot 本质上依赖闭包，将父组件的数据传递给插槽内容
+
+## createApp 做了什么事情
+
+`createApp` 是 Vue 3 应用的入口。它负责创建一个独立的应用实例，初始化根组件，注册全局资源，提供插件机制，并通过 `mount` 方法将应用渲染到指定的 DOM 元素中。相比 Vue 2，`createApp` 实现了应用隔离，增强了扩展性，特别适合微前端架构或多实例场景
