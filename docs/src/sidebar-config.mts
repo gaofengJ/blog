@@ -40,6 +40,10 @@ export default {
           'link': '/experience/company/shentong.md'
         },
         {
+          'text': '数禾科技面经',
+          'link': '/experience/company/shuhe.md'
+        },
+        {
           'text': 'xtransfer面经',
           'link': '/experience/company/xtransfer.md'
         },
