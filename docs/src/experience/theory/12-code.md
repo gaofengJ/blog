@@ -511,56 +511,53 @@ LazyMan('Tony').eat('lunch').eat('dinner').sleepFirst(5).sleep(10).eat('junk foo
 class LazyManClass {
   constructor(name) {
     this.name = name;
-    this.taskList = [];
+    this.queue = [];
     console.log(`Hi I am ${this.name}`);
     setTimeout(() => {
       this.next();
     }, 0);
   }
 
-  eat(str) {
-    const that = this;
-    const fn = ((str) => {
-      return () => {
-      console.log(`I am eating ${str}`);
-      that.next();
-      }
-    })(str);
-    this.taskList.push(fn);
+  addTask(task) {
+    this.queue.push(task);
     return this;
   }
 
-  sleep(time) {
-    const that = this;
-    const fn = ((time) => {
-      return () => {
-        setTimeout(() => {
-          console.log(`等待了${time}秒...`);
-          that.next();
-        }, time * 1000);
-      };
-    })(time);
-    this.taskList.push(fn);
-    return this;
-  }
-
-  sleepFirst(time) {
-    const that = this;
-    const fn = ((time) => {
-      return () => {
-        setTimeout(() => {
-          console.log(`等待了${time}秒...`);
-          that.next();
-        }, time * 1000);
-      };
-    })(time);
-    this.taskList.unshift(fn);
+  addFirstTask(task) {
+    this.queue.unshift(task);
     return this;
   }
 
   next() {
-    const fn = this.taskList.shift();
-    fn && fn();
+    if (this.queue.length) {
+      const task = this.queue.shift();
+      task();
+    }
+  }
+
+  eat(food) {
+    return this.addTask(() => {
+      console.log(`I am eating ${food}`);
+      this.next();
+    });
+  }
+
+  sleep(time) {
+    return this.addTask(() => {
+      setTimeout(() => {
+        console.log(`等待了${time}秒...`);
+        this.next();
+      }, time * 1000);
+    });
+  }
+
+  sleepFirst(time) {
+    return this.addFirstTask(() => {
+      setTimeout(() => {
+        console.log(`等待了${time}秒...`);
+        this.next();
+      }, time * 1000);
+    });
   }
 }
 
