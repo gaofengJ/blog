@@ -121,8 +121,12 @@ export default {
           'link': '/experience/theory/13-algorithm.md'
         },
         {
-          'text': '场景',
+          'text': '场景题',
           'link': '/experience/theory/14-scenario.md'
+        },
+        {
+          'text': '开放性问题',
+          'link': '/experience/theory/15-open.md'
         }
       ]
     }
