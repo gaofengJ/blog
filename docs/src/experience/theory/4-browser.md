@@ -514,3 +514,7 @@ localStorage 和 sessionStorage 都是 HTML5 提供的 Web 存储 API，用于�
 * 线程是进程中的一个执行单元，是操作系统能够调度的最小单位。
 
 JavaScript 在浏览器中运行在主线程上，负责处理 DOM 渲染、事件监听等任务。为避免主线程阻塞，浏览器使用 事件循环 和 任务队列 管理异步任务。
+
+## `requestAnimationFrame` 概述
+
+`requestAnimationFrame` 是一种 JavaScript 提供的浏览器 API，用于高效地执行动画。它可以告诉浏览器在下一次重绘时调用指定的回调函数，从而实现更加流畅的动画效果。相比传统的定时器（如 `setInterval` 和 `setTimeout`），`requestAnimationFrame` 提供了更高的性能和电池效率。
