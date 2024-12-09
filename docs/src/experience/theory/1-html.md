@@ -174,3 +174,113 @@ ElementUI 是通过 `compositionstart` & `compositionend` 做的中文输入处�
 * P90/P50 是描述延迟或响应时间的统计量，它们关注的是在不同百分比数据中的响应时间，帮助我们了解系统在不同负载下的表现。P90 和 P50 主要用于了解系统性能的分布情况。
 
 * 秒开率 则是一个具体的性能指标，关注的是从请求到开始接收数据的时间。秒开率直接影响用户的感知体验，尤其是在加载网页、启动应用时的响应速度。
+
+## DOMContentLoaded 和 load 区别
+
+* **DOMContentLoaded**
+
+  * 触发时机：
+
+  当初始 HTML 被完全加载和解析完成时触发，不等待样式表、图像和子框架的加载。
+
+  * 用途：
+  
+  适用于初始化需要 DOM 元素的 JavaScript 操作。
+
+  ```js
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM 已加载完成');
+  });
+  ```
+
+* **load**
+
+  * 触发时机：
+
+  当整个页面及其依赖资源（例如图像、样式表、脚本等）完全加载后触发。
+
+  * 用途：
+  
+  用于在所有资源加载完成后执行的任务，例如启动第三方工具。
+
+  ```js
+  window.addEventListener('load', () => {
+    console.log('页面及所有资源加载完成');
+  });
+  ```
+
+## 如何设计实现无缝轮播
+
+无缝轮播是一种能够在滚动到末尾时自动返回到开头、看起来没有明显断点的轮播效果。这种效果通常用于图片或内容的连续滚动展示。为了实现无缝轮播，通常需要将内容首尾连接起来，确保在视觉上实现无缝过渡。
+
+**实现无缝轮播的基本思路：**
+
+* 复制内容：将轮播的内容进行复制，例如，将图片列表的第一个和最后一个元素分别复制到列表的末尾和开头。这样在切换到末尾或开头时，实际上是在切换到复制的元素上，从而实现无缝效果。
+
+* 监听滚动事件：通过监听轮播容器的滚动事件，当检测到滚动到复制的元素时，瞬间切换回实际的元素位置。这种切换应该是无动画的，用户不会察觉到位置的瞬间变化。
+
+* CSS 和 JavaScript 结合：使用 CSS 进行基础的布局和过渡效果，通过 JavaScript 控制轮播的逻辑和位置切换。
+
+**示例代码：**
+
+```html
+<div class="carousel">
+  <div class="carousel-inner">
+    <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div>
+    <div class="item">1</div> <!-- 复制的第一个元素 -->
+  </div>
+</div>
+```
+
+```css
+.carousel {
+  position: relative;
+  overflow: hidden;
+  width: 300px;
+  height: 200px;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.item {
+  min-width: 100%;
+  height: 200px;
+}
+```
+
+```js
+const carousel = document.querySelector('.carousel-inner');
+let index = 0;
+const items = document.querySelectorAll('.item');
+const totalItems = items.length;
+
+function moveToNext() {
+  if (index >= totalItems - 1) {
+    index = 0;
+    carousel.style.transition = 'none';
+    carousel.style.transform = `translateX(-${index * 100}%)`;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        carousel.style.transition = 'transform 0.5s ease-in-out';
+        index++;
+        carousel.style.transform = `translateX(-${index * 100}%)`;
+      });
+    });
+  } else {
+    index++;
+    carousel.style.transform = `translateX(-${index * 100}%)`;
+  }
+}
+
+setInterval(moveToNext, 3000);
+```
+
+> [!TIP]
+>
+> * 第一帧：关闭过渡效果并瞬间切换到实际元素位置。
+> * 第二帧：恢复过渡效果，并开始新的过渡。

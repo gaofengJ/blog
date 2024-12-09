@@ -345,3 +345,8 @@ function mergeSort(arr) {
   const right = mergeSort(arr.slice(mid + 1));
   return merge(left, right);
 }
+
+function isPromise(obj) {
+  return obj instanceof Promise
+  || (obj !== null && typeof obj === 'object' && typeof obj.then === 'function');
+}

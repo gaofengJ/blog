@@ -56,7 +56,7 @@ CSS选择器的优先级（ specificity ）决定了哪些样式会应用于元�
 * **早期终止匹配**
   * 如果右边的选择器部分没有匹配到任何节点，比如 .item 不存在，则整个选择器可以立即退出匹配，不需要继续验证 .container 或 div。
 
-## position 有哪些值
+## position 有哪些值 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 * **static（默认值）**
 
@@ -97,7 +97,7 @@ CSS选择器的优先级（ specificity ）决定了哪些样式会应用于元�
   top: <length>; // top/bottom/left/right：定义元素触发固定的边界（常用 top）。如 top: 0 表示当元素距离视口顶部为 0 时开始固定
   ```
 
-## 介绍下 BFC 及其应用 <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
+## 介绍下 BFC 及其应用
 
 BFC（块格式化上下文）是一种在CSS中用于处理元素布局和浮动的机制。它在页面布局中起到了“隔离”的作用，使元素内部和外部不相互影响。具体来说，BFC具有以下特点和应用：
 
@@ -159,82 +159,6 @@ div.parent {
   完全移除元素，不占据任何页面空间，且不响应事件。适用于需要彻底从布局中移除元素的场景，例如根据条件动态展示或隐藏内容​。
 
 * `display: none` 和 `opacity: 0` 是非继承属性，子孙节点消失由于元素从渲染树消失造成，通过修改子孙节点属性无法显示。`visibility: hidden` 是继承属性，子孙节点消失由于继承了 hidden ，通过设置 `visibility: visible;` 可以让子孙节点显式。
-
-## 如何设计实现无缝轮播
-
-无缝轮播是一种能够在滚动到末尾时自动返回到开头、看起来没有明显断点的轮播效果。这种效果通常用于图片或内容的连续滚动展示。为了实现无缝轮播，通常需要将内容首尾连接起来，确保在视觉上实现无缝过渡。
-
-**实现无缝轮播的基本思路：**
-
-* 复制内容：将轮播的内容进行复制，例如，将图片列表的第一个和最后一个元素分别复制到列表的末尾和开头。这样在切换到末尾或开头时，实际上是在切换到复制的元素上，从而实现无缝效果。
-
-* 监听滚动事件：通过监听轮播容器的滚动事件，当检测到滚动到复制的元素时，瞬间切换回实际的元素位置。这种切换应该是无动画的，用户不会察觉到位置的瞬间变化。
-
-* CSS 和 JavaScript 结合：使用 CSS 进行基础的布局和过渡效果，通过 JavaScript 控制轮播的逻辑和位置切换。
-
-**示例代码：**
-
-```html
-<div class="carousel">
-  <div class="carousel-inner">
-    <div class="item">1</div>
-    <div class="item">2</div>
-    <div class="item">3</div>
-    <div class="item">1</div> <!-- 复制的第一个元素 -->
-  </div>
-</div>
-```
-
-```css
-.carousel {
-  position: relative;
-  overflow: hidden;
-  width: 300px;
-  height: 200px;
-}
-
-.carousel-inner {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
-
-.item {
-  min-width: 100%;
-  height: 200px;
-}
-```
-
-```js
-const carousel = document.querySelector('.carousel-inner');
-let index = 0;
-const items = document.querySelectorAll('.item');
-const totalItems = items.length;
-
-function moveToNext() {
-  if (index >= totalItems - 1) {
-    index = 0;
-    carousel.style.transition = 'none';
-    carousel.style.transform = `translateX(-${index * 100}%)`;
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        carousel.style.transition = 'transform 0.5s ease-in-out';
-        index++;
-        carousel.style.transform = `translateX(-${index * 100}%)`;
-      });
-    });
-  } else {
-    index++;
-    carousel.style.transform = `translateX(-${index * 100}%)`;
-  }
-}
-
-setInterval(moveToNext, 3000);
-```
-
-> [!TIP]
->
-> * 第一帧：关闭过渡效果并瞬间切换到实际元素位置。
-> * 第二帧：恢复过渡效果，并开始新的过渡。
 
 ## 什么是 Retina 屏？如何解决移动端 Retina 屏 1px 像素问题
 
@@ -486,15 +410,5 @@ padding 定义元素的内边距，用于调整内容与元素边框之间的距
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   border-left: 20px solid #000; /* 改变颜色可以调整三角形颜色 */
-}
-```
-
-```css
-.triangle {
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 20px solid #000;
 }
 ```

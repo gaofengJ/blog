@@ -1296,3 +1296,14 @@ const versions = ['0.0.1', '0.2.2', '1.0.0', '0.1.2'];
 const sortedVersions = sortVersions(versions);
 console.log(sortedVersions);  // ['0.0.1', '0.1.2', '0.2.2', '1.0.0']
 ```
+
+## 如何判断一个对象是否为 Promise 对象
+
+```js
+function isPromise(obj) {
+  return (
+    obj instanceof Promise ||
+    (obj !== null && typeof obj === 'object' && typeof obj.then === 'function')
+  );
+}
+```

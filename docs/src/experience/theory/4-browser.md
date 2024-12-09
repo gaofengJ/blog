@@ -312,7 +312,7 @@ setTimeout
   * 执行完 nextTick 队列里面的内容
     * 在当前阶段的任务全部完成后，先清空 process.nextTick 队列。
     * 这会在任何微任务队列之前执行。
-  * 然后执行完微任务队列的内容
+  * 然后执行完微任务队列的内容（**在所有阶段完成后最后执行**）
     * 在清空 process.nextTick 队列后，执行微任务队列中的所有任务（比如 Promise 的 .then 回调）
 
   Node 11 以后和浏览器的行为统一了，都是每执行一个宏任务就执行完微任务队列。
@@ -440,7 +440,7 @@ setTimeout
 
 ## JWT 是什么
 
-JWT (JSON Web Token) 是一种开放标准（RFC 7519），用于在各方之间作为 JSON 对象安全地传输信息。它的常见用途是身份验证和信息交换。以下是它的主要特点和工作原理：
+JWT (JSON Web Token) 是一种开放标准（RFC 7519），用于在各方之间作为 JSON 对象安全地传输信息。JWT 是一种 Token 的具体实现形式之一。它的常见用途是身份验证和信息交换。以下是它的主要特点和工作原理：
 
 * 结构：JWT 由三部分组成，分别用点分隔：
 
@@ -517,4 +517,25 @@ JavaScript 在浏览器中运行在主线程上，负责处理 DOM 渲染、事�
 
 ## `requestAnimationFrame` 概述
 
-`requestAnimationFrame` 是一种 JavaScript 提供的浏览器 API，用于高效地执行动画。它可以告诉浏览器在下一次重绘时调用指定的回调函数，从而实现更加流畅的动画效果。相比传统的定时器（如 `setInterval` 和 `setTimeout`），`requestAnimationFrame` 提供了更高的性能和电池效率。
+`requestAnimationFrame` 是一种用于在浏览器环境中执行高效动画的 JavaScript API，它让开发者能够创建与屏幕刷新率同步的动画
+
+* **同步屏幕刷新率**
+
+  * requestAnimationFrame 会根据浏览器的屏幕刷新率（通常为 60Hz，即每秒刷新 60 次）调用回调函数，确保动画流畅。
+  * 比传统的 setInterval 和 setTimeout 更精确且性能更优。
+
+* **节能**
+
+  * 当页面在后台不可见或标签页切换时，浏览器会暂停动画的执行，节约 CPU 和 GPU 资源。
+
+* **高效绘制**
+
+  * 浏览器在每帧渲染前会自动调用 requestAnimationFrame 的回调，从而减少不必要的绘制和性能损耗。
+
+**原理**：
+
+* 浏览器会将 `requestAnimationFrame` 的回调加入一个队列，在下一次屏幕绘制时触发
+
+* `requestAnimationFrame` 不属于微任务，它是一个独立的浏览器任务，运行在 渲染阶段
+
+* 它优先于一般的宏任务，但依赖屏幕刷新，不会像微任务那样立即执行
