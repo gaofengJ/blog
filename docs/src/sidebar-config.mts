@@ -8,6 +8,10 @@ export default {
           'link': '/experience/company/bilibili.md'
         },
         {
+          'text': '得物面经',
+          'link': '/experience/company/dewu.md'
+        },
+        {
           'text': '叠纸面经',
           'link': '/experience/company/diezhi.md'
         },
