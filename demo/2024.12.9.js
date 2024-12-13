@@ -350,3 +350,23 @@ function isPromise(obj) {
   return obj instanceof Promise
   || (obj !== null && typeof obj === 'object' && typeof obj.then === 'function');
 }
+
+const compareVersion = (version1, version2) => {
+  const v1 = version1.split('').map((i) => +i);
+  const v2 = version2.split('').map((i) => +i);
+
+  const maxLen = Math.max(v1.length, v2.length);
+  for (let i = 0; i < maxLen; i++) {
+    const num1 = v1[i] || 0;
+    const num2 = v2[i] || 0;
+    if (num1 > num2) return 1;
+    if (num1 < num2) return -1;
+  }
+  return 0;
+};
+
+const sortVersions = (versions) => versions.sort(compareVersion);
+
+const versions = ['0.0.1', '0.2.2', '1.0.0', '0.1.2'];
+
+const sortedVersions = sortVersions(versions);
