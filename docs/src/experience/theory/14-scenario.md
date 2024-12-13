@@ -117,7 +117,7 @@ JWT（`JSON Web Token`） 是一种常见的身份验证和授权的 Token 格�
 
 ## 前端性能优化
 
-* **网络层面**
+* **资源层面**
 
   网络层面的性能优化，无疑是如何让资源体积更小加载更快。
 
@@ -141,3 +141,230 @@ JWT（`JSON Web Token`） 是一种常见的身份验证和授权的 Token 格�
 * 性能优化和用户体验的不断提升
 
 * AI+，开发辅助，智能交互，低代码
+
+## 前端如何实现截图
+
+* **使用 `canvas` 搭配 `html2canvas`**
+
+```js
+import html2canvas from 'html2canvas';
+
+const captureScreenshot = () => {
+  const target = document.getElementById('screenshot-area');
+  html2canvas(target).then((canvas) => {
+    const imgData = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = imgData;
+    link.download = 'screenshot.png';
+    link.click();
+  });
+};
+```
+
+* **使用浏览器原生 API**
+
+  * 某些现代浏览器提供了内置的截图功能，比如 Chrome 的 Capture Visible Tab。
+  * 此方法主要用于扩展开发。
+
+```js
+chrome.tabs.captureVisibleTab(null, { format: 'png' }, (dataUrl) => {
+  const link = document.createElement('a');
+  link.href = dataUrl;
+  link.download = 'screenshot.png';
+  link.click();
+});
+
+```
+
+* **后端生成截图**
+
+前端将 URL 或 HTML 发给后端，由后端使用工具（如 Puppeteer 或 Selenium）生成截图并返回给前端。
+
+```js
+const puppeteer = require('puppeteer');
+
+async function captureScreenshot(url) {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto(url);
+  await page.screenshot({ path: 'screenshot.png' });
+  await browser.close();
+}
+
+captureScreenshot('https://example.com');
+```
+
+## 什么是 QPS？
+
+`QPS（Queries Per Second）`是每秒查询次数的缩写，是衡量服务器处理请求能力的重要指标之一。它表示服务器在一秒钟内能够处理的请求数量，常用于评估系统的吞吐量和性能。
+
+例如：
+
+* 如果一个 API 的 QPS 是 100，表示这个接口每秒能处理 100 次请求。
+
+**达到峰值时的处理策略**
+
+当系统的 QPS 达到或超过峰值时，会出现请求延迟增加、系统性能下降，甚至服务不可用的情况。以下是常见的处理策略：
+
+* **垂直扩展（纵向扩展）**
+
+  增加单台服务器的性能
+
+* **水平扩展（横向扩展）**
+
+  增加服务器数量，将请求分发到多台服务器进行处理
+
+* **缓存机制**
+
+  利用缓存减少对后台服务的直接请求压力
+
+* **限流与降级**
+
+  **限流**：限制单位时间内允许的最大请求数量。
+  
+  **降级**：在系统压力过大时关闭非核心功能。
+
+## 使用同一个链接，如何实现 PC 打开的是 web 应用，手机打开的是 H5 应用
+
+通过 **User-Agent** 判断：
+
+```js
+// 后端
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  const userAgent = req.headers['user-agent'];
+  if (/mobile/i.test(userAgent)) {
+      res.redirect('/mobile'); // 重定向到 H5 应用
+  } else {
+      res.redirect('/desktop'); // 重定向到 Web 应用
+  }
+});
+
+app.listen(3000, () => console.log('Server is running on port 3000'));
+
+// 前端
+const isMobile = /mobile/i.test(navigator.userAgent);
+
+if (isMobile) {
+    window.location.href = '/mobile'; // 跳转到 H5 应用
+} else {
+    window.location.href = '/desktop'; // 跳转到 Web 应用
+}
+
+```
+
+## 如何解决页面请求接口大规模并发问题
+
+* 前端限流和节流
+
+  * 限流策略
+  * 批量请求合并
+
+* 异步队列处理
+
+## 静态资源加载失败如何做降级
+
+* 兜底占位
+
+* 合理超时与重试机制
+
+* CDN 资源切换
+
+## 移动端如何实现上拉加载、下拉刷新
+
+* 下拉刷新
+
+```js
+window.addEventListener('scroll', function() {
+  if (document.documentElement.scrollTop === 0) {
+    // 触发下拉刷新
+    refreshData();
+  }
+});
+
+```
+
+* 上拉加载更多
+
+```js
+let page = 1; // 当前加载的页码
+const loadMoreThreshold = 200; // 滚动到距离底部多少像素时触发加载
+const listContainer = document.querySelector('.list-container');
+
+listContainer.addEventListener('scroll', () => {
+  if (listContainer.scrollHeight - listContainer.scrollTop <= loadMoreThreshold) {
+    page++;
+    loadMoreData(page);
+  }
+});
+
+```
+
+## 如何判断 dom 是否在可视区域
+
+* 使用 `getBoundingClientRect` 方法
+
+```js
+const element = document.querySelector('.my-element');
+const rect = element.getBoundingClientRect();
+
+if (
+  rect.top >= 0 &&
+  rect.left >= 0 &&
+  rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+  rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+) {
+  // 元素在可视区域内
+} else {
+  // 元素不在可视区域内
+}
+
+```
+
+* 使用 `IntersectionObserver` API
+
+```js
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      console.log('元素在可视区域内');
+    } else {
+      console.log('元素不在可视区域内');
+    }
+  });
+});
+
+const element = document.querySelector('.my-element');
+observer.observe(element);
+
+```
+
+## 前端水印如何实现
+
+* `HTML + CSS` 实现水印
+
+可以利用 `CSS` 的 `::before` 或 `::after` 伪元素为网页添加水印。
+
+* 使用 `JavaScript` 动态添加水印
+
+* `Canvas` 绘制水印
+
+## 扫码登录实现方式
+
+扫码登录是一种快捷的认证方式，通过扫描二维码，用户可以快速登录网站或应用，而不需要输入密码。
+
+实现步骤：
+
+* **生成二维码**：服务器生成一个二维码，包含用户登录所需的信息，比如会话标识、时间戳等。
+* **扫描二维码**：用户通过手机扫描二维码，二维码通常指向一个特定的登录链接。
+* **服务器验证**：扫描后，服务器验证用户的会话状态、临时凭证等。
+* **返回认证结果**：如果验证通过，服务器会返回一个登录成功的响应，并设置会话或令牌。
+* **用户自动登录**：根据会话或令牌，用户会自动登录成功。
+
+原理：
+
+* 生成二维码：服务端生成包含用户会话标识、临时凭证或登录信息的二维码，并将其展示给用户。
+
+* 用户扫描二维码：用户通过扫描二维码获取到一个登录的临时凭证

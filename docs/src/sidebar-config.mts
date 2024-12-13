@@ -48,6 +48,10 @@ export default {
           'link': '/experience/company/shuhe.md'
         },
         {
+          'text': '携程面经',
+          'link': '/experience/company/xiecheng.md'
+        },
+        {
           'text': 'xtransfer面经',
           'link': '/experience/company/xtransfer.md'
         },

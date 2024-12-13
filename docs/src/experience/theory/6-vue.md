@@ -285,6 +285,23 @@ Vue 的 diff 算法是用于高效更新 DOM 的核心算法，它通过对比�
 | 动态列表 | 递归遍历，对大规模数据性能较差 | 优化复用策略，性能显著提升 |
 | 模板编译优化 | 无全局优化，渲染函数性能较弱 | 编译时进行静态和动态分离，全局优化渲染性能 |
 
+## Vue 的双向绑定
+
+Vue 的双向绑定主要依赖以下两个机制：
+
+1. 响应式系统
+  Vue 使用 `Object.defineProperty`（Vue 2）或 `Proxy`（Vue 3）将数据对象的每个属性转为响应式数据。通过拦截数据的 `get` 和 `set` 操作，实现对数据变化的追踪和触发视图更新。
+
+  **Vue 3 中响应式的工作方式：**
+
+* `reactive` 和 `ref` 将普通对象或值包装为响应式数据。
+* 内部使用 `Proxy` 代理对象的读取和修改，触发依赖更新。
+
+2. 指令和事件绑定
+
+* Vue 提供了 `v-model` 指令，用于实现表单控件的双向绑定。
+* 通过绑定事件（如 `input` 或 `change`），在用户修改视图时同步更新数据模型。
+
 ## vue 中 key 的作用
 
 在 Vue 中，key 是一个特殊的属性，主要用于高效地更新虚拟 DOM，帮助 Vue 识别节点，优化 DOM 的渲染过程。
@@ -761,3 +778,72 @@ ref 和 reactive 的区别：
 
   * 通过 .value，开发者可以显式地表明正在访问 ref 的内部值，避免混淆。
   * 当一个 ref 包装的是对象时，仍然使用 .value 访问，这种统一的接口设计增强了代码的可预测性和一致性。
+
+## 用 vue3 过程中，遇到过什么难题
+
+* **nextTick 有时无法获取到最新的 DOM**
+
+  解决方法：使用 setTimeout
+
+* **子组件修改父组件状态写法繁琐**
+
+  解决方法：
+
+  **父组件：**
+
+  ```html
+  <template>
+  <div>
+    <p>父组件的值：{{ parentValue }}</p>
+    <ChildComponent v-model="parentValue" />
+    </div>
+  </template>
+
+  <script>
+  import { ref } from 'vue';
+  import ChildComponent from './ChildComponent.vue';
+
+  export default {
+    components: { ChildComponent },
+    setup() {
+      const parentValue = ref('初始值');
+      return { parentValue };
+    }
+  };
+  </script>
+  ```
+
+  **子组件：**
+
+  ```js
+  <template>
+  <div>
+    <p>子组件的输入框：</p>
+      <input type="text" v-model="computedValue" />
+    </div>
+  </template>
+
+  <script>
+  import { computed } from 'vue';
+
+  export default {
+    props: ['modelValue'],
+    emits: ['update:modelValue'],
+    setup(props, { emit }) {
+      // 使用 computed 实现双向绑定
+      const computedValue = computed({
+        get() {
+          // 从父组件传递的 prop 获取值
+          return props.modelValue;
+        },
+        set(newValue) {
+          // 通过 emit 修改父组件的值
+          emit('update:modelValue', newValue);
+        }
+      });
+
+      return { computedValue };
+    }
+  };
+  </script>
+  ```

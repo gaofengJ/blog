@@ -284,3 +284,14 @@ setInterval(moveToNext, 3000);
 >
 > * 第一帧：关闭过渡效果并瞬间切换到实际元素位置。
 > * 第二帧：恢复过渡效果，并开始新的过渡。
+
+## `data-`开头的属性是什么
+
+`data-` 开头的属性是 HTML 自定义数据属性，它允许开发者在标准 HTML 元素上存储自定义数据，而无需创建自定义属性或滥用其他属性（例如 class 或 id）。这些属性常用于存储与元素相关的非可视化数据，方便前端脚本操作。
+
+```js
+const element = document.querySelector('div');
+console.log(element.dataset.userId); // 输出：12345
+console.log(element.dataset.role); // 输出：admin
+
+```
