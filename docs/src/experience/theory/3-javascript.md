@@ -1110,6 +1110,22 @@ TypeScript 相比于 JavaScript 的优势和劣势：
 
 ?? 只会在 `null` 或 `undefined` 时返回右侧的值
 
+## TS 泛型是什么
+
+**TS 泛型** 是 TypeScript 中的一种特性，用于在定义函数、接口或类时，不预先指定具体的类型，而是通过参数的形式让类型在使用时被指定或推断。这使得代码更加灵活和可重用，同时能够在编译时保持类型安全。
+
+```js
+interface ApiResponse<T> {
+  code: number;
+  data: T;
+}
+
+const userResponse: ApiResponse<{id: number: name: string}> = {
+  code: 0,
+  data: {id: 1, name: 'mufeng'},
+}
+```
+
 ## 函数科里化是什么
 
 **函数科里化（Currying）** 是一种将多参数函数转换为单参数函数序列的技术，即将一个接收多个参数的函数拆分成一系列只接收一个参数的函数，每次调用返回一个新的函数，直到所有参数都被传递为止。

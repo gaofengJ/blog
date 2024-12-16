@@ -283,6 +283,32 @@ const paginationConfig = reactive({
 * swagger 文档配置
 * 返回结果 model 封装
 * 装饰器 idParam 获取
+
+  ```js
+  import {
+  HttpStatus,
+  NotAcceptableException,
+  Param,
+  ParseIntPipe,
+  } from '@nestjs/common';
+
+  /**
+  * @description 定义自定义装饰器函数 IdParam
+  * @returns
+  */
+  export function IdParam() {
+    return Param(
+      'id',
+      new ParseIntPipe({
+        errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
+        exceptionFactory: () => {
+          throw new NotAcceptableException('id 格式不正确');
+        },
+      }),
+    );
+  }
+  ```
+
 * 公共 entity 封装
 * 公共 dto 封装
 * 分页封装

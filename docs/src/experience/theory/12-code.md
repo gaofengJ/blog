@@ -94,6 +94,53 @@ Promise.myAll([p1, p2, p3]).then(console.log).catch(console.error);
 
 ```
 
+## 模拟实现一个 Promise.allSettled <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
+
+```js
+function PromiseAllSettled(promises) {
+  return new Promise((resolve, reject) => {
+    const results = [];
+    let completed = 0;
+
+    promises.forEach((promise, index) => {
+      Promise.resolve(promise)
+        .then((value) => {
+          results[index] = value;
+        }).catch((reason) => {
+          results[index] = reason;
+        }).finally(() => {
+          completed += 1;
+          if (completed === promises.length) resolve(results);
+        })
+    })
+  })
+}
+```
+
+## 模拟实现一个 Promise.any <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
+
+```js
+function PromiseAny(promises) {
+  return new Promise((resolve, reject) => {
+    if (promises.length === 0) return reject(new AggregateError([], 'All promises were rejected'));
+    const errors = [];
+    let failCount = 0;
+
+    promises.forEach((promise, index) => {
+      Promise.resolve(promise)
+        .then((resolve))
+        .catch((reason) => {
+          failCount += 1；
+          errors[index] = reason;
+          if (failCount === promises.length) {
+            reject(new AggregateError(errors, 'All promises were rejected'))
+          }
+        })
+    })
+  })
+}
+```
+
 ## 模拟实现一个 Promise.race <span style="padding: 2px 8px; background: #EC5975; color: #FFF; border-radius: 4px;">高频</span>
 
 ```js
@@ -132,16 +179,17 @@ Promise.prototype.finally = function(callback) {
 
 ```js
 // DFS版
-function deepCopyDFS(obj, map = new Map()) {
+function deepCopyDFS(obj, map = new WeakMap()) {
   if (typeof obj !== 'object' || obj === null) return obj;
+  // 如果已经拷贝过，直接返回
   if (map.has(obj)) return map.get(obj);
 
   const copy = Array.isArray(obj) ? [] : {};
-  map.set(obj, copy);
+  map.set(obj, copy); // 将原始对象与拷贝对象映射存储
 
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
-      copy[key] = deepCopyDFS(obj[key], map);
+      copy[key] = deepCopyDFS(obj[key], map); // 递归复制
     }
   }
   return copy;
@@ -700,15 +748,27 @@ add(1, 2, 3); // 6
 
 ```js
 const add = (...args) => {
-  const sum = args.reduce((acc, val) => acc + val, 0);
+  // 累积和
+  let sum = args.reduce((acc, val) => acc + val, 0);
 
-  const innerAdd = (...innerArgs) => add(sum + innerArgs.reduce((acc, val) => acc + val, 0));
+  // 内部函数，用于处理后续调用
+  const innerAdd = (...innerArgs) => {
+    sum += innerArgs.reduce((acc, val) => acc + val, 0); // 累加新传入的参数
+    return innerAdd; // 返回自身以支持链式调用
+  };
 
-  innerAdd.valueOf = () => sum;
-  innerAdd.toString = () => sum.toString();
+  // 自定义返回值
+  innerAdd.toString = () => sum;
+  innerAdd.valueOf = () => sum; // 可选，保证兼容隐式转换
 
   return innerAdd;
 };
+
+// 使用示例
+console.log(add(1, 2)(3)(4)); // 10
+console.log(add(5)(5)(5)(5)); // 20
+console.log(add(10)(20).toString()); // 30
+
 ```
 
 ## 实现 convert 方法，把原始 list 转换成树形结构
@@ -966,6 +1026,11 @@ class EventBus {
   off(event, listener) {
     if (!this.events.has(event)) return;
     this.events.set(event, this.events.get(event).filter((l) => l !== listener));
+  }
+  offAll(event) {
+    if (this.events.has(event)) {
+      this.events.delete(event);
+    }
   }
 
   emit(event, ...args) {
@@ -1296,6 +1361,50 @@ const versions = ['0.0.1', '0.2.2', '1.0.0', '0.1.2'];
 const sortedVersions = sortVersions(versions);
 console.log(sortedVersions);  // ['0.0.1', '0.1.2', '0.2.2', '1.0.0']
 ```
+
+## 实现 lodash 的 get 方法
+
+```js
+function get(obj, path, defaultValue) {
+  // 确保 path 是数组形式
+  const keys = Array.isArray(path) ? path : path.replace(/\[(\d+)]/g, '.$1').split('.');
+  let result = obj;
+
+  for (const key of keys) {
+    if (result == null || !(key in result)) {
+      return defaultValue;
+    }
+    result = result[key];
+  }
+
+  return result === undefined ? defaultValue : result;
+}
+
+// 测试示例
+const data = {
+  user: {
+    name: 'John',
+    address: {
+      city: 'New York',
+      zip: {
+        code: 12345,
+      },
+    },
+    friends: ['Mike', 'Sara'],
+  },
+};
+
+console.log(get(data, 'user.name', 'default'));         // 输出: 'John'
+console.log(get(data, 'user.address.city', 'default')); // 输出: 'New York'
+console.log(get(data, 'user.address.zip.code', 0));     // 输出: 12345
+console.log(get(data, 'user.age', 30));                // 输出: 30
+console.log(get(data, 'user.friends[1]', 'none'));      // 输出: 'Sara'
+console.log(get(data, ['user', 'address', 'city'], 'default')); // 输出: 'New York'
+console.log(get(data, 'user.friends[2]', 'none'));      // 输出: 'none'
+
+```
+
+##
 
 ## 如何判断一个对象是否为 Promise 对象
 
