@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <input type="text" id="input" />
+  <div id="output"></div>
+</body>
+<script>
+  const data = {
+    text: '',
+  };
+
+  const handler = {
+    set(target, key, value) {
+      target[key] = value;
+      document.getElementById('output').textContent = value;
+      return true;
+    }
+  }
+
+  const proxy = new Proxy(data, handler);
+
+  document.getElementById('input').addEventListener('input', () => {
+    proxy.text = this.value;
+  })
+</script>
+</html>
+
+<template>
+  <div>{{time}}秒</div>
+  <button @click="togglePause">{{isPaused ? '继续' : '暂停'}}</button>
+</template>
+<script>
+export default {
+  setup() {
+    const time = ref(60);
+    const isPaused = ref(false);
+    let timer = null;
+
+    const startTimer = () => {
+      if (!isPaused.value && time.value > 60) {
+        timer = setInterval(() => {
+          time.value--;
+          if (time.value <= 0) clearInterval(timer);
+        }, 1000);
+      }
+    }
+
+    const togglePause = () => {
+      if (isPaused.value) {
+        isPaused.value = false;
+        startTimer();
+      } else {
+        isPaused.value = true;
+        clearInterval(timer);
+      }
+    }
+
+    onMounted(() => {
+      startTimer();
+    });
+
+    onUnMounted(() => {
+      clearInterval(timer)
+    })
+
+    return {
+      time,
+      isPaused,
+      togglePause,
+    }
+  },
+}
+</script>
