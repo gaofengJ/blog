@@ -205,7 +205,21 @@ function lazyMan(name) {
   return new LazyManClass(name);
 }
 
-const add = (...args) => {
+// const add = (...args) => {
+//   let sum = args.reduce((accu, val) => accu + val, 0);
+
+//   const innerAdd = (...newArgs) => {
+//     sum += newArgs.reduce((accu, val) => accu + val, 0);
+//     return innerAdd;
+//   };
+
+//   innerAdd.ValueOf = () => sum;
+//   innerAdd.toString = () => sum;
+
+//   return innerAdd;
+// };
+
+function add(...args) {
   let sum = args.reduce((accu, val) => accu + val, 0);
 
   const innerAdd = (...newArgs) => {
@@ -213,11 +227,11 @@ const add = (...args) => {
     return innerAdd;
   };
 
-  innerAdd.ValueOf = () => sum;
+  innerAdd.valueOf = () => sum;
   innerAdd.toString = () => sum;
 
   return innerAdd;
-};
+}
 
 function convertListToTree(list) {
   const map = new Map();
@@ -312,6 +326,21 @@ function myInstanceof(obj, constructor) {
   return false;
 }
 
+// Array.prototype.myReduce = function (callback, initial) {
+//   let accu = initial;
+//   let startIndex = 0;
+
+//   if (accu === undefined) {
+//     accu = this[0];
+//     startIndex = 1;
+//   }
+
+//   for (let i = startIndex; i < this.length; i++) {
+//     accu = callback(accu, this[i], i, this);
+//   }
+//   return accu;
+// };
+
 Array.prototype.myReduce = function (callback, initial) {
   let accu = initial;
   let startIndex = 0;
@@ -324,6 +353,7 @@ Array.prototype.myReduce = function (callback, initial) {
   for (let i = startIndex; i < this.length; i++) {
     accu = callback(accu, this[i], i, this);
   }
+
   return accu;
 };
 
@@ -380,15 +410,30 @@ function isPromise(obj) {
   return (obj instanceof Promise || obj !== null && typeof obj === 'object' && typeof obj.next === 'function');
 }
 
+// function get(obj, path, defaultValue) {
+//   const keys = Array.isArray(path) ? path : path.replace('[', '.').replace(']').split('.');
+//   let result = obj;
+
+//   for (const key of keys) {
+//     if (result === null || !(key in result)) {
+//       return defaultValue;
+//     }
+//     result = result[key];
+//   }
+
+//   return result === undefined ? defaultValue : result;
+// }
+
 function get(obj, path, defaultValue) {
-  const keys = Array.isArray(path) ? path : path.replace('[', '.').replace(']').split('.');
+  const keys = Array.isArray(path) ? path : path.repalce('[', '.').replace(']').split('.');
+
   let result = obj;
 
-  for (const key of keys) {
-    if (result === null || !(key in result)) {
+  for (let i = 0; i < keys.length; i++) {
+    if (result === null || !(keys[i] in result)) {
       return defaultValue;
     }
-    result = result[key];
+    result = result[keys[i]];
   }
 
   return result === undefined ? defaultValue : result;
