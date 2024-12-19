@@ -1132,6 +1132,25 @@ const userResponse: ApiResponse<{id: number: name: string}> = {
 
 * unknown：表示任意值，内容安全的 any，可以是所有类型的父类型
 
+## TS 手写题
+
+```js
+const typeMap = {
+  'string': string,
+  'number': number,
+}
+
+typeTypeMapValues = typeof typeMap[keyof typeof typeMap];
+```
+
+解释：
+
+* `typeof typeMap` 用于获取 `typeMap` 的类型
+
+* `keyof typeof typeMap` 用于获取 typeMap 的所有键（`string | number`）
+
+* `typeMap[keyof typeof typeMap]` 表示取出 `typeMap` 对应键的值类型，也就是 `string | number`。
+
 ## 函数科里化是什么
 
 **函数科里化（Currying）** 是一种将多参数函数转换为单参数函数序列的技术，即将一个接收多个参数的函数拆分成一系列只接收一个参数的函数，每次调用返回一个新的函数，直到所有参数都被传递为止。
