@@ -293,6 +293,16 @@ OPTIONS 请求是一种 HTTP 方法，通常用于在发起实际请求之前获
 
 预检请求通过设置 Access-Control-Allow-Methods 和 Access-Control-Allow-Headers 等响应头来告知浏览器服务器所支持的请求方法和请求头字段。
 
+**简单请求：**
+
+* 只能使用 GET, POST, 或 HEAD 方法。
+* 不需要预检请求（CORS 预检）
+
+* **复杂请求**
+
+* 使用 PUT, PATCH, DELETE 等其他方法。
+* 需要进行预检请求。
+
 ```shell
 # OPTIONS 请求
 OPTIONS /api/resource HTTP/1.1

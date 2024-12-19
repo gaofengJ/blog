@@ -23,6 +23,11 @@ Cookie 和 Token 是两种不同的认证和会话管理机制，以下是它们
 
   * Cookie：容易受到CSRF（跨站请求伪造）攻击，因为浏览器会自动发送Cookie。可以通过设置HttpOnly标志减少XSS（跨站脚本）攻击的风险。
   * Token：因为浏览器不会自动发送Token，可以减少CSRF攻击的风险。Token通常是签名的，确保数据的完整性和真实性。
+  * 条件：只有当请求是通过特定类型的 HTTP 方法时，浏览器才会携带 cookie。
+  
+  适用于的请求类型：
+  GET 请求一般不会携带 cookie。
+  POST、PUT、DELETE 请求等，会自动携带 cookie。
 
 * **扩展性和标准化**
 
