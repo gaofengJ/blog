@@ -180,33 +180,20 @@ Promise.prototype.finally = function(callback) {
 ```js
 function retry(fn, retries = 3, delay = 1000) {
   return new Promise((resolve, reject) => {
-    const attempt = (triesLeft) => {
+    const attempt = async (triesLeft) => {
       try {
-        const result = fn(); // 执行函数
-        if (result instanceof Promise) {
-          // 如果是异步方法
-          result
-            .then(resolve)
-            .catch((error) => handleRetry(error, triesLeft));
-        } else {
-          // 如果是同步方法，直接返回结果
-          resolve(result);
-        }
+        const result = await Promise.resolve(fn());
+        resolve(result);
       } catch (error) {
-        // 捕获同步方法抛出的异常
-        handleRetry(error, triesLeft);
+        if (triesLeft <= 0) {
+          reject(error);
+        } else {
+          setTimeout(() => attempt(triesLeft - 1), delay);
+        }
       }
     };
 
-    const handleRetry = (error, triesLeft) => {
-      if (triesLeft <= 0) {
-        reject(error); // 重试次数用完
-      } else {
-        setTimeout(() => attempt(triesLeft - 1), delay); // 等待后重试
-      }
-    };
-
-    attempt(retries); // 开始尝试
+    attempt(retries);
   });
 }
 
