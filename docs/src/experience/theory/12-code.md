@@ -175,6 +175,43 @@ Promise.prototype.finally = function(callback) {
 
 * 使用 constructor.resolve 确保 callback 可以返回一个 Promise 或简单值。
 
+## 实现一个 Retry
+
+```js
+function retry(fn, retries = 3, delay = 1000) {
+  return new Promise((resolve, reject) => {
+    const attempt = (triesLeft) => {
+      try {
+        const result = fn(); // 执行函数
+        if (result instanceof Promise) {
+          // 如果是异步方法
+          result
+            .then(resolve)
+            .catch((error) => handleRetry(error, triesLeft));
+        } else {
+          // 如果是同步方法，直接返回结果
+          resolve(result);
+        }
+      } catch (error) {
+        // 捕获同步方法抛出的异常
+        handleRetry(error, triesLeft);
+      }
+    };
+
+    const handleRetry = (error, triesLeft) => {
+      if (triesLeft <= 0) {
+        reject(error); // 重试次数用完
+      } else {
+        setTimeout(() => attempt(triesLeft - 1), delay); // 等待后重试
+      }
+    };
+
+    attempt(retries); // 开始尝试
+  });
+}
+
+```
+
 ## 对象深拷贝
 
 ```js
@@ -1404,8 +1441,6 @@ console.log(get(data, 'user.friends[2]', 'none'));      // 输出: 'none'
 
 ```
 
-##
-
 ## 如何判断一个对象是否为 Promise 对象
 
 ```js
@@ -1415,4 +1450,33 @@ function isPromise(obj) {
     (obj !== null && typeof obj === 'object' && typeof obj.then === 'function')
   );
 }
+```
+
+## 写一个模板引擎
+
+```js
+class RuleEngine {
+  constructor(template) {
+    this.template = template;
+  }
+
+  /**
+   * 渲染模板
+   * @param {Object} context - 上下文数据，用于替换模板变量和计算表达式
+   * @returns {string} 渲染后的模板字符串
+   */
+  render(context) {
+    return this.template.replace(/\{\{(.*?)\}\}/g, (_, expression) => {
+      try {
+        // 创建一个新的函数，将上下文传入作用域，执行表达式
+        const func = new Function(...Object.keys(context), `return ${expression.trim()};`);
+        return func(...Object.values(context));
+      } catch (error) {
+        console.error(`Error evaluating expression: "${expression}"`, error);
+        return `{{${expression}}}`; // 返回原始表达式以指示失败
+      }
+    });
+  }
+}
+
 ```
