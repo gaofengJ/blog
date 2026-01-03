@@ -22,7 +22,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
 
       # 3. 设置 Node.js 环境并开启缓存 (关键优化)
       - name: Setup Node.js
